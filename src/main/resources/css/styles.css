@@ -1,0 +1,29 @@
+.loginbounded{
+	-fx-background-radius: 20;
+}
+
+.flip-image {
+    -fx-transition: -fx-rotate 0.5s ease-in-out;
+}
+
+.flip-image:hover {
+    -fx-rotate: 180;
+}
+
+.button {
+    -fx-font-family: "Comic Sans MS";
+    -fx-font-size: 16px;
+    -fx-background-color:  #1C2321;
+    -fx-cursor:hand;
+    -fx-text-fill: white;
+} 
+
+
+.button:pressed {
+    -fx-background-color: white;
+    -fx-text-fill:  #1C2321;
+}
+
+.button:hover {
+	opacity:0.7;
+}

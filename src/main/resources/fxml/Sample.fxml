@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="593.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.groupfx.JavaFXApp.Controller">
+   <children>
+      <AnchorPane prefHeight="700.0" prefWidth="600.0">
+         <children>
+            <ImageView fitHeight="700.0" fitWidth="600.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../img/wallhaven-d57orj.png" />
+               </image>
+            </ImageView>
+            <AnchorPane layoutX="140.0" layoutY="75.0" prefHeight="550.0" prefWidth="320.0" style="-fx-background-color: white;" styleClass="loginbounded" stylesheets="@/css/styles.css">
+               <children>
+                  <Button fx:id="LoginBtn" layoutX="112.0" layoutY="472.0" mnemonicParsing="false" onAction="#loginAct" prefHeight="27.0" prefWidth="101.0" text="Login" defaultButton="true">
+                     <graphic>
+                        <FontIcon />
+                     </graphic>
+                     <font>
+                        <Font name="DejaVu Sans Mono Bold" size="13.0" />
+                     </font>
+                  </Button>
+                  <ImageView fx:id="flipImage" fitHeight="198.0" fitWidth="194.0" layoutX="61.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/OMEGA.png" />
+                     </image>
+                  </ImageView>
+                  <TextField fx:id="UsernameBx" layoutX="60.0" layoutY="314.0" prefHeight="27.0" prefWidth="194.0" />
+                  <TextField fx:id="Pwbx" layoutX="61.0" layoutY="395.0" prefHeight="27.0" prefWidth="194.0" visible="true" />
+                  <Label layoutX="61.0" layoutY="297.0" text="Username:">
+                     <font>
+                        <Font name="DejaVu Sans Mono Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="61.0" layoutY="378.0" text="Password:">
+                     <font>
+                        <Font name="DejaVu Sans Mono Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="Forgotlbl" layoutX="163.0" layoutY="429.0" onMouseClicked="#forgotClick" text="Forgot Password?" underline="true">
+                     <font>
+                        <Font name="Comic Sans MS" size="11.0" />
+                     </font>
+                  </Label>
+                  <PasswordField fx:id="passwordbox" layoutX="61.0" layoutY="396.0" prefHeight="26.0" prefWidth="194.0" />
+                  <ImageView fx:id="pwChangePic" fitHeight="16.0" fitWidth="20.0" layoutX="231.0" layoutY="402.0" onMouseClicked="#pwClick" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/view.png" />
+                     </image>
+                  </ImageView>
+                  <Button layoutX="266.0" layoutY="499.0" mnemonicParsing="false" onAction="#githubClick" prefHeight="34.0" prefWidth="47.0" style="-fx-background-color: white;">
+                     <graphic>
+                        <FontIcon iconLiteral="anto-github" iconSize="25" />
+                     </graphic>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

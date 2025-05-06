@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="980.0" style="-fx-background-color: #5E6572;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.purchasemanager.UI.PMainMenu">
+   <children>
+      <AnchorPane layoutX="15.0" layoutY="14.0" prefHeight="670.0" prefWidth="950.0" style="-fx-background-color: #ffffff;" styleClass="loginbounded" stylesheets="@../css/styles.css">
+         <children>
+            <HBox layoutX="14.0" layoutY="14.0" prefHeight="178.0" prefWidth="502.0" spacing="15.0">
+               <children>
+                  <AnchorPane prefHeight="178.0" prefWidth="504.0" style="-fx-background-radius: 30px; -fx-background-color: #2c3e50;">
+                     <children>
+                        <Label fx:id="WelcomeLbl" layoutX="172.0" layoutY="34.0" text="Welcome ! Name" textFill="#ffae42">
+                           <font>
+                              <Font name="Berlin Sans FB" size="24.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="128.0" fitWidth="134.0" layoutX="27.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/businessman-icon.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="RoleLbl" layoutX="172.0" layoutY="82.0" prefHeight="27.0" prefWidth="172.0" text="role" textFill="#ffae42">
+                           <font>
+                              <Font name="Berlin Sans FB" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </HBox>
+            <VBox layoutX="14.0" layoutY="214.0" prefHeight="464.0" prefWidth="501.0" spacing="10.0">
+               <children>
+                  <AnchorPane prefHeight="250.0" prefWidth="502.0" style="-fx-background-color: #ADD8E6; -fx-background-radius: 20px;">
+                     <children>
+                        <Label fx:id="ReqNum" alignment="CENTER" contentDisplay="CENTER" layoutX="34.0" layoutY="73.0" prefHeight="138.0" prefWidth="79.0" text="3">
+                           <font>
+                              <Font name="Arial Black" size="64.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="22.0" layoutY="30.0" text="Pending Purchase Requisition">
+                           <font>
+                              <Font name="Berlin Sans FB" size="24.0" />
+                           </font>
+                        </Label>
+                        <PieChart fx:id="ReqChart" layoutX="148.0" layoutY="70.0" prefHeight="189.0" prefWidth="342.0" />
+                        <Label layoutX="22.0" layoutY="90.0" text="Remaining Number">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="181.0" prefWidth="502.0" style="-fx-background-radius: 20px; -fx-background-color: #FFAE42;">
+                     <children>
+                        <Label layoutX="22.0" layoutY="14.0" text="Purchase Order Status">
+                           <font>
+                              <Font name="Berlin Sans FB" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="PORejlbl" alignment="CENTER" layoutX="33.0" layoutY="55.0" prefHeight="70.0" prefWidth="70.0" text="0" textFill="RED">
+                           <font>
+                              <Font name="System Bold" size="48.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="POApplbl" alignment="CENTER" layoutX="348.0" layoutY="55.0" prefHeight="70.0" prefWidth="84.0" text="0" textFill="GREEN">
+                           <font>
+                              <Font name="System Bold" size="48.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="34.0" layoutY="120.0" text="Rejected" textFill="RED">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="348.0" layoutY="120.0" text="Approved" textFill="GREEN">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="POPendinglbl" alignment="CENTER" layoutX="193.0" layoutY="55.0" prefHeight="70.0" prefWidth="70.0" text="0" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="48.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="195.0" layoutY="120.0" text="Pending" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
+            <VBox layoutX="536.0" layoutY="15.0" prefHeight="654.0" prefWidth="375.0">
+               <children>
+                  <AnchorPane prefHeight="660.0" prefWidth="375.0" style="-fx-background-color: #98FF98; -fx-background-radius: 20px;">
+                     <children>
+                        <Label fx:id="TimeLbl" layoutX="110.0" layoutY="181.0" text="Label">
+                           <font>
+                              <Font name="Berlin Sans FB" size="36.0" />
+                           </font>
+                        </Label>
+                        <FontIcon iconLiteral="anto-clock-circle" iconSize="80" layoutX="11.0" layoutY="237.0" wrappingWidth="79.19999999999999" />
+                        <FontIcon iconLiteral="anto-calendar" iconSize="80" layoutX="14.0" layoutY="138.0" wrappingWidth="73.59999999999997" />
+                        <Label fx:id="DateLbl" layoutX="110.0" layoutY="90.0" text="Label">
+                           <font>
+                              <Font name="Berlin Sans FB" size="36.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="23.0" prefHeight="27.0" prefWidth="137.0" text="Today Date">
+                           <font>
+                              <Font name="Berlin Sans FB" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="21.0" layoutY="313.0" prefHeight="27.0" prefWidth="137.0" text="News">
+                           <font>
+                              <Font name="Berlin Sans FB" size="24.0" />
+                           </font>
+                        </Label>
+                        <AnchorPane layoutX="13.0" layoutY="353.0" prefHeight="294.0" prefWidth="356.0" style="-fx-background-color: #D3D3D3; -fx-background-radius: 20px;">
+                           <children>
+                              <Separator layoutX="6.0" layoutY="84.0" prefHeight="10.0" prefWidth="342.0" />
+                              <Separator layoutX="6.0" layoutY="157.0" prefHeight="18.0" prefWidth="342.0" />
+                              <Separator layoutX="6.0" layoutY="218.0" prefHeight="18.0" prefWidth="342.0" />
+                              <Label layoutX="31.0" layoutY="14.0" text="Tarrif Increase 24% !!">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="31.0" layoutY="101.0" text="System Announcement ">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="31.0" layoutY="123.0" text="Good News! For All Employees">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Label>
+                              <ImageView fitHeight="80.0" fitWidth="172.0" layoutX="178.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/News.jpg" />
+                                 </image>
+                              </ImageView>
+                              <FontIcon iconLiteral="anto-bell" iconSize="25" layoutX="2.0" layoutY="199.0" />
+                              <Label layoutX="31.0" layoutY="180.0" text="System Announcement ">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <FontIcon iconLiteral="anto-bell" iconSize="25" layoutX="2.0" layoutY="120.0" text="" />
+                              <Label layoutX="31.0" layoutY="198.0" text="Please Save Your Work Before Close the App">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Label>
+                              <FontIcon iconLiteral="anto-bulb" iconSize="25" layoutX="2.0" layoutY="268.0" />
+                              <Label layoutX="31.0" layoutY="248.0" text="Tips">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="31.0" layoutY="271.0" text="If the data keeps Error Please Referesh By Clicking the Button">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Label>
+                              <FontIcon iconLiteral="anto-alert" iconSize="25" layoutX="2.0" layoutY="33.0" text="" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
+         </children></AnchorPane>
+   </children>
+</AnchorPane>

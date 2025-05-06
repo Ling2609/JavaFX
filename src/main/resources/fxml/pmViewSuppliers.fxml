@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="980.0" style="-fx-background-color: #5E6572;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.purchasemanager.UI.ViewSupplierCtrl">
+   <children>
+      <AnchorPane layoutX="15.0" layoutY="15.0" prefHeight="670.0" prefWidth="950.0" style="-fx-background-color: #ffffff;" styleClass="loginbounded" stylesheets="@../css/styles.css">
+         <children>
+            <Label fx:id="SupTllbl" layoutX="25.0" layoutY="14.0" text="Suppliers List">
+               <font>
+                  <Font name="Berlin Sans FB" size="48.0" />
+               </font>
+            </Label>
+            <Separator layoutX="14.0" layoutY="68.0" prefHeight="0.0" prefWidth="597.0" />
+            <TableView fx:id="SupplierView" layoutX="109.0" layoutY="90.0" prefHeight="490.0" prefWidth="754.0" stylesheets="@../css/tableStyle.css">
+              <columns>
+                <TableColumn fx:id="SuppID" prefWidth="75.0" text="ID" />
+                <TableColumn fx:id="SuppName" prefWidth="185.59999084472656" text="Name" />
+                  <TableColumn fx:id="SuppPhNo" minWidth="0.0" prefWidth="148.0" text="PhoneNumber" />
+                  <TableColumn fx:id="SuppAdd" minWidth="0.0" prefWidth="270.4000244140625" text="Address" />
+                  <TableColumn fx:id="ItemID" prefWidth="75.0" text="Items ID" />
+              </columns>
+            </TableView>
+         </children></AnchorPane>
+   </children>
+</AnchorPane>

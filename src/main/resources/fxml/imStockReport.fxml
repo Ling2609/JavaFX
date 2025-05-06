@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="980.0" style="-fx-background-color: #5E6572;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventorymanager.UI.imStockReportCtrl">
+   <children>
+      <AnchorPane layoutX="15.0" layoutY="15.0" prefHeight="670.0" prefWidth="950.0" style="-fx-background-color: #ffffff;" styleClass="loginbounded" stylesheets="@../css/styles.css">
+         <children>
+            <Separator layoutX="15.0" layoutY="55.0" prefHeight="0.0" prefWidth="920.0" style="-fx-background-color: #5E6572;" />
+            <Label layoutX="15.0" layoutY="22.0" text="STOCK REPORT" textFill="#5e6572">
+               <font>
+                  <Font name="DejaVu Sans Mono Bold" size="18.0" />
+               </font>
+            </Label>
+            <BarChart fx:id="viewStockChart" layoutX="1.0" layoutY="65.0" prefHeight="524.0" prefWidth="950.0">
+               <xAxis>
+                  <CategoryAxis side="BOTTOM" />
+               </xAxis>
+               <yAxis>
+                  <NumberAxis side="LEFT" />
+               </yAxis>
+            </BarChart>
+            <Button fx:id="generateBtn" layoutX="799.0" layoutY="589.0" mnemonicParsing="false" onAction="#generateReport" prefHeight="38.0" prefWidth="138.0" text="GENERATE">
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="anto-file-done" iconSize="25" />
+               </graphic>
+            </Button>
+            <VBox layoutX="297.0" layoutY="565.0" prefHeight="86.0" prefWidth="451.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="87.0" prefWidth="133.0" spacing="10.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f40202" height="10.0" stroke="#de1b1b" strokeType="INSIDE" width="10.0" />
+                        <Label text="Low Stock (&lt; 300)" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ecf202" height="10.0" stroke="#c8e509" strokeType="INSIDE" width="10.0" />
+                        <Label text="Normal Stock (300 - 1000)" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0c8e10" height="10.0" stroke="#0a841c" strokeType="INSIDE" width="10.0" />
+                        <Label text="High Stock (&gt; 1000)" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

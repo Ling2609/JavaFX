@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="980.0" style="-fx-background-color: #5E6572;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.financemanager.UI.FMViewPRCtrl">
+   <children>
+      <AnchorPane layoutX="15.0" layoutY="15.0" prefHeight="670.0" prefWidth="950.0" style="-fx-background-color: #ffffff;" styleClass="loginbounded" stylesheets="@../css/styles.css">
+         <children>
+            <TableView fx:id="ViewPR" layoutX="28.0" layoutY="96.0" prefHeight="559.0" prefWidth="882.0" stylesheets="@../css/tableStyle.css">
+              <columns>
+                <TableColumn fx:id="PrId" prefWidth="75.0" text="ID" />
+                <TableColumn fx:id="PrItem" prefWidth="166.40000915527344" text="Item ID" />
+                  <TableColumn fx:id="PrQty" prefWidth="144.0" text="Quantity" />
+                  <TableColumn fx:id="PrDate" prefWidth="168.00006103515625" text="Raise Date" />
+                  <TableColumn fx:id="PrRp" prefWidth="180.0" text="Raise Person(Sales Manager)" />
+                  <TableColumn fx:id="PrStat" prefWidth="144.800048828125" text="Status" />
+              </columns>
+            </TableView>
+            <Label layoutX="28.0" layoutY="20.0" text="Purchase Requisition">
+               <font>
+                  <Font name="Berlin Sans FB" size="48.0" />
+               </font>
+            </Label>
+            <Separator layoutX="28.0" layoutY="72.0" prefHeight="17.0" prefWidth="410.0" />
+         </children></AnchorPane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="980.0" style="-fx-background-color: #5E6572;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.purchasemanager.UI.PMViewReqCtrl">
+   <children>
+      <AnchorPane layoutX="15.0" layoutY="15.0" prefHeight="670.0" prefWidth="950.0" style="-fx-background-color: #ffffff;" styleClass="loginbounded" stylesheets="@../css/styles.css">
+         <children>
+            <Label layoutX="31.0" layoutY="27.0" text="View Purchase Requistion">
+               <font>
+                  <Font name="Berlin Sans FB" size="48.0" />
+               </font>
+            </Label>
+            <Separator layoutX="31.0" layoutY="80.0" prefHeight="10.0" prefWidth="578.0" />
+            <TableView fx:id="ViewReq" layoutX="31.0" layoutY="99.0" prefHeight="531.0" prefWidth="828.0" stylesheets="@../css/tableStyle.css">
+              <columns>
+                <TableColumn fx:id="ReqId" prefWidth="75.0" text="ID" />
+                <TableColumn fx:id="ReqItems" prefWidth="154.40000915527344" text="Items ID" />
+                  <TableColumn fx:id="ReqQty" prefWidth="152.0" text="Quantity" />
+                  <TableColumn fx:id="ReqDate" prefWidth="152.0" text="Date" />
+                  <TableColumn fx:id="ReqSM" prefWidth="152.0" text="Sales Manager" />
+                  <TableColumn fx:id="ReqStatus" prefWidth="140.800048828125" text="Status" />
+              </columns>
+            </TableView>
+         </children></AnchorPane>
+   </children>
+</AnchorPane>

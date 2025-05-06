@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="980.0" style="-fx-background-color: #5E6572;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.financemanager.UI.FMGenReportCtrl">
+   <children>
+      <AnchorPane layoutX="15.0" layoutY="15.0" prefHeight="670.0" prefWidth="950.0" style="-fx-background-color: #ffffff;" styleClass="loginbounded" stylesheets="@../css/styles.css">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" text="Generate Report">
+               <font>
+                  <Font name="Berlin Sans FB" size="48.0" />
+               </font>
+            </Label>
+            <Separator layoutX="14.0" layoutY="66.0" prefHeight="10.0" prefWidth="389.0" />
+            <TableView fx:id="ViewPayment" layoutX="2.0" layoutY="321.0" prefHeight="334.0" prefWidth="714.0">
+              <columns>
+                  <TableColumn fx:id="PayId" prefWidth="53.60000228881836" text="Pay ID" />
+                <TableColumn fx:id="PoId" prefWidth="56.800018310546875" text="ID" />
+                <TableColumn fx:id="PayItemsd" minWidth="3.20001220703125" prefWidth="69.60000610351562" text="Item ID" />
+                  <TableColumn fx:id="PayItemName" prefWidth="112.00001525878906" text="Item Name" />
+                  <TableColumn fx:id="PaySupp" prefWidth="85.5999755859375" text="Supplier ID" />
+                  <TableColumn fx:id="PayQty" text="Quantity" />
+                  <TableColumn fx:id="PayTot" prefWidth="140.0" text="Total Paid" />
+                  <TableColumn fx:id="PayDate" prefWidth="117.5999755859375" text="Date" />
+              </columns>
+            </TableView>
+            <LineChart fx:id="ReportChart" layoutX="20.0" layoutY="76.0" prefHeight="232.0" prefWidth="654.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </LineChart>
+            <Separator layoutX="707.0" layoutY="87.0" orientation="VERTICAL" prefHeight="569.0" prefWidth="21.0" />
+            <Label layoutX="729.0" layoutY="76.0" text="Details">
+               <font>
+                  <Font name="Berlin Sans FB" size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="PrintBtn" layoutX="748.0" layoutY="611.0" mnemonicParsing="false" onMouseClicked="#PrintClick" prefHeight="43.0" prefWidth="158.0" style="-fx-background-color: #00008B;" text="Print">
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="anto-printer" />
+               </graphic>
+            </Button>
+            <VBox layoutX="729.0" layoutY="103.0" prefHeight="217.0" prefWidth="218.0" style="-fx-spacing: 10px; -fx-padding: 10px;">
+               <children>
+                  <Label text="Select Year" />
+                  <ComboBox fx:id="Yearbox" onAction="#YearCb" prefHeight="26.0" prefWidth="210.0" />
+               </children>
+               <opaqueInsets>
+                  <Insets top="10.0" />
+               </opaqueInsets>
+            </VBox>
+            <Button fx:id="refreshButton" layoutX="748.0" layoutY="556.0" mnemonicParsing="false" onMouseClicked="#refclick" prefHeight="43.0" prefWidth="158.0" text="Refresh">
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="anto-reload" />
+               </graphic>
+            </Button>
+         </children></AnchorPane>
+   </children>
+</AnchorPane>
