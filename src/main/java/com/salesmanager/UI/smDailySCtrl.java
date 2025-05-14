@@ -68,6 +68,8 @@ public class smDailySCtrl {
     
     ObservableList<SalesM_DailyS> cacheList = FXCollections.observableArrayList(); 
     
+    LocalDate today = LocalDate.now();
+    
     private int oriSales;
 //    private String[] week = {
 //    	"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"	
@@ -86,11 +88,39 @@ public class smDailySCtrl {
     
     public void load() throws IOException 
     {
+//    	SalesM_DailyS listed= new SalesM_DailyS();
+//    	ObservableList<SalesM_DailyS> itemList= FXCollections.observableArrayList(); 
+//    	String[] row= listed.ReadTextFile().toString().split("\n");
+//    	DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//    	LocalDate date = null;
+//    	
+//    	try {
+//	    	for(String rows: row) 
+//	    	{
+//	    		String[] spl= rows.split(",");
+//	    		if(spl.length==5) 
+//	    		{
+//	    			itemList.add(new SalesM_DailyS(
+//	    					spl[0],
+//	    					spl[1],
+//	    					spl[2],
+//	    					Integer.parseInt(spl[3]),
+//	    					spl[4]
+//	    					));
+//	    			
+//	    			date = LocalDate.parse(spl[2], format);
+//	    		}
+//	    	}
+//	    	
+//	    	resetWeek(date, format);
+//	    	cacheList = itemList;
+//	    	viewSalesTable.setItems(cacheList);
+//	    	clearTextField();
+    	
     	SalesM_DailyS listed= new SalesM_DailyS();
     	ObservableList<SalesM_DailyS> itemList= FXCollections.observableArrayList(); 
     	String[] row= listed.ReadTextFile().toString().split("\n");
     	DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    	LocalDate date = null;
     	
     	try {
 	    	for(String rows: row) 
@@ -106,11 +136,10 @@ public class smDailySCtrl {
 	    					spl[4]
 	    					));
 	    			
-	    			date = LocalDate.parse(spl[2], format);
 	    		}
 	    	}
 	    	
-	    	resetWeek(date, format);
+	    	resetWeek(today, format);
 	    	cacheList = itemList;
 	    	viewSalesTable.setItems(cacheList);
 	    	clearTextField();
@@ -236,18 +265,19 @@ public class smDailySCtrl {
 	    return false;
 	}
     
-    @FXML
+	@FXML
     public void addeditClick() {
     	
-    	SalesM_DailyS selectedDS = viewSalesTable.getSelectionModel().getSelectedItem();	
-    	int selectedSuppIndex = viewSalesTable.getSelectionModel().getSelectedIndex();
-    	
+		SalesM_DailyS selectedDS = viewSalesTable.getSelectionModel().getSelectedItem();	
+		int selectedSuppIndex = viewSalesTable.getSelectionModel().getSelectedIndex();
+	
     	try {
-		SalesM_DailyS dataEntry = new SalesM_DailyS(
-				
+    		
+			SalesM_DailyS dataEntry = new SalesM_DailyS(
+					
 				txtDSID.getText().trim(),
 				txtitemID.getText().trim(),
-				txtDate.getText().trim(),
+				String.valueOf(today),
 				Integer.parseInt(txttotalSales.getText().trim()),
 				"temp", //Use the UserID in the superclass (author), so  the system will record who edit this record
 				cacheList, 
@@ -255,78 +285,32 @@ public class smDailySCtrl {
 				oriSales
 				);
 		
-		dataEntry.insertCheck(selectedDS);
-		ObservableList<SalesM_DailyS>  tempList = dataEntry.getCacheList();
-	    cacheList = tempList;
-	    viewSalesTable.setItems(cacheList);
-	    clearTextField();
-		
+			boolean result = dataEntry.insertCheck(selectedDS);
+			
+			if (result) {
+				
+				ObservableList<SalesM_DailyS>  tempList = dataEntry.getCacheList();
+			    cacheList = tempList;
+			    viewSalesTable.setItems(cacheList);
+			    clearTextField();
+			} else {
+				
+				Alert alert = new Alert(AlertType.ERROR);
+	    		alert.setTitle("Error");
+	    		alert.setHeaderText(null);
+	    		alert.setContentText("Please do something correct");
+	    		alert.showAndWait();
+			}
 		
     	} catch (Exception e) {
     		
-	    		Alert alert = new Alert(AlertType.ERROR);
-	    		alert.setTitle("Error");
-	    		alert.setHeaderText(null);
-	    		alert.setContentText(String.format("Error: %s", e.toString()));
-	    		alert.showAndWait();
-    	}
-    	
+    		Alert alert = new Alert(AlertType.ERROR);
+    		alert.setTitle("Error");
+    		alert.setHeaderText(null);
+    		alert.setContentText(String.format("Error: %s", e.toString()));
+    		alert.showAndWait();
+    	}	
     }
-//    	try {
-//	    	if(containsID(cacheList, txtDSID.getText().trim(), txtitemID.getText().trim(), txtDate.getText().trim()) && selectedSupp != null) {
-//	
-//	    		SalesM_DailyS dataEntry = new SalesM_DailyS(
-//	    				
-//	    				txtDSID.getText().trim(),
-//	    				txtitemID.getText().trim(),
-//	    				txtDate.getText().trim(),
-//	    				Integer.parseInt(txttotalSales.getText()),
-//	    				"temp", //Use the UserID in the superclass (author), so  the system will record who edit this record
-//	    				cacheList, 
-//	    				selectedSuppIndex,
-//	    				oriSales
-//	    				);
-//	    		
-//		    	dataEntry.EditFunc();
-//		    	ObservableList<SalesM_DailyS>  tempList = dataEntry.getCacheList();
-//		    	cacheList = tempList;
-//		    	viewSalesTable.setItems(cacheList);
-//		    	clearTextField();
-//		    	
-//	    	} else if (!(containsID(cacheList, txtDSID.getText().trim(), txtitemID.getText().trim(), txtDate.getText().trim())) && selectedSupp == null){	
-//	    		
-//	    		SalesM_DailyS dataEntry = new SalesM_DailyS(
-//	    				
-//	    				txtDSID.getText().trim(),
-//	    				txtitemID.getText().trim(),
-//	    				txtDate.getText().trim(),
-//	    				Integer.parseInt(txttotalSales.getText()),
-//	    				"temp", //Use the UserID in the superclass (author), so  the system will record who edit this record
-//	    				cacheList, 
-//	    				selectedSuppIndex
-//	    				);
-//	    		
-//			    dataEntry.AddFunc();
-//			    ObservableList<SalesM_DailyS>  tempList = dataEntry.getCacheList();
-//			    cacheList = tempList;
-//			    viewSalesTable.setItems(cacheList);
-//			    clearTextField();
-//	    	} else {
-//	    		
-//	    		Alert alert = new Alert(AlertType.INFORMATION);
-//	    		alert.setTitle("Information");
-//	    		alert.setHeaderText(null);
-//	    		alert.setContentText("Please select the supplier if you want to edit\n OR \n If you want to add a supplier please dont repeat the ID");
-//	    		alert.showAndWait();
-//	    	}
-//    	} catch (Exception e) {
-//    		
-//    		Alert alert = new Alert(AlertType.ERROR);
-//            alert.setTitle("Error");
-//            alert.setHeaderText(null);
-//            alert.setContentText(String.format("Error: %s", e.toString()));
-//            alert.showAndWait();
-//    	}
     
     @FXML
     public void deleteClick() {
@@ -334,20 +318,30 @@ public class smDailySCtrl {
     	int selectedSuppIndex = viewSalesTable.getSelectionModel().getSelectedIndex();
     	
     	SalesM_DailyS delIndex = new SalesM_DailyS(selectedSuppIndex, cacheList);
-    	try {
-    		
-    		delIndex.DeleteFunc();
-    		ObservableList<SalesM_DailyS>  tempList = delIndex.getCacheList();
-    		cacheList = tempList;
-    		viewSalesTable.setItems(cacheList);
-    		clearTextField();
-    		
-    	} catch (Exception e) {
+    	
+    	if (selectedSuppIndex >= 0) {
+	    	try {
+	    		
+	    		delIndex.DeleteFunc();
+	    		ObservableList<SalesM_DailyS>  tempList = delIndex.getCacheList();
+	    		cacheList = tempList;
+	    		viewSalesTable.setItems(cacheList);
+	    		clearTextField();
+	    		
+	    	} catch (Exception e) {
+	    		
+	    		Alert alert = new Alert(AlertType.INFORMATION);
+	    	    alert.setTitle("Error");
+	    	    alert.setHeaderText("Something went wrong");
+	    	    alert.setContentText("Error: " + e.getMessage());
+	    	    alert.showAndWait();
+	    	}
+    	} else {
     		
     		Alert alert = new Alert(AlertType.INFORMATION);
     	    alert.setTitle("Error");
     	    alert.setHeaderText("Something went wrong");
-    	    alert.setContentText("Error: " + e.getMessage());
+    	    alert.setContentText("Bro please select a row first lah, why you try to delete empty (^_^') ");
     	    alert.showAndWait();
     	}
     }

@@ -1,5 +1,8 @@
 package com.salesmanager.source;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+
 public class SalesM {
 
 	private String userID ;
@@ -17,9 +20,29 @@ public class SalesM {
 	
 	public String getUserId() { 
 		
+		userID = ReadUserIDTxt();
+		
 		return userID;
 	}
 	
+	private String ReadUserIDTxt() {
+		
+		String ID = null;
+		
+		try (BufferedReader reader = new BufferedReader(new FileReader("Data/Log.txt"))) {
+			
+			String content = reader.readLine();
+		    String[] arr = content.split(",");
+		    
+		    ID = arr[0];
+			
+		} catch (Exception e) {
+			
+			System.out.println(e);
+		}
+		
+		return ID;
+	}
 }
 	
 
