@@ -10,32 +10,32 @@ import java.util.List;
 
 import com.groupfx.JavaFXApp.Purchase_Order;
 
-public class PMGenPO extends Purchase_Order{
+public class Standard_PO extends Purchase_Order{
 	
-	public PMGenPO() {}
+	public Standard_PO() {}
 	
 	
-	public PMGenPO(String Id, String name, int Quantity, double Price, String Pm,String Status) 
+	public Standard_PO(String Id, String name, int Quantity, double Price, String Pm,String Status) 
 	{
 		super(Id,name,Quantity,Price,Pm,Status);
 	}
 	
-	public PMGenPO(String Id, String name, int Quantity, double Price, String Pm,String Status,String Supplier) 
+	public Standard_PO(String Id, String name, int Quantity, double Price, String Pm,String Status,String Supplier) 
 	{
 		super(Id,name,Quantity,Price,Pm,Status,Supplier);
 	}
 	
-	public PMGenPO(String Id, String name, int Quantity, double Price, String Pm,int LineNum ) 
+	public Standard_PO(String Id, String name, int Quantity, double Price, String Pm,int LineNum ) 
 	{
 		super(Id,name,Quantity,Price,Pm,LineNum);
 	}
 	
-	public PMGenPO(int LineNum) 
+	public Standard_PO(int LineNum) 
 	{
 		super(LineNum);
 	}
 	
-	public PMGenPO(int LineNum,String newData) 
+	public Standard_PO(int LineNum,String newData) 
 	{
 		super(LineNum,newData);
 	}
