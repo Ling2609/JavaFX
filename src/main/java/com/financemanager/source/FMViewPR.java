@@ -4,9 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import com.groupfx.JavaFXApp.Purchase_Req;
+import com.groupfx.JavaFXApp.Purchase_Req_View;
 
-public class FMViewPR extends Purchase_Req {
+public class FMViewPR extends Purchase_Req_View {
 	
 	public FMViewPR() {}
 	
