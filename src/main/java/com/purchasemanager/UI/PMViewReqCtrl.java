@@ -3,7 +3,7 @@ package com.purchasemanager.UI;
 import java.io.IOException;
 
 import com.PM.Sources.PMViewPR;
-import com.groupfx.JavaFXApp.Purchase_Req;
+import com.groupfx.JavaFXApp.Purchase_Req_View;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
