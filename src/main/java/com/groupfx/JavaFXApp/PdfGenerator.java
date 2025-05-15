@@ -4,7 +4,7 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
-import com.PM.Sources.PMGenPO;
+import com.PM.Sources.Standard_PO;
 import com.financemanager.source.FMGenReport;
 import com.inventorymanager.source.*;
 
@@ -170,7 +170,7 @@ public class PdfGenerator {
 	}
 	
 	
-	public PDDocument GeneratePurchaseOrder(List<PMGenPO> reportData, String supplier, String PMName) {
+	public PDDocument GeneratePurchaseOrder(List<Standard_PO> reportData, String supplier, String PMName) {
 	    PDDocument doc = new PDDocument();
 	    PDPage page = new PDPage(PDRectangle.A4);
 	    doc.addPage(page);
@@ -217,14 +217,14 @@ public class PdfGenerator {
 
 	        y -= 60;
 
-	        for(PMGenPO items: reportData) 
+	        for(Standard_PO items: reportData) 
 	        { 	
 	        	
 	     	    itemName=items.getName();
 	     	    PId= items.getId();
 	        }
 	        //  Supplier Info 
-	        PMGenPO source= new PMGenPO();
+	        Standard_PO source= new Standard_PO();
 	        String[] SuppData= source.ReadSupplierAdd(itemName);
         	drawText(cs, "To:", margin, y, true);
         	drawText(cs, SuppData[0], margin, y - 15, true);
@@ -243,7 +243,7 @@ public class PdfGenerator {
 	        // === Table Content ===
 	        double Subtotal = 0.0;
 	        double Total=0.0;
-	        for (PMGenPO item : reportData) {
+	        for (Standard_PO item : reportData) {
 	            drawTableRow(cs, item, margin, y);
 	            y -= lineHeight;
 	            int Quantity= item.getQuantity();
@@ -300,8 +300,8 @@ public class PdfGenerator {
 	    drawText(cs, "Price (RM)", x + 400, y, true);
 	}
 
-	private void drawTableRow(PDPageContentStream cs, PMGenPO item, float x, float y) throws IOException {
-	    PMGenPO source= new PMGenPO();
+	private void drawTableRow(PDPageContentStream cs, Standard_PO item, float x, float y) throws IOException {
+	    Standard_PO source= new Standard_PO();
 		String[] data= source.RetriveItems(item.getId(), item.getName()).toString().split(",");
 		
 		String upData= data[1].replace("\n", " ");
