@@ -54,7 +54,7 @@ public class PMViewReqCtrl {
     
     public void load() throws IOException
     {
-    	PMViewPR req= new PMViewPR();
+    	Purchase_Req_View req= new PMViewPR();
     	ObservableList<PMViewPR> ObList= FXCollections.observableArrayList();
     	String[] rows= req.ReadTextFile().toString().split("\n");
     	
