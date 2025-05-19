@@ -3,7 +3,7 @@ package com.purchasemanager.UI;
 import java.io.IOException;
 
 import com.PM.Sources.PMViewPR;
-import com.groupfx.JavaFXApp.Purchase_Req;
+import com.groupfx.JavaFXApp.Purchase_Req_View;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -54,7 +54,7 @@ public class PMViewReqCtrl {
     
     public void load() throws IOException
     {
-    	PMViewPR req= new PMViewPR();
+    	Purchase_Req_View req= new PMViewPR();
     	ObservableList<PMViewPR> ObList= FXCollections.observableArrayList();
     	String[] rows= req.ReadTextFile().toString().split("\n");
     	

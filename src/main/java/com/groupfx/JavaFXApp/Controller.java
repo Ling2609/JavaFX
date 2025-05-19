@@ -114,7 +114,7 @@ public class Controller {
 		else 
 		{
 			Alert alert= new Alert(AlertType.WARNING);
-			alert.setTitle("Wraning");
+			alert.setTitle("Warning");
 			alert.setContentText("Username or Password Incorrect! ");
 			alert.setHeaderText(null);
 			alert.showAndWait();

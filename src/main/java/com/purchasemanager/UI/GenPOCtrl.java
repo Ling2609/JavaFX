@@ -55,19 +55,19 @@ public class GenPOCtrl {
     private TextField PMtxt;
 
     @FXML
-    private TableColumn<PMGenPO, String> POIName;
+    private TableColumn<Standard_PO, String> POIName;
 
     @FXML
-    private TableColumn<PMGenPO, String> POid;
+    private TableColumn<Standard_PO, String> POid;
 
     @FXML
-    private TableColumn<PMGenPO, Double> POprice;
+    private TableColumn<Standard_PO, Double> POprice;
 
     @FXML
-    private TableColumn<PMGenPO, Integer> POqty;
+    private TableColumn<Standard_PO, Integer> POqty;
 
     @FXML
-    private TableColumn<PMGenPO, String> POso;
+    private TableColumn<Standard_PO, String> POso;
 
     @FXML
     private TextField Pricetxt;
@@ -82,7 +82,7 @@ public class GenPOCtrl {
     private ComboBox<String> PRidCb;
     
     @FXML
-    private TableView<PMGenPO> ViewPO;
+    private TableView<Standard_PO> ViewPO;
 
     
     
@@ -108,7 +108,7 @@ public class GenPOCtrl {
     	//Change Color on TableView 
     	ViewPO.setRowFactory(tableView -> new TableRow<>() {
     	    @Override
-    	    protected void updateItem(PMGenPO item, boolean empty) {
+    	    protected void updateItem(Standard_PO item, boolean empty) {
     	        super.updateItem(item, empty);
     	        if (item == null || empty) {
     	            setStyle("");
@@ -189,15 +189,15 @@ public class GenPOCtrl {
     
     public void load() throws IOException 
     {
-    	PMGenPO data= new PMGenPO();
-    	ObservableList<PMGenPO> obList= FXCollections.observableArrayList();
+    	Standard_PO data= new Standard_PO();
+    	ObservableList<Standard_PO> obList= FXCollections.observableArrayList();
     	String[] rows= data.ReadTextFile().toString().split("\n");
     	
     	for(String row:rows) 
     	{	String[] split=row.split(",");
     		if(split.length==8) 
     		{
-    			obList.add(new PMGenPO(
+    			obList.add(new Standard_PO(
     					split[0],
     					split[1],
     					Integer.parseInt(split[2]),
@@ -224,7 +224,7 @@ public class GenPOCtrl {
     	
     	if(!CheckTxtbox(IdTxtbx,ItemsNameTxt,PMtxt,Pricetxt,QtyTxt)&& CbSelection()!=-1) 
     	{		int SelectedIndex= PRidCb.getSelectionModel().getSelectedIndex();
-		    	PMGenPO data= new PMGenPO(IdTxtbx.getText(),ItemsNameTxt.getText(),Integer.parseInt(QtyTxt.getText()),Double.parseDouble(Pricetxt.getText()),PMtxt.getText(),SelectedIndex);
+		    	Standard_PO data= new Standard_PO(IdTxtbx.getText(),ItemsNameTxt.getText(),Integer.parseInt(QtyTxt.getText()),Double.parseDouble(Pricetxt.getText()),PMtxt.getText(),SelectedIndex);
 		    	data.AddFunc();
 		    	if(data.checkingFunc()) 
 		    	{
@@ -281,7 +281,7 @@ public class GenPOCtrl {
     	if(selectedIndex>=0 && CbSelection()==-1) 
     	{
     		
-    		PMGenPO del= new PMGenPO(selectedIndex);
+    		Standard_PO del= new Standard_PO(selectedIndex);
     		del.DeleteFunc();
     		if(del.checkingFunc()) 
     		{	ViewPO.getItems().remove(selectedIndex);
@@ -320,7 +320,7 @@ public class GenPOCtrl {
     		String format= MessageFormat.format("{0},{1},{2},{3},{4},Pending,Supplier,Checking\n",IdTxtbx.getText(),ItemsNameTxt.getText(),QtyTxt.getText(),Pricetxt.getText(),PMtxt.getText());
     		
     		
-    		PMGenPO edt= new PMGenPO(selectedIndex,format);
+    		Standard_PO edt= new Standard_PO(selectedIndex,format);
     		edt.EditFunc();
     		
     		if(edt.checkingFunc()) 
@@ -357,7 +357,7 @@ public class GenPOCtrl {
     @FXML
     public void saveClick(MouseEvent event) {
     	int SelectionIndex= PRidCb.getSelectionModel().getSelectedIndex();
-    	PMGenPO order= new PMGenPO(SelectionIndex);    	
+    	Standard_PO order= new Standard_PO(SelectionIndex);    	
     	order.SaveFunc();
     	if(order.checkingFunc()) 
     	{
@@ -383,7 +383,7 @@ public class GenPOCtrl {
 
     @FXML
     public void CBoxAction(ActionEvent event) throws IOException {
-    	PMGenPO Act= new PMGenPO();
+    	Standard_PO Act= new Standard_PO();
     	
     	String Poid= PRidCb.getValue();
     	int SelectionIndex= PRidCb.getSelectionModel().getSelectedIndex();
@@ -408,7 +408,7 @@ public class GenPOCtrl {
     
     public void PrintClick(MouseEvent event) {
         Stage stage = (Stage) PrintBtn.getScene().getWindow();
-        PMGenPO data= ViewPO.getSelectionModel().getSelectedItem();
+        Standard_PO data= ViewPO.getSelectionModel().getSelectedItem();
 
         Task<Void> task = new Task<>() {
             @Override
