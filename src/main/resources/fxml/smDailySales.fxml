@@ -32,9 +32,9 @@
          <columns>
             <TableColumn fx:id="DSID" prefWidth="111.1114559173584" text="ID" />
             <TableColumn fx:id="itemID" prefWidth="118.51885986328125" text="ITEM ID" />
-            <TableColumn fx:id="date" prefWidth="162.2227020263672" text="NAME" />
+            <TableColumn fx:id="date" prefWidth="162.2227020263672" text="DATE" />
             <TableColumn fx:id="totalSales" minWidth="5.1851806640625" prefWidth="151.11151123046875" text="TOTAL SALES" />
-            <TableColumn fx:id="author" prefWidth="166.6671142578125" text="RECORD BY" />
+            <TableColumn fx:id="author" prefWidth="166.6671142578125" text="AUTHOR" />
          </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -54,24 +54,24 @@
                </font>
             </Label>
             <TextField fx:id="txtitemID" />
-            <Label text="ITEM NAME">
+            <Label text="DATE">
                <font>
                   <Font name="DejaVu Serif Bold" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="txtDate" />
+            <TextField fx:id="txtDate" editable="false" />
             <Label text="TOTAL SALES">
                <font>
                   <Font name="DejaVu Serif Bold" size="14.0" />
                </font>
             </Label>
             <TextField fx:id="txttotalSales" />
-            <Label text="RECORD BY">
+            <Label text="AUTHOR">
                <font>
                   <Font name="DejaVu Serif Bold" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="txtAuthor" />
+            <TextField fx:id="txtAuthor" editable="false" />
             <Separator prefWidth="200.0" />
             <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
                <children>
