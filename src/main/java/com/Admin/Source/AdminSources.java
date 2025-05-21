@@ -12,10 +12,11 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.groupfx.JavaFXApp.AD_Data;
 import com.groupfx.JavaFXApp.modifyData;
 import com.groupfx.JavaFXApp.viewData;
 
-public class AdminSources implements viewData,modifyData {
+public class AdminSources implements viewData,AD_Data {
 
 	private String User,password,role;
 	private boolean checking=false;
@@ -101,10 +102,7 @@ public class AdminSources implements viewData,modifyData {
 			checking=false;
 		}
 	}
-	
-	@Override
-	public void EditFunc() {}
-	
+		
 	@Override
 	public void DeleteFunc() 
 	{
@@ -147,6 +145,7 @@ public class AdminSources implements viewData,modifyData {
 			String[] data= line.split(",");
 			if(data[0].equals(username)) 
 			{
+				reader.close();			
 				return true;
 			}
 		}
@@ -174,13 +173,6 @@ public class AdminSources implements viewData,modifyData {
 		}
 		reader.close();
 		return false;
-	}
-	
-	
-	@Override
-	public void SaveFunc() 
-	{
-		
 	}
 	
 	
