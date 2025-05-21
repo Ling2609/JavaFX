@@ -68,7 +68,7 @@ public class smDailySCtrl {
     
     ObservableList<SalesM_DailyS> cacheList = FXCollections.observableArrayList(); 
     
-    LocalDate today = LocalDate.now();
+    private LocalDate today = LocalDate.now();
     
     private int oriSales;
 //    private String[] week = {
@@ -237,6 +237,8 @@ public class smDailySCtrl {
 	            txttotalSales.setText(String.valueOf(totalSales));
 	            txtAuthor.setText(String.valueOf(author));
 	            
+	            txtDSID.setEditable(false);
+	            txtitemID.setEditable(false);
 
 	            chartload(itemId);
 	        }
@@ -378,6 +380,8 @@ public class smDailySCtrl {
     
     @FXML
     public void reloadClick() throws IOException {
+    	
+    	
     	cacheList.clear();
     	load();
     }
@@ -388,5 +392,8 @@ public class smDailySCtrl {
     	for (TextField field : textFields) {
     	    field.clear();      	
     	}
+    	
+    	txtDSID.setEditable(true);
+        txtitemID.setEditable(true);
     }
 }

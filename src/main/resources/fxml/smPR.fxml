@@ -58,23 +58,23 @@
                            </font></Label>
                         <TextField fx:id="txtQuantity" />
                         <Separator opacity="0.0" prefHeight="35.0" prefWidth="200.0" />
-                        <Label text="BUDGET" textFill="#5e6572">
+                        <Label text="DATE" textFill="#5e6572">
                            <font>
                               <Font name="DejaVu Serif Bold" size="14.0" />
                            </font></Label>
-                        <TextField fx:id="txtDate" />
+                        <TextField fx:id="txtDate" editable="false" />
                         <Separator opacity="0.0" prefHeight="35.0" prefWidth="200.0" />
                         <Label text="SALES MANAGER" textFill="#5e6572">
                            <font>
                               <Font name="DejaVu Serif Bold" size="14.0" />
                            </font></Label>
-                        <TextField fx:id="txtSalesM" />
+                        <TextField fx:id="txtSalesM" editable="false" />
                         <Separator opacity="0.0" prefHeight="35.0" prefWidth="200.0" />
                         <Label text="STATUS" textFill="#5e6572">
                            <font>
                               <Font name="DejaVu Serif Bold" size="14.0" />
                            </font></Label>
-                        <TextField fx:id="txtStatus" />
+                        <TextField fx:id="txtStatus" editable="false" />
                         <Separator prefHeight="40.0" prefWidth="200.0" />
                         <HBox alignment="TOP_RIGHT" prefHeight="36.0" prefWidth="190.0">
                            <children>
