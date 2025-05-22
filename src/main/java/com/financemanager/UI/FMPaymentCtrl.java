@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.financemanager.source.FMPayment;
+import com.groupfx.JavaFXApp.Restriction_Text;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -87,6 +89,11 @@ public class FMPaymentCtrl {
     	PoStat.setCellValueFactory(new PropertyValueFactory<>("status"));
     	ViewPO.setSortPolicy(t->false);
     	load();
+    	
+    	Restriction_Text filter= new Restriction_Text("\\d*(\\.\\d*)?");
+    	TextFormatter<TextFormatter.Change> format= new TextFormatter<>(filter);
+    	PayTot.setTextFormatter(format);
+    	
     }
     
     public void load() throws IOException 

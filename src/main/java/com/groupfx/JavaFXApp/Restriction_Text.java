@@ -4,6 +4,11 @@ import java.util.function.UnaryOperator;
 
 import javafx.scene.control.TextFormatter;
 
+
+/**
+ * Restrict the input type/format, Constructors need enter <b>REGX</b> for validation 
+ * IF not Success Return NULL for Input Field 
+ * */
 public class Restriction_Text implements UnaryOperator<TextFormatter.Change> {
 	
 	private String regx;
