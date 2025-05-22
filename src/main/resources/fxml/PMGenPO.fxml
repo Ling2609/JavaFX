@@ -46,7 +46,7 @@
             <TextField fx:id="QtyTxt" layoutX="646.0" layoutY="327.0" prefHeight="27.0" prefWidth="170.0" />
             <TextField fx:id="Pricetxt" layoutX="646.0" layoutY="395.0" prefHeight="26.0" prefWidth="170.0" />
             <TextField fx:id="PMtxt" layoutX="646.0" layoutY="456.0" prefHeight="26.0" prefWidth="170.0" />
-            <Label layoutX="646.0" layoutY="374.0" text="Price" />
+            <Label layoutX="646.0" layoutY="374.0" text="Price (After Discount)" />
             <Label layoutX="646.0" layoutY="438.0" text="Sign Off" />
             <Separator layoutX="646.0" layoutY="496.0" prefHeight="18.0" prefWidth="241.0" />
             <HBox layoutX="643.0" layoutY="527.0" prefHeight="54.0" prefWidth="223.0" spacing="10.0">

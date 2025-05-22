@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.financemanager.source.FMAppPO;
 import com.financemanager.source.FMPayment;
 import com.groupfx.JavaFXApp.Purchase_Order;
+import com.groupfx.JavaFXApp.Restriction_Text;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,6 +16,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -76,6 +78,10 @@ public class ApprovePOCtrl {
     	AppIdBx.setEditable(false);
     	ViewPO.setSortPolicy(null);
     	load();
+    	
+    	Restriction_Text filter= new Restriction_Text("\\d*");
+    	TextFormatter<TextFormatter.Change> format= new TextFormatter<>(filter);
+    	AppQtyBx.setTextFormatter(format);
     }
 
 
