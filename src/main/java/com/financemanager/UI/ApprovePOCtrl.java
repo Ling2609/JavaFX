@@ -91,7 +91,7 @@ public class ApprovePOCtrl {
     	FMAppPO data= new FMAppPO();
     	if(selectedItems!=null) 
     	{
-    		AppIdBx.setText(selectedItems.getId());
+    		AppIdBx.setText(selectedItems.getPoId());
     		AppQtyBx.setText(Integer.toString(selectedItems.getQty()));
     		String[] CbData= data.GetSupplier(selectedItems.getItemsId()).toArray(new String[0]);
     		SupplierCbx.getItems().clear();

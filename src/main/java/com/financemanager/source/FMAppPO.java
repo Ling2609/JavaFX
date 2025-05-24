@@ -13,8 +13,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.groupfx.JavaFXApp.Purchase_Order;
+import com.groupfx.JavaFXApp.ReportService;
+import com.groupfx.JavaFXApp.viewData;
 
-public class FMAppPO extends Purchase_Order{
+public class FMAppPO implements viewData{
 	
 	private String PoId;
 	private String ItemsId;
@@ -42,7 +44,6 @@ public class FMAppPO extends Purchase_Order{
 	
 	public FMAppPO(String PoId, String ItemsId, int Qty, double cost, String PM,String Status) 
 	{	
-		super(PoId,ItemsId,Qty,cost,PM,Status);
 		this.PoId=PoId;
 		this.ItemsId=ItemsId;
 		this.Qty=Qty;
@@ -84,7 +85,7 @@ public class FMAppPO extends Purchase_Order{
 	}
 	
 	
-	@Override
+	
 	public boolean checkingFunc() 
 	{
 		return check;
@@ -95,7 +96,7 @@ public class FMAppPO extends Purchase_Order{
 	{
 		StringBuilder builder= new StringBuilder();
 		
-		BufferedReader reader= new BufferedReader(new FileReader(Filepath));
+		BufferedReader reader= new BufferedReader(new FileReader("Data/PurchaseOrder.txt"));
 		
 		String line;
 		while ((line=reader.readLine())!=null) 
@@ -186,7 +187,6 @@ public class FMAppPO extends Purchase_Order{
 	/**
 	 * Change and Edit on PO(FM Function) *
 	 */
-	@Override
 	public void EditFunc() 
 	{
 		String line;
@@ -270,7 +270,6 @@ public class FMAppPO extends Purchase_Order{
 	}
 	
 	
-	@Override
 	public void SaveFunc() 
 	{	String line;
 		StringBuffer buffer= new StringBuffer();
@@ -278,7 +277,7 @@ public class FMAppPO extends Purchase_Order{
 		
 			try(BufferedReader reader= new BufferedReader(new FileReader("Data/Cache.txt")))
 				{	
-					if(!super.CacheChecking()) 
+					if(!ReportService.CacheChecking()) 
 					{
 						while((line=reader.readLine())!=null) 
 						{

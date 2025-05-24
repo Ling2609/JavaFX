@@ -17,16 +17,24 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import com.groupfx.JavaFXApp.Purchase_Order;
+import com.groupfx.JavaFXApp.ReportService;
+import com.groupfx.JavaFXApp.viewData;
 
 
 
 
 
-public class FMPayment extends Purchase_Order {
+public class FMPayment implements viewData{
 	
 	private String Status;
 	private String Total;
+	private String Id,name,Supplier;
+	private double unitPrice;
+	private int Qty;
+	private int ClickCount=0; 
 	private List<String> oldCache=new ArrayList<>();
+	private StringBuilder builder= new StringBuilder();
+	private boolean Checking=false;
 	
 	public FMPayment() {}
 	//PO006,I0005,1111111,10.9,Ming,Approve,S001
@@ -39,17 +47,41 @@ public class FMPayment extends Purchase_Order {
 	
 	public FMPayment(String Id, String name,int Qty, double unitprice,String Supplier,String Status) 
 	{
-		super(Id, name,unitprice,Qty,Supplier,Status);
+		this.Id = Id;
+	    this.name = name;
+	    this.Qty = Qty;
+	    this.unitPrice=unitprice;
+	    this.Supplier = Supplier;
 		this.Status=Status;
 	}
 	
+    public String getId() {
+        return Id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getQty() {
+        return Qty;
+    }
+
+    public double getUnitPrice() {
+        return unitPrice;
+    }
+
+    public String getSupplier() {
+        return Supplier;
+    }
+
 	
 	@Override
 	public StringBuilder ReadTextFile() throws IOException
 	{
 		StringBuilder builder= new StringBuilder();
 		
-		BufferedReader reader= new BufferedReader(new FileReader(Filepath));
+		BufferedReader reader= new BufferedReader(new FileReader("Data/PurchaseOrder.txt"));
 		
 		String line;
 		while ((line=reader.readLine())!=null) 
@@ -96,12 +128,15 @@ public class FMPayment extends Purchase_Order {
 	}
 	
 	
-	@Override
 	public String getStatus() 
 	{
 		return Status;
 	}
 	
+	public boolean checkingFunc() 
+	{
+		return Checking;
+	}
 	
 	
 	public List<String> SetData() throws IOException 
@@ -144,19 +179,127 @@ public class FMPayment extends Purchase_Order {
 		return buffer;
 	}
 	
-	
+	public int LineCount(String Id) throws IOException
+	{	String line;
+		int LineCount=0;
+		BufferedReader reader= new BufferedReader(new FileReader("Data/PurchaseOrder.txt"));
+		while((line=reader.readLine())!=null) 
+		{
+			String[] data= line.split(",");
+			if(data[0].equals(Id)) 
+			{	
+				reader.close();
+				return LineCount;
+			}
+			LineCount++;
+		}
+		reader.close();
+		return LineCount;
+	}
 	
 	public void Approve(String Id) throws IOException 
 	{	
-		PStatus="Approve";
-		LineNum=super.LineCount(Id);
-		String[] NewDatas= super.POStatus(LineNum).toString().split(",");
-		NewDatas[7]="Paid";
-		newData=String.join(",", NewDatas);
-		BufferedWriter ClearCache= new BufferedWriter(new FileWriter("Data/Cache.txt"));
-		super.setClickCount(1);
-		ClearCache.close();
-		super.EditFunc();
+		String PStatus="Approve";
+		int LineNum=LineCount(Id);
+		String[] NewDatas;
+		try {
+			NewDatas = Purchase_Order.POStatus(LineNum).toString().split(",");
+			NewDatas[7]="Paid";
+			String newData=String.join(",", NewDatas);
+			BufferedWriter ClearCache= new BufferedWriter(new FileWriter("Data/Cache.txt"));
+			ClickCount=1;
+			ClearCache.close();
+			builder.setLength(0);
+			String line;
+			if(ClickCount>0) 
+			{
+			
+				try(BufferedReader readOri= new BufferedReader(new FileReader("Data/PurchaseOrder.txt"))) //initialize first
+				{
+					
+					while((line=readOri.readLine())!=null) 
+					{
+						String[] oldData= line.split(",");
+						builder.append(oldData[0]).append(",");
+						builder.append(oldData[1]).append(",");
+						builder.append(oldData[2]).append(",");
+						builder.append(oldData[3]).append(",");
+						builder.append(oldData[4]).append(",");
+						builder.append(oldData[5]).append(",");
+						builder.append(oldData[6]).append(",");
+						builder.append(oldData[7]).append("\n");
+					}
+				 }
+				catch(IOException e) 
+				{
+					e.printStackTrace();
+					Checking=false;
+				}
+			 }
+			
+				
+				try(BufferedReader reader= new BufferedReader(new FileReader("Data/Cache.txt")))
+				{
+					
+						while((line=reader.readLine())!=null) 
+						{	
+							if(line.trim().isEmpty())continue;
+							
+							String[] data=line.split(",");
+							builder.append(data[0]).append(",");
+							builder.append(data[1]).append(",");
+							builder.append(data[2]).append(",");
+							builder.append(data[3]).append(",");
+							builder.append(data[4]).append(",");
+							builder.append(data[5]).append(",");
+							builder.append(data[6]).append(",");
+							builder.append(data[7]).append("\n");
+						}
+						
+						try(FileWriter writer= new FileWriter("Data/Cache.txt"))
+						{
+							writer.write(builder.toString());
+						}
+				
+				}
+				catch(IOException e) 
+				{
+					e.printStackTrace();
+				}
+				
+				try
+				{ 	
+					String[] Status= Purchase_Order.POStatus(LineNum).toString().split(",");
+					if(!ReportService.CacheChecking() && Status[5].equals(PStatus)) 
+					{
+						List<String> EditList= new ArrayList<>(Files.readAllLines(Paths.get("Data/Cache.txt")));
+						if(LineNum>=0 && LineNum<=EditList.size()) 
+						{
+							EditList.set(LineNum,newData);
+							
+						}
+						Files.write(Paths.get("Data/Cache.txt"),EditList,StandardOpenOption.WRITE,StandardOpenOption.TRUNCATE_EXISTING);
+						Checking=true;
+						
+					}
+					else 
+					{
+						Checking=false;
+						
+					}
+				}
+				catch(IOException e) 
+				{
+					e.printStackTrace();
+					Checking=false;
+					
+				}
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+		
 	}
 
 	
@@ -183,7 +326,7 @@ public class FMPayment extends Purchase_Order {
 		return price;
 	}
 	
-	@Override
+
 	public void SaveFunc() 
 	{
 		String CacheLine;
@@ -191,7 +334,7 @@ public class FMPayment extends Purchase_Order {
 		
 		StringBuffer buffer= new StringBuffer();
 		try {
-			if(!super.CacheChecking()) 
+			if(!ReportService.CacheChecking()) 
 			{
 				
 				BufferedReader readCache= new BufferedReader(new FileReader("Data/Cache.txt"));
@@ -222,7 +365,8 @@ public class FMPayment extends Purchase_Order {
 						
 						String[] CacheData= oldCache.toArray(new String[0]);
 					    List<String> getId= Files.readAllLines(Paths.get("Data/Payment.txt"));
-					    int LastId=super.getLastIdNum(getId,"PY");
+					    ReportService service= new ReportService();
+					    int LastId=service.getLastIdNum(getId,"PY");
 					    
 						LastId++;
 						String NewId= String.format("PY%03d", LastId); //Start with %, Use 0 to fill length is 3 and decimal based
