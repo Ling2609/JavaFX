@@ -11,7 +11,6 @@ public abstract class Purchase_Req_View  implements viewData{
 	private String date;
 	private String SalesM;
 	private String status;
-	private String suppId;
 	
 	public Purchase_Req_View() {}
 	
