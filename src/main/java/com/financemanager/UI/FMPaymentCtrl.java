@@ -83,9 +83,9 @@ public class FMPaymentCtrl {
     {
     	POId.setCellValueFactory(new PropertyValueFactory<>("id"));
     	PoItem.setCellValueFactory(new PropertyValueFactory<>("name"));
-    	PoQty.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+    	PoQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
     	PoUp.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
-    	PoSupp.setCellValueFactory(new PropertyValueFactory<>("pm"));
+    	PoSupp.setCellValueFactory(new PropertyValueFactory<>("supplier"));
     	PoStat.setCellValueFactory(new PropertyValueFactory<>("status"));
     	ViewPO.setSortPolicy(t->false);
     	load();
@@ -247,11 +247,11 @@ public class FMPaymentCtrl {
     	{
     		PayId.setText(RowSelection.getId());
     		PayItem.setText(RowSelection.getName());
-    		PayQty.setText(Integer.toString(RowSelection.getQuantity()));
-    		PaySupp.setText(RowSelection.getPm());
+    		PayQty.setText(Integer.toString(RowSelection.getQty()));
+    		PaySupp.setText(RowSelection.getSupplier());
     		PayUp.setText(Double.toString(RowSelection.getUnitPrice()));
     		
-    		double total = RowSelection.getUnitPrice() * RowSelection.getQuantity();
+    		double total = RowSelection.getUnitPrice() * RowSelection.getQty();
     		BigDecimal bd = new BigDecimal(total).setScale(2, RoundingMode.HALF_UP); //round to two decimal point
     		PayTot.setText(bd.toPlainString()); //avoided scientific calculations
     		PayId.setEditable(false);
