@@ -37,28 +37,28 @@ public class SalesM_POs extends SalesM implements viewData{
     public String getItem() { return status; }
 	
     @Override
-	public StringBuilder ReadTextFile() throws IOException
-	{	
+	public StringBuilder ReadTextFile() throws IOException{
+    	
+        StringBuilder builder = new StringBuilder();
 
-		//InputStream stream= getClass().getClassLoader().getResourceAsStream("Data/ItemsList.txt");
-		BufferedReader reader= new BufferedReader(new FileReader("Data/PurchaseOrder.txt"));
-		builder= new StringBuilder();
-		String line;
-			
-		while ((line=reader.readLine())!=null) 
-		{
-			if(line.trim().isBlank())continue;
-			String[] data=line.split(",");
-			builder.append(data[0]).append(","); 
-			builder.append(data[1]).append(","); 
-			builder.append(data[2]).append(","); 
-			builder.append(data[3]).append(",");
-			builder.append(data[4]).append(","); 
-			builder.append(data[5]).append("\n"); 
-			
-		}
+        try (BufferedReader reader = new BufferedReader(new FileReader("Data/PurchaseOrder.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.trim().isBlank()) continue;
 
-		return builder;
+                String[] data = line.split(",");
+                if (data.length < 6) continue; 
+
+                builder.append(data[0]).append(",")  // Order ID
+                       .append(data[1]).append(",")  // Supplier Name
+                       .append(data[2]).append(",")  // Product ID
+                       .append(data[3]).append(",")  // Quantity
+                       .append(data[4]).append(",")  // Unit Price
+                       .append(data[5]).append("\n");// Purchase Date or Manager
+            }
+        }
+
+        return builder;
 		
 	}
 
