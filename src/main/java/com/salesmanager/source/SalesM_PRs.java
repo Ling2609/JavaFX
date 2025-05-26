@@ -80,16 +80,21 @@ public class SalesM_PRs extends SalesM implements viewData, modifyData {
 		builder= new StringBuilder();
 		String line;
 		
-		while ((line=reader.readLine())!=null) 
-		{
-			String[] data=line.split(",");
-			builder.append(data[0]).append(","); //ID
-			builder.append(data[1]).append(","); //Name
-			builder.append(data[2]).append(","); //Supplier Name
-			builder.append(data[3]).append(","); //Stoc.k
-			builder.append(data[4]).append(","); //UnitPrice
-			builder.append(data[5]).append("\n"); //Sales Manager
+		try {
+			while ((line=reader.readLine())!=null) 
+			{
+				String[] data=line.split(",");
+				builder.append(data[0]).append(","); //ID
+				builder.append(data[1]).append(","); //Name
+				builder.append(data[2]).append(","); //Supplier Name
+				builder.append(data[3]).append(","); //Stoc.k
+				builder.append(data[4]).append(","); //UnitPrice
+				builder.append(data[5]).append("\n"); //Sales Manager
+				
+			}
+		} catch (Exception e) {
 			
+			System.out.println("Please dont Manual modify the txt file");
 		}
 		
 		return builder;
