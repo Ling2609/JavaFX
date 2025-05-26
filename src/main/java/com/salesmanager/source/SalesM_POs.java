@@ -39,27 +39,25 @@ public class SalesM_POs extends SalesM implements viewData{
     @Override
 	public StringBuilder ReadTextFile() throws IOException
 	{	
-    	try {
-			//InputStream stream= getClass().getClassLoader().getResourceAsStream("Data/ItemsList.txt");
-			BufferedReader reader= new BufferedReader(new FileReader("Data/PurchaseOrder.txt"));
-			builder= new StringBuilder();
-			String line;
+
+		//InputStream stream= getClass().getClassLoader().getResourceAsStream("Data/ItemsList.txt");
+		BufferedReader reader= new BufferedReader(new FileReader("Data/PurchaseOrder.txt"));
+		builder= new StringBuilder();
+		String line;
 			
-			while ((line=reader.readLine())!=null) 
-			{
-				String[] data=line.split(",");
-				builder.append(data[0]).append(","); 
-				builder.append(data[1]).append(","); 
-				builder.append(data[2]).append(","); 
-				builder.append(data[3]).append(",");
-				builder.append(data[4]).append(","); 
-				builder.append(data[5]).append("\n"); 
-				
-			}
-    	} catch (Exception e) {
-    		
-    		System.out.println("Please dont Manual modify the txt file");
-    	}
+		while ((line=reader.readLine())!=null) 
+		{
+			if(line.trim().isBlank())continue;
+			String[] data=line.split(",");
+			builder.append(data[0]).append(","); 
+			builder.append(data[1]).append(","); 
+			builder.append(data[2]).append(","); 
+			builder.append(data[3]).append(",");
+			builder.append(data[4]).append(","); 
+			builder.append(data[5]).append("\n"); 
+			
+		}
+
 		return builder;
 		
 	}

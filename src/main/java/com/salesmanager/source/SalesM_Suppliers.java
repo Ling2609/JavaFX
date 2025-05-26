@@ -92,21 +92,18 @@ public class SalesM_Suppliers implements viewData, modifyData{
 		StringBuilder builder = new StringBuilder();
 		String line;
 		
-		try {
-			while ((line=reader.readLine())!=null) 
-			{
-				String[] data=line.split(",");
-				builder.append(data[0]).append(","); 
-				builder.append(data[1]).append(","); 
-				builder.append(data[2]).append(","); 
-				builder.append(data[3]).append(","); 
-				builder.append(data[4]).append("\n"); 
+		while ((line=reader.readLine())!=null) 
+		{
+			if(line.trim().isBlank())continue;
+			String[] data=line.split(",");
+			builder.append(data[0]).append(","); 
+			builder.append(data[1]).append(","); 
+			builder.append(data[2]).append(","); 
+			builder.append(data[3]).append(","); 
+			builder.append(data[4]).append("\n"); 
 				
-			}
-		} catch (Exception e) {
-			
-			System.out.println("Please dont Manual modify the txt file");
 		}
+		
 		return builder;
 		
 	}
