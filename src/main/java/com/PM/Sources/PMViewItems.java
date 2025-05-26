@@ -16,7 +16,7 @@ public class PMViewItems extends ViewItemList
 //	private String ID;
 //	private double UnitPrice;
 //	private int Stock;
-	protected StringBuilder builder;
+	private StringBuilder builder;
 	
 	public PMViewItems() 
 	{
