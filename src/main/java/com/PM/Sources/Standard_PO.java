@@ -19,7 +19,7 @@ import com.groupfx.JavaFXApp.modifyData;
 public class Standard_PO extends Purchase_Order implements modifyData{
 	
 	private StringBuilder builder= new StringBuilder();
-	private String PaymentStatus="Checking";  //---//
+	private String PaymentStatus="Pending";  //---//
 	private String PStatus="Pending";  //---//
 	private String newData;
 	private int LineNum;
