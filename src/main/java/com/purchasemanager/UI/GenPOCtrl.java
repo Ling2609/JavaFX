@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.UnaryOperator;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 
@@ -14,6 +15,7 @@ import com.financemanager.source.FMGenReport;
 import com.groupfx.JavaFXApp.Authentication;
 import com.groupfx.JavaFXApp.PdfGenerator;
 import com.groupfx.JavaFXApp.Purchase_Order;
+import com.groupfx.JavaFXApp.Restriction_Text;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -29,6 +31,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -129,6 +132,13 @@ public class GenPOCtrl {
     	});
     	
     	
+    	Restriction_Text filter= new Restriction_Text("\\d*(\\.\\d*)?");
+    	TextFormatter<String> format= new TextFormatter<>(filter);
+    	Pricetxt.setTextFormatter(format);
+    	
+    	Restriction_Text filQty= new Restriction_Text("\\d*");
+    	TextFormatter<String> formatQty= new TextFormatter<>(filQty);
+    	QtyTxt.setTextFormatter(formatQty);
     }
     
     
@@ -213,6 +223,8 @@ public class GenPOCtrl {
     	
     	List<String> ListData= Arrays.asList(Prid);
     	PRidCb.getItems().addAll(ListData);
+    	
+    	
     	
     	
     }

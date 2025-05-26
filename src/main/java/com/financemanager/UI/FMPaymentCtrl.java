@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.financemanager.source.FMPayment;
+import com.groupfx.JavaFXApp.Restriction_Text;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -81,12 +83,17 @@ public class FMPaymentCtrl {
     {
     	POId.setCellValueFactory(new PropertyValueFactory<>("id"));
     	PoItem.setCellValueFactory(new PropertyValueFactory<>("name"));
-    	PoQty.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+    	PoQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
     	PoUp.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
-    	PoSupp.setCellValueFactory(new PropertyValueFactory<>("pm"));
+    	PoSupp.setCellValueFactory(new PropertyValueFactory<>("supplier"));
     	PoStat.setCellValueFactory(new PropertyValueFactory<>("status"));
     	ViewPO.setSortPolicy(t->false);
     	load();
+    	
+    	Restriction_Text filter= new Restriction_Text("\\d*(\\.\\d*)?");
+    	TextFormatter<TextFormatter.Change> format= new TextFormatter<>(filter);
+    	PayTot.setTextFormatter(format);
+    	
     }
     
     public void load() throws IOException 
@@ -240,11 +247,11 @@ public class FMPaymentCtrl {
     	{
     		PayId.setText(RowSelection.getId());
     		PayItem.setText(RowSelection.getName());
-    		PayQty.setText(Integer.toString(RowSelection.getQuantity()));
-    		PaySupp.setText(RowSelection.getPm());
+    		PayQty.setText(Integer.toString(RowSelection.getQty()));
+    		PaySupp.setText(RowSelection.getSupplier());
     		PayUp.setText(Double.toString(RowSelection.getUnitPrice()));
     		
-    		double total = RowSelection.getUnitPrice() * RowSelection.getQuantity();
+    		double total = RowSelection.getUnitPrice() * RowSelection.getQty();
     		BigDecimal bd = new BigDecimal(total).setScale(2, RoundingMode.HALF_UP); //round to two decimal point
     		PayTot.setText(bd.toPlainString()); //avoided scientific calculations
     		PayId.setEditable(false);

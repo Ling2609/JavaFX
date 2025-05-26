@@ -14,13 +14,14 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-public class SalesM_PRs  extends SalesM implements viewData, modifyData {
+public class SalesM_PRs extends SalesM implements viewData, modifyData {
 	
 	private String Id;
 	private String Item_ID;
 	private int Quantity;
 	private String Date;
 	private String SalesM;
+	private String authorSalesM = this.getUserId();
 	private String Status;
 
 	//Variable for the modification
@@ -121,7 +122,7 @@ public class SalesM_PRs  extends SalesM implements viewData, modifyData {
 	    		Alert alert = new Alert(AlertType.INFORMATION);
 	    		alert.setTitle("Information");
 	    		alert.setHeaderText(null);
-	    		alert.setContentText("Please select the supplier if you want to edit\n OR \n If you want to add a supplier please dont repeat the ID");
+	    		alert.setContentText("Please select the Purcahse Requisition if you want to edit\n OR \n If you want to add a Purchase Requisition please dont repeat the ID");
 	    		alert.showAndWait();
 	    	}
     	} catch (Exception e) {
@@ -143,7 +144,7 @@ public class SalesM_PRs  extends SalesM implements viewData, modifyData {
 				Item_ID,
 				Quantity,
 				Date,
-				SalesM,
+				authorSalesM,
 				Status
 				
 				));
@@ -159,7 +160,7 @@ public class SalesM_PRs  extends SalesM implements viewData, modifyData {
 				Item_ID,
 				Quantity,
 				Date,
-				SalesM,
+				authorSalesM,
 				Status
 				
 				));
@@ -176,7 +177,7 @@ public class SalesM_PRs  extends SalesM implements viewData, modifyData {
 	public void SaveFunc() {
 		
 		String[] parts = resultString.split("\n");
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter("Data/Suppliers.txt", false))) {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter("Data/prList.txt", false))) {
 			for (String part : parts) {
 				
             writer.write(part);

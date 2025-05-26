@@ -1,6 +1,7 @@
-package com.salesmanager.UI;
+	package com.salesmanager.UI;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 import com.groupfx.JavaFXApp.ViewItemList;
 import com.salesmanager.source.*;
@@ -58,6 +59,8 @@ public class smPRsCtrl {
     
     private ObservableList<SalesM_PRs> cacheList;
     
+    private LocalDate today = LocalDate.now();
+    
     public void initialize() throws IOException 
     {
     	PRsID.setCellValueFactory(new PropertyValueFactory<>("id")); // Use the SalesM_PRs.getID method
@@ -111,7 +114,7 @@ public class smPRsCtrl {
             alert.setContentText("PR have been approved, you cannot do any edition");
             alert.showAndWait();
                 
-            } else {
+        } else {
             	if (selectedItem != null) {
                     String id = selectedItem.getId();
                     String itemId = selectedItem.getItem_ID();
@@ -127,7 +130,10 @@ public class smPRsCtrl {
                     txtSalesM.setText(salesM);
                     txtStatus.setText(status);
                 }
-            }
+        }
+        
+        txtPRsID.setEditable(false);
+    	txtItem_ID.setEditable(false);
     }
     
     
@@ -154,9 +160,9 @@ public class smPRsCtrl {
     			txtPRsID.getText().trim(),
     			txtItem_ID.getText().trim(),
     			Integer.parseInt(txtQuantity.getText().trim()),
-    			txtDate.getText().trim(),
-    			txtSalesM.getText().trim(),
-    			txtStatus.getText().trim(),
+    			String.valueOf(today),
+    			"temp",
+    			"Pending",
     			cacheList, selectedSuppIndex
     			
     			);
@@ -265,5 +271,9 @@ public class smPRsCtrl {
     	for (TextField field : textFields) {
     	    field.clear();      	
     	}
+    	
+    	txtPRsID.setEditable(true);
+    	txtItem_ID.setEditable(true);
+    	
     }
 }
