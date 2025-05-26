@@ -92,6 +92,25 @@ public class imStockCtrl {
         itemName.setCellValueFactory(new PropertyValueFactory<>("itemStockName"));
         itemStock.setCellValueFactory(new PropertyValueFactory<>("itemStock"));
         
+        txtItemsID.setEditable(false); // Prevent editing but keep visibility strong
+        txtItemsID.setFocusTraversable(false); // Ensure users can't select it
+        txtItemsID.setStyle("-fx-background-color: #D3D3D3; -fx-text-fill: black;");
+
+        txtItemsName.setFocusTraversable(false);
+        txtItemsName.setStyle("-fx-background-color: #D3D3D3; -fx-text-fill: black;");
+        
+        txtItemsStock.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) { // Ensure only digits are allowed
+                txtItemsStock.setText(oldValue); // Revert to previous value
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Input Error");
+                alert.setHeaderText("Invalid Input");
+                alert.setContentText("Please enter only numbers.");
+                alert.showAndWait();
+            }
+        });
+
+        
         load();
     }
    
@@ -131,7 +150,7 @@ public class imStockCtrl {
     	
     	ObservableList<InventoryM_Stocks> stockList = FXCollections.observableArrayList();
     	
-    	//For Stock Table, becus we need to use this stockRow as a parameter to save data so just declare a private stockRow
+    	//For Stock Table, because we need to use this stockRow as a parameter to save data so just declare a private stockRow
     	stockRow = listed.ReadStockTextFile().toString().split("\n");
     	
     	for(String rows: stockRow) {
