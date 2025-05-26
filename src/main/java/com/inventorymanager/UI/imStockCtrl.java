@@ -92,6 +92,25 @@ public class imStockCtrl {
         itemName.setCellValueFactory(new PropertyValueFactory<>("itemStockName"));
         itemStock.setCellValueFactory(new PropertyValueFactory<>("itemStock"));
         
+        txtItemsID.setEditable(false); // Prevent editing but keep visibility strong
+        txtItemsID.setFocusTraversable(false); // Ensure users can't select it
+        txtItemsID.setStyle("-fx-background-color: #D3D3D3; -fx-text-fill: black;");
+
+        txtItemsName.setFocusTraversable(false);
+        txtItemsName.setStyle("-fx-background-color: #D3D3D3; -fx-text-fill: black;");
+        
+        txtItemsStock.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) { // Ensure only digits are allowed
+                txtItemsStock.setText(oldValue); // Revert to previous value
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Input Error");
+                alert.setHeaderText("Invalid Input");
+                alert.setContentText("Please enter only numbers.");
+                alert.showAndWait();
+            }
+        });
+
+        
         load();
     }
    
@@ -108,7 +127,7 @@ public class imStockCtrl {
     		String[] spl= rows.split(",");
     		if(spl.length==8) 
     		{	
-    			if(spl[5].equals("Approve") && spl[7].equals("Pending")) {
+    			if(spl[5].equals("Approve") && spl[7].equals("Checking")) {
     				
 	    			POList.add(new InventoryM_Stocks(
 	    					
