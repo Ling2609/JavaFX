@@ -19,6 +19,13 @@ import com.groupfx.JavaFXApp.modifyData;
 public class Standard_PO extends Purchase_Order implements modifyData{
 	
 	private StringBuilder builder= new StringBuilder();
+	private String PaymentStatus="Pending";  //---//
+	private String PStatus="Pending";  //---//
+	private String newData;
+	private int LineNum;
+	
+	
+	
 	public Standard_PO() {}
 	
 	public Standard_PO(String Id, String name, int Quantity, double Price, String Pm,String Status) 
@@ -29,17 +36,19 @@ public class Standard_PO extends Purchase_Order implements modifyData{
 	
 	public Standard_PO(String Id, String name, int Quantity, double Price, String Pm,int LineNum ) 
 	{
-		super(Id,name,Quantity,Price,Pm,LineNum);
+		super(Id,name,Quantity,Price,Pm);
+		this.LineNum=LineNum;
 	}
 	
 	public Standard_PO(int LineNum) 
 	{
-		super(LineNum);
+		this.LineNum=LineNum;
 	}
 	
 	public Standard_PO(int LineNum,String newData) 
 	{
-		super(LineNum,newData);
+		this.LineNum=LineNum;
+		this.newData=newData;
 	}
 	
 	
@@ -128,6 +137,15 @@ public class Standard_PO extends Purchase_Order implements modifyData{
 	}
 	
 	
+	/**
+	 * Add data to Cache.txt </br>
+	 * Default Settings:</br>
+	 * <ul>
+	 * <li>Status Pending</li>
+	 * <li>Supplier Supplier</li>
+	 * <li>Payment Checking</li>
+	 * </ul>
+	 * */
 	@Override
 	public void AddFunc() 
 	{

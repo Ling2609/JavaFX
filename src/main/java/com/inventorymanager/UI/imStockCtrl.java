@@ -127,7 +127,7 @@ public class imStockCtrl {
     		String[] spl= rows.split(",");
     		if(spl.length==8) 
     		{	
-    			if(spl[5].equals("Approve") && spl[7].equals("Checking")) {
+    			if(spl[5].equals("Approve") && spl[7].equals("Pending")) {
     				
 	    			POList.add(new InventoryM_Stocks(
 	    					
@@ -150,7 +150,7 @@ public class imStockCtrl {
     	
     	ObservableList<InventoryM_Stocks> stockList = FXCollections.observableArrayList();
     	
-    	//For Stock Table, becus we need to use this stockRow as a parameter to save data so just declare a private stockRow
+    	//For Stock Table, because we need to use this stockRow as a parameter to save data so just declare a private stockRow
     	stockRow = listed.ReadStockTextFile().toString().split("\n");
     	
     	for(String rows: stockRow) {
