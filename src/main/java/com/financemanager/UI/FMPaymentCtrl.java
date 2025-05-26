@@ -259,7 +259,7 @@ public class FMPaymentCtrl {
     		PayQty.setEditable(false);
     		PaySupp.setEditable(false);
     		PayUp.setEditable(false);
-    		PayTot.setFocusTraversable(false);
+    		PayTot.setEditable(false);
     	}
     }
 
