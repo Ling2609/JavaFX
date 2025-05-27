@@ -92,6 +92,15 @@ public class imStockCtrl {
         itemName.setCellValueFactory(new PropertyValueFactory<>("itemStockName"));
         itemStock.setCellValueFactory(new PropertyValueFactory<>("itemStock"));
         
+        txtPOID.setEditable(false);
+        txtPOID.setFocusTraversable(false);
+        txtPOID.setStyle("-fx-background-color: #D3D3D3; -fx-text-fill: black;");
+
+        txtUpdateStock.setEditable(false);
+        txtUpdateStock.setFocusTraversable(false);
+        txtUpdateStock.setStyle("-fx-background-color: #D3D3D3; -fx-text-fill: black;");
+
+        
         txtItemsID.setEditable(false); // Prevent editing but keep visibility strong
         txtItemsID.setFocusTraversable(false); // Ensure users can't select it
         txtItemsID.setStyle("-fx-background-color: #D3D3D3; -fx-text-fill: black;");
@@ -123,7 +132,7 @@ public class imStockCtrl {
     	poRow = listed.ReadTextFile().toString().split("\n");
     	
     	for(String rows: poRow) {
-    		
+    	      	    
     		String[] spl= rows.split(",");
     		if(spl.length==8) 
     		{	
