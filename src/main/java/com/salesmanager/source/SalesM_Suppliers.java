@@ -84,26 +84,29 @@ public class SalesM_Suppliers implements viewData, modifyData{
     public String getItem() { return Item; }
 	
     public void setItem(String Item) { this.Item = Item; }
+    
     @Override
-	public StringBuilder ReadTextFile() throws IOException
-	{	
-		//InputStream stream= getClass().getClassLoader().getResourceAsStream("Data/ItemsList.txt");
-		BufferedReader reader= new BufferedReader(new FileReader("Data/Suppliers.txt"));
-		StringBuilder builder = new StringBuilder();
-		String line;
-		
-		while ((line=reader.readLine())!=null) 
-		{
-			String[] data=line.split(",");
-			builder.append(data[0]).append(","); 
-			builder.append(data[1]).append(","); 
-			builder.append(data[2]).append(","); 
-			builder.append(data[3]).append(","); 
-			builder.append(data[4]).append("\n"); 
-			
-		}
-		return builder;
-		
+	public StringBuilder ReadTextFile() throws IOException{
+    	
+        StringBuilder builder = new StringBuilder();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("Data/Suppliers.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.trim().isBlank()) continue;
+
+                String[] data = line.split(",");
+                if (data.length < 5) continue; 
+
+                builder.append(data[0]).append(",")  // Supplier ID
+                       .append(data[1]).append(",")  // Supplier Name
+                       .append(data[2]).append(",")  // Contact
+                       .append(data[3]).append(",")  // Address
+                       .append(data[4]).append("\n"); // Email or other info
+            }
+        }
+
+        return builder;
 	}
     
     private boolean containsID(ObservableList<SalesM_Suppliers> List, String id, String itemId) {

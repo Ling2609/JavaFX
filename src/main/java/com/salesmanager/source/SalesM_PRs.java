@@ -73,27 +73,28 @@ public class SalesM_PRs extends SalesM implements viewData, modifyData {
     }
     
 	@Override
-	public StringBuilder ReadTextFile() throws IOException
-	{	
+	public StringBuilder ReadTextFile() throws IOException{
 		
-		BufferedReader reader= new BufferedReader(new FileReader("Data/prList.txt"));
-		builder= new StringBuilder();
-		String line;
-		
-		while ((line=reader.readLine())!=null) 
-		{
-			String[] data=line.split(",");
-			builder.append(data[0]).append(","); //ID
-			builder.append(data[1]).append(","); //Name
-			builder.append(data[2]).append(","); //Supplier Name
-			builder.append(data[3]).append(","); //Stoc.k
-			builder.append(data[4]).append(","); //UnitPrice
-			builder.append(data[5]).append("\n"); //Sales Manager
-			
-		}
-		
-		return builder;
-		
+	    StringBuilder builder = new StringBuilder();
+
+	    try (BufferedReader reader = new BufferedReader(new FileReader("Data/prList.txt"))) {
+	        String line;
+	        while ((line = reader.readLine()) != null) {
+	            if (line.trim().isBlank()) continue;
+
+	            String[] data = line.split(",");
+	            if (data.length < 6) continue;
+
+	            builder.append(data[0]).append(",")  // ID
+	                   .append(data[1]).append(",")  // Name
+	                   .append(data[2]).append(",")  // Supplier Name
+	                   .append(data[3]).append(",")  // Stock
+	                   .append(data[4]).append(",")  // Unit Price
+	                   .append(data[5]).append("\n");// Sales Manager
+	        }
+	    }
+
+	    return builder;
 	}
 	
     private boolean containsID(ObservableList<SalesM_PRs> List, String id) {
