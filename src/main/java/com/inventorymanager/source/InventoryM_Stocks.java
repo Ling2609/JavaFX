@@ -97,7 +97,7 @@ public class InventoryM_Stocks extends InventoryM implements viewData{
 		String line;
 		
 		while ((line=reader.readLine())!=null) 
-		{
+		{   if(line.trim().isEmpty()) continue;
 			String[] data=line.split(",");
 			builder.append(data[0]).append(","); 
 			builder.append(data[1]).append(","); 
