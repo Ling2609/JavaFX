@@ -5,6 +5,7 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -29,7 +30,6 @@
               <columns>
                 <TableColumn fx:id="ItemsID" prefWidth="94.81509017944336" text="Items_ID" />
                 <TableColumn fx:id="ItemsName" prefWidth="177.03760528564453" text="Items_Name" />
-                  <TableColumn fx:id="ItemsSupp" prefWidth="235.55621337890625" text="Supplier" />
                   <TableColumn fx:id="itemsStock" minWidth="5.1851806640625" prefWidth="94.0743408203125" text="Stock" />
                   <TableColumn fx:id="itemsUP" prefWidth="111.1114501953125" text="Unit_Price" />
               </columns>
@@ -37,7 +37,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <BarChart fx:id="viewStockChart" layoutX="1.0" layoutY="65.0" prefHeight="305.0" prefWidth="950.0">
+            <BarChart fx:id="viewStockChart" layoutX="1.0" layoutY="65.0" prefHeight="306.0" prefWidth="734.0">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
@@ -45,7 +45,7 @@
                 <NumberAxis side="LEFT" />
               </yAxis>
             </BarChart>
-            <VBox layoutX="743.0" layoutY="379.0" prefHeight="267.0" prefWidth="191.0">
+            <VBox layoutX="743.0" layoutY="79.0" prefHeight="567.0" prefWidth="191.0">
                <children>
                   <Label text="ITEMID">
                      <font>
@@ -53,29 +53,36 @@
                      </font>
                   </Label>
                   <TextField fx:id="txtItemsID" />
+                  <Separator prefHeight="64.0" prefWidth="191.0" />
                   <Label text="NAME">
                      <font>
                         <Font name="DejaVu Serif Bold" size="14.0" />
                      </font>
                   </Label>
                   <TextField fx:id="txtItemsName" />
+                  <Separator prefHeight="64.0" prefWidth="191.0" />
                   <Label text="STOCK">
                      <font>
                         <Font name="DejaVu Serif Bold" size="14.0" />
                      </font></Label>
                   <TextField fx:id="txtItemsStock" />
+                  <Separator prefHeight="64.0" prefWidth="191.0" />
                   <Label text="UNIT PRICE">
                      <font>
                         <Font name="DejaVu Serif Bold" size="14.0" />
                      </font></Label>
                   <TextField fx:id="txtItemsUP" />
-                  <Label text="SUPPLIER">
+                  <Separator prefWidth="200.0" />
+                  <Separator prefHeight="78.0" prefWidth="191.0" />
+                  <Label text="SUPPLIERS">
                      <font>
                         <Font name="DejaVu Serif Bold" size="14.0" />
-                     </font></Label>
-                  <TextField fx:id="txtItemSupp" />
+                     </font>
+                  </Label>
+                  <ListView fx:id="supplierBox" prefHeight="200.0" prefWidth="200.0" />
+                  <Separator prefHeight="70.0" prefWidth="191.0" />
                   <Separator prefWidth="200.0" />
-                  <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="TOP_RIGHT" prefHeight="32.0" prefWidth="191.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#reloadClick" style="-fx-background-color: #1098F7;">
                            <graphic>
