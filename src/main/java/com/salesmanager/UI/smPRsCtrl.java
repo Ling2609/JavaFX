@@ -1,4 +1,4 @@
-	package com.salesmanager.UI;
+package com.salesmanager.UI;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -105,35 +105,39 @@ public class smPRsCtrl {
 
         SalesM_PRs selectedItem = viewPRsTable.getSelectionModel().getSelectedItem();
         
-        if (selectedItem.getStatus().equals("Approved")) {
-        	
-        	viewPRsTable.getSelectionModel().clearSelection();
-        	Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("PR Approved");
-            alert.setHeaderText(null);
-            alert.setContentText("PR have been approved, you cannot do any edition");
-            alert.showAndWait();
-                
-        } else {
-            	if (selectedItem != null) {
-                    String id = selectedItem.getId();
-                    String itemId = selectedItem.getItem_ID();
-                    int quantity = selectedItem.getQuantity();
-                    String date = selectedItem.getDate();
-                    String salesM = selectedItem.getSalesM();
-                    String status = selectedItem.getStatus();
-                    
-                    txtPRsID.setText(id);
-                    txtItem_ID.setText(itemId);
-                    txtQuantity.setText(String.valueOf(quantity));
-                    txtDate.setText(String.valueOf(date));
-                    txtSalesM.setText(salesM);
-                    txtStatus.setText(status);
-                }
+        clearTextField();
+        
+        if (selectedItem != null) {
+	        if (selectedItem.getStatus().equals("Approved")) {
+	        	
+	        	viewPRsTable.getSelectionModel().clearSelection();
+	        	Alert alert = new Alert(AlertType.INFORMATION);
+	            alert.setTitle("PR Approved");
+	            alert.setHeaderText(null);
+	            alert.setContentText("PR have been approved, you cannot do any edition");
+	            alert.showAndWait();
+	                
+	        } else {
+	
+	            String id = selectedItem.getId();
+	            String itemId = selectedItem.getItem_ID();
+	            int quantity = selectedItem.getQuantity();
+	            String date = selectedItem.getDate();
+	            String salesM = selectedItem.getSalesM();
+	            String status = selectedItem.getStatus();
+	                    
+	            txtPRsID.setText(id);
+	            txtItem_ID.setText(itemId);
+	            txtQuantity.setText(String.valueOf(quantity));
+	            txtDate.setText(String.valueOf(date));
+	            txtSalesM.setText(salesM);
+	            txtStatus.setText(status);
+	            
+	            txtPRsID.setEditable(false);
+	        	txtItem_ID.setEditable(false);	
+	        }
         }
         
-        txtPRsID.setEditable(false);
-    	txtItem_ID.setEditable(false);
     }
     
     

@@ -126,8 +126,7 @@ public class InventoryM_Stocks extends InventoryM implements viewData{
 			builder.append(data[0]).append(","); 
 			builder.append(data[1]).append(","); 
 			builder.append(data[2]).append(","); 
-			builder.append(data[3]).append(",");
-			builder.append(data[4]).append("\n"); 
+			builder.append(data[3]).append("\n");
 			
 		}
 		return builder;
@@ -144,11 +143,11 @@ public class InventoryM_Stocks extends InventoryM implements viewData{
 	        String row = updateStockList[i];
 	        String[] spl = row.split(",");
 	        
-	        if (spl.length == 5) {
+	        if (spl.length == 4) {
 	        	
 	            if (spl[0].equals(itemsID)) {
 	            	
-	                spl[3] = String.valueOf(Integer.parseInt(spl[3]) + posQuantity);
+	                spl[2] = String.valueOf(Integer.parseInt(spl[2]) + posQuantity);
 	                
 	                updateStockList[i] = String.join(",", spl);
 	                updated = true;
@@ -190,7 +189,7 @@ public class InventoryM_Stocks extends InventoryM implements viewData{
 	        	
 	            if (spl[0].equals(itemsID)) {
 	            	
-	                spl[3] = String.valueOf(itemStock);
+	                spl[2] = String.valueOf(itemStock);
 	                
 	                updateStockList[i] = String.join(",", spl);
 	                updated = true;
@@ -204,7 +203,7 @@ public class InventoryM_Stocks extends InventoryM implements viewData{
 	public String[] getLowStockItems(int threshold) {
 	    return Arrays.stream(updateStockList)
 	            .map(row -> row.split(","))
-	            .filter(data -> data.length == 5 && Integer.parseInt(data[3]) < threshold)
+	            .filter(data -> data.length == 4 && Integer.parseInt(data[2]) < threshold)
 	            .map(data -> String.join(",", data))
 	            .toArray(String[]::new);
 	}

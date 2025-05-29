@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,8 @@ public class SalesM_DailyS extends SalesM implements viewData, modifyData {
 	private String resultString;
 	private ObservableList<SalesM_DailyS> cachelist;
 	private int oriSales;
+	
+	private LocalDate today = LocalDate.now();
 	
 	public SalesM_DailyS() {
 		
@@ -159,7 +162,7 @@ public class SalesM_DailyS extends SalesM implements viewData, modifyData {
 				
 				Id,
 				itemId,
-				date,
+				String.valueOf(today),
 				totalSales,
 				author
 				
@@ -234,13 +237,13 @@ public class SalesM_DailyS extends SalesM implements viewData, modifyData {
 
 		            while ((line = reader.readLine()) != null) {
 		                String[] spl = line.split(",");
-		                if (spl.length == 5) {
+		                if (spl.length == 4) {
 
 		                    if (spl[0].equals(obj.getItemId())) {
 
-		                        int totalSales = Integer.parseInt(spl[3]);
+		                        int totalSales = Integer.parseInt(spl[2]);
 		                        totalSales -= obj.getTotalSales();
-		                        spl[3] = String.valueOf(totalSales);
+		                        spl[2] = String.valueOf(totalSales);
 		                    }
 
 		                    updatedLines.add(String.join(",", spl));
@@ -266,19 +269,19 @@ public class SalesM_DailyS extends SalesM implements viewData, modifyData {
 
 		            while ((line = reader.readLine()) != null) {
 		                String[] spl = line.split(",");
-		                if (spl.length == 5) {
+		                if (spl.length == 4) {
 
 		                    if (spl[0].equals(obj.getItemId())) {
 
-		                        int totalSales = Integer.parseInt(spl[3]);
+		                        int totalSales = Integer.parseInt(spl[2]);
 		                        if(oriSales <= obj.getTotalSales()) {
 		                        	int change = obj.getTotalSales() - oriSales;
 		                        	totalSales -= change;
-		                        	spl[3] = String.valueOf(totalSales);
+		                        	spl[2] = String.valueOf(totalSales);
 		                        } else {
 		                        	int change = oriSales - obj.getTotalSales();
 		                        	totalSales -= change;
-		                        	spl[3] = String.valueOf(totalSales);
+		                        	spl[2] = String.valueOf(totalSales);
 		                        }   
 		                    }
 

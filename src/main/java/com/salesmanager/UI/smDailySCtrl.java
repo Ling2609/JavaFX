@@ -67,7 +67,7 @@ public class smDailySCtrl {
     private LineChart<String,Integer> viewSalesChart;
     
     ObservableList<SalesM_DailyS> cacheList = FXCollections.observableArrayList(); 
-    
+    	
     private LocalDate today = LocalDate.now();
     
     private int oriSales;
@@ -279,7 +279,7 @@ public class smDailySCtrl {
 					
 				txtDSID.getText().trim(),
 				txtitemID.getText().trim(),
-				String.valueOf(today),
+				txtDate.getText().trim(),
 				Integer.parseInt(txttotalSales.getText().trim()),
 				"temp", //Use the UserID in the superclass (author), so  the system will record who edit this record
 				cacheList, 

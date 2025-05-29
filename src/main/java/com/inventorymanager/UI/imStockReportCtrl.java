@@ -58,17 +58,17 @@ public class imStockReportCtrl {
     	for(String rows: row) 
     	{
     		String[] spl= rows.split(",");
-    		if(spl.length==5) 
+    		if(spl.length==4) 
     		{	
     			reportData.add(new InventoryM_Stocks(
     					
     					spl[0],
     					spl[1],
-    					Integer.parseInt(spl[3])
+    					Integer.parseInt(spl[2])
     						
     					));
     					
-    			chartStore.put(spl[1], Integer.parseInt(spl[3]));
+    			chartStore.put(spl[1], Integer.parseInt(spl[2]));
     		}
     	}
     	chartload();
