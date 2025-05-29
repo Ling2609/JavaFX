@@ -53,23 +53,37 @@ public class imStockReportCtrl {
 	public void load() throws IOException 
     {
     	InventoryM_Stocks listed= new InventoryM_Stocks();
-    	String[] row= listed.ReadStockTextFile().toString().split("\n");
+    	String[] rows= listed.ReadStockTextFile().toString().split("\n");
+    	ArrayList<String> suppRows = listed.ReadSuppTextFile();
+     	
+    	for (String row : rows) {
+    		 
+    		System.out.println(row);
+    	}
     	
-    	for(String rows: row) 
-    	{
-    		String[] spl= rows.split(",");
-    		if(spl.length==4) 
-    		{	
-    			reportData.add(new InventoryM_Stocks(
-    					
-    					spl[0],
-    					spl[1],
-    					Integer.parseInt(spl[2])
-    						
-    					));
-    					
-    			chartStore.put(spl[1], Integer.parseInt(spl[2]));
-    		}
+    	for(String suppRow : suppRows) {
+    		
+    		String[] suppSpl= suppRow.split("-");
+    		
+    		for(String row: rows) {
+    			
+	    		String[] spl = row.split(",");
+	    		
+	    		if(spl.length==4 && suppSpl.length==2) 
+	    		{	
+	    			if(spl[0].equals(suppSpl[1]))
+	    			reportData.add(new InventoryM_Stocks(
+	    					
+	    					spl[0],
+	    					suppSpl[0],
+	    					spl[1],
+	    					Integer.parseInt(spl[2])
+	    						
+	    					));
+	    					
+	    			chartStore.put(spl[1], Integer.parseInt(spl[2]));
+	    		}
+	    	}
     	}
     	chartload();
     }

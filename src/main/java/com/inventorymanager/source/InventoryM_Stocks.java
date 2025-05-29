@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.groupfx.JavaFXApp.*;
@@ -27,6 +28,8 @@ public class InventoryM_Stocks extends InventoryM implements viewData{
 	
 	private String[] updateStockList;
 	private String[] poStatusList;
+	
+	private String supplierId;
 	
 	public InventoryM_Stocks() {
 		
@@ -57,6 +60,16 @@ public class InventoryM_Stocks extends InventoryM implements viewData{
 		this.posPrice = posPrice;
 	}
 	
+	public InventoryM_Stocks(String itemStockID, String supplierId, String itemStockName, int itemStock) {
+		
+		InventoryM_ID = super.getUserID();
+		this.itemStockID = itemStockID;
+		this.supplierId = supplierId;
+		this.itemStockName	= itemStockName;
+		this.itemStock = itemStock;
+		
+	}
+	
 	public InventoryM_Stocks(String itemStockID, String itemStockName, int itemStock) {
 		
 		InventoryM_ID = super.getUserID();
@@ -76,6 +89,8 @@ public class InventoryM_Stocks extends InventoryM implements viewData{
 	
 	public String getPosStatus() { return posStatus; }
 	
+	public String getSupplier() { return supplierId; }
+	
 	public int getPosQuantity() { return posQuantity; }
 	
 	public double getPosPrice() { return posPrice; }
@@ -91,46 +106,70 @@ public class InventoryM_Stocks extends InventoryM implements viewData{
 	@Override
 	public StringBuilder ReadTextFile() throws IOException
 	{	
-		//InputStream stream= getClass().getClassLoader().getResourceAsStream("Data/ItemsList.txt");
-		BufferedReader reader= new BufferedReader(new FileReader("Data/PurchaseOrder.txt"));
-		builder= new StringBuilder();
-		String line;
-		
-		while ((line=reader.readLine())!=null) 
-		{   if(line.trim().isEmpty()) continue;
-			String[] data=line.split(",");
-			builder.append(data[0]).append(","); 
-			builder.append(data[1]).append(","); 
-			builder.append(data[2]).append(","); 
-			builder.append(data[3]).append(",");
-			builder.append(data[4]).append(","); 
-			builder.append(data[5]).append(",");
-			builder.append(data[6]).append(",");
-			builder.append(data[7]).append("\n");
-			
-		}
-		return builder;
+		try (BufferedReader reader = new BufferedReader(new FileReader("Data/PurchaseOrder.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.trim().isBlank()) continue;
+
+                String[] data = line.split(",");
+                if (data.length < 8) continue; 
+
+    			builder.append(data[0]).append(","); 
+    			builder.append(data[1]).append(","); 
+    			builder.append(data[2]).append(","); 
+    			builder.append(data[3]).append(",");
+    			builder.append(data[4]).append(","); 
+    			builder.append(data[5]).append(",");
+    			builder.append(data[6]).append(",");
+    			builder.append(data[7]).append("\n");
+    			
+            }
+        }
+
+        return builder;
 		
 	}
 	
 	public StringBuilder ReadStockTextFile() throws IOException
 	{	
-		//InputStream stream= getClass().getClassLoader().getResourceAsStream("Data/ItemsList.txt");
-		BufferedReader reader= new BufferedReader(new FileReader("Data/ItemsList.txt"));
-		builder= new StringBuilder();
-		String line;
+		StringBuilder builder = new StringBuilder();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("Data/ItemsList.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.trim().isBlank()) continue;
+
+                String[] data = line.split(",");
+                if (data.length < 4) continue; 
+
+    			builder.append(data[0]).append(","); 
+    			builder.append(data[1]).append(","); 
+    			builder.append(data[2]).append(","); 
+    			builder.append(data[3]).append("\n");
+    			
+            }
+        }
+
+        return builder;
 		
-		while ((line=reader.readLine())!=null) 
-		{
-			String[] data=line.split(",");
-			builder.append(data[0]).append(","); 
-			builder.append(data[1]).append(","); 
-			builder.append(data[2]).append(","); 
-			builder.append(data[3]).append("\n");
-			
-		}
-		return builder;
-		
+	}
+	
+	public ArrayList<String> ReadSuppTextFile() throws IOException
+	{	
+		ArrayList<String> itemSupp = new ArrayList<String>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("Data/itemSupp.txt"))) {
+        	
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.trim().isBlank()) continue;
+
+                itemSupp.add(line);
+    		
+            }
+        }
+
+        return itemSupp;
 	}
 	
 	

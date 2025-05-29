@@ -132,8 +132,9 @@ public class PdfGenerator {
 	        			//Header
 	                    drawLine(cs, margin, y, 500);
 	                    drawText(cs, "Item ID", margin, y - 15, true);
-	                    drawText(cs, "Item", margin + 150, y - 15, true);
-	                    drawText(cs, "Stock", margin + 300, y - 15, true);
+	                    drawText(cs, "Supplier ID", margin + 150, y - 15, true);
+	                    drawText(cs, "Item", margin + 300, y - 15, true);
+	                    drawText(cs, "Stock", margin + 450, y - 15, true);
 	                    y -= lineHeight;
 	                    drawLine(cs, margin, y, 500);
 	                    
@@ -143,8 +144,9 @@ public class PdfGenerator {
 	        		InventoryM_Stocks report = (InventoryM_Stocks) item;
 	        		
 	        		drawText(cs, report.getItemStockID(), margin, y - 15, false);
-	    	        drawText(cs, report.getItemStockName(), margin + 150, y - 15, false);
-	    	        drawText(cs, String.valueOf(report.getItemStock()), margin + 300, y - 15, false);
+	        		drawText(cs, report.getSupplier(), margin + 150, y - 15, false);
+	    	        drawText(cs, report.getItemStockName(), margin + 300, y - 15, false);
+	    	        drawText(cs, String.valueOf(report.getItemStock()), margin + 450, y - 15, false);
 	    	        y -= lineHeight;
 	    	        
 	    	        if(i == reportData.size() - 1) {
@@ -152,8 +154,8 @@ public class PdfGenerator {
 	    	        	drawLine(cs, margin, y, 500);
 	    		        y -= lineHeight;
 
-	    		        drawText(cs, "Report Writter:", margin + 250, y - 15, true);
-	    		        drawText(cs, report.getInventoryM_ID(), margin + 400, y - 15, true);
+	    		        drawText(cs, "Report Writter:", margin + 400, y - 15, true);
+	    		        drawText(cs, report.getInventoryM_ID(), margin + 480, y - 15, true);
 
 	    	        }
 	        	}
