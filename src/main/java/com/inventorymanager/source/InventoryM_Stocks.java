@@ -106,6 +106,8 @@ public class InventoryM_Stocks extends InventoryM implements viewData{
 	@Override
 	public StringBuilder ReadTextFile() throws IOException
 	{	
+		StringBuilder builder = new StringBuilder();
+		
 		try (BufferedReader reader = new BufferedReader(new FileReader("Data/PurchaseOrder.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -224,7 +226,7 @@ public class InventoryM_Stocks extends InventoryM implements viewData{
 	        String row = updateStockList[i];
 	        String[] spl = row.split(",");
 	        
-	        if (spl.length == 5) {
+	        if (spl.length == 4) {
 	        	
 	            if (spl[0].equals(itemsID)) {
 	            	
