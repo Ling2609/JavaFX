@@ -182,9 +182,64 @@ public class PdfGenerator {
 	    float lineHeight = 20;
 	    String itemName="Undefined";
 	    String PId="Undefined";
-	   
+	    String SuppId= "Undefined";
+	    Standard_PO source= new Standard_PO();
+        String[] SuppData;
+        boolean Procced=true;
+		try 
+		{
 
-	    try (PDPageContentStream cs = new PDPageContentStream(doc, page)) {
+	        for(Standard_PO items: reportData) 
+	        { 	
+	        	
+	     	    itemName=items.getName(); // Items Id
+	     	  
+	     	 
+	     	    PId= items.getId(); // PO id
+	        }
+			
+			
+			SuppData = source.ReadSupplierAdd(itemName,PId);
+			if(SuppData.length<=0) 
+		    {
+			  
+		      Procced=false;
+		      throw new Exception("Supplier not found ! Please");
+		      
+				  
+		    }
+			
+			    
+		}
+		catch (Exception e) {
+			
+	    	if(!Procced) {
+	    		
+			Platform.runLater(()->
+	    	{
+	    		try 
+	    		{	
+	    			showAlert("ERROR","Supplier Not Found or the Purchase Order haven't been Approved !");
+	    			doc.close();
+	    			
+	    			
+	    		}catch(Exception later){
+	    			later.printStackTrace();
+	    		}
+	    		
+	    	});
+			}
+	    	
+	    	
+	    }
+		
+		if(!Procced) 
+		{	
+			return null;
+		}
+		
+	    
+	    try(PDPageContentStream cs = new PDPageContentStream(doc, page)) {
 
 	    	InputStream img= getClass().getResourceAsStream("/img/OMEGA.png");
 	    	if(img==null) 
@@ -220,15 +275,19 @@ public class PdfGenerator {
 	        for(Standard_PO items: reportData) 
 	        { 	
 	        	
-	     	    itemName=items.getName();
-	     	    PId= items.getId();
+	     	    itemName=items.getName(); // Items Id
+	     	  
+	     	 
+	     	    PId= items.getId(); // PO id
 	        }
 	        //  Supplier Info 
-	        Standard_PO source= new Standard_PO();
-	        String[] SuppData= source.ReadSupplierAdd(itemName);
-        	drawText(cs, "To:", margin, y, true);
-        	drawText(cs, SuppData[0], margin, y - 15, true);
-        	drawText(cs, SuppData[1], margin, y - 30, false);
+	      
+	        	SuppData = source.ReadSupplierAdd(itemName,PId);
+	        	drawText(cs, "To:", margin, y, true);
+	         	drawText(cs, SuppData[0], margin, y - 15, true);
+	         	drawText(cs, SuppData[1], margin, y - 30, false);
+        	
+	       
         	
         	drawText(cs, "Purchase Order ID: " + PId, 400, y-15, true);
 	        
@@ -287,8 +346,11 @@ public class PdfGenerator {
 	     
 
 	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
+	        System.out.println(e.getMessage());
+	    } 
+	    
+			
+		
 
 	    return doc;
 	}
