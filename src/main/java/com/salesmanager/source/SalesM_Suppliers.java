@@ -4,7 +4,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 
@@ -14,6 +17,7 @@ import com.groupfx.JavaFXApp.viewData;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TextInputDialog;
 
 public class SalesM_Suppliers implements viewData, modifyData{
 	
@@ -21,25 +25,30 @@ public class SalesM_Suppliers implements viewData, modifyData{
 	private String Name;
 	private String ContactNum;
 	private String Address;
-	private String Item;
 	
 	//Variable for the modification
 	private int selectedIndex;
 	private String resultString;
+	private ArrayList<String> resultItemSuppList;
 	private ObservableList<SalesM_Suppliers> cacheList;
+	
+	private ArrayList<String> itemSuppList;
 	
 	public SalesM_Suppliers() {
 		
 	}
 	
-	public SalesM_Suppliers(String resultString) {
+	public SalesM_Suppliers(String resultString, ArrayList<String> resultItemSuppList) {
 		
 		this.resultString = resultString;
+		this.resultItemSuppList = resultItemSuppList;
 	}
 	
-	public SalesM_Suppliers(int selectedIndex, ObservableList<SalesM_Suppliers> cacheList) {
+	public SalesM_Suppliers(int selectedIndex, ArrayList<String> itemSuppList, String id, ObservableList<SalesM_Suppliers> cacheList) {
 		
 		this.selectedIndex = selectedIndex;
+		this.itemSuppList = itemSuppList;
+		this.Id = id;
 		this.cacheList = cacheList;
 	}
 	
@@ -49,20 +58,14 @@ public class SalesM_Suppliers implements viewData, modifyData{
         this.ContactNum = contactNum;
         this.Address = address;
     }
+
 	
-	public SalesM_Suppliers(String id, String name, String contactNum, String address, String Item) {
+	public SalesM_Suppliers(String id, String name, String contactNum, String address, ArrayList<String> itemSuppList, ObservableList<SalesM_Suppliers> cacheList, int Index) {
         this.Id = id;
         this.Name = name;
         this.ContactNum = contactNum;
         this.Address = address;
-        this.Item = Item;
-    }
-	
-	public SalesM_Suppliers(String id, String name, String contactNum, String address, ObservableList<SalesM_Suppliers> cacheList, int Index) {
-        this.Id = id;
-        this.Name = name;
-        this.ContactNum = contactNum;
-        this.Address = address;
+        this.itemSuppList = itemSuppList;
         this.cacheList = cacheList;
         this.selectedIndex = Index;
     }
@@ -81,9 +84,6 @@ public class SalesM_Suppliers implements viewData, modifyData{
     public String getName() { return Name; }
     public String getContactNum() { return ContactNum; }
     public String getAddress() { return Address; }
-    public String getItem() { return Item; }
-	
-    public void setItem(String Item) { this.Item = Item; }
     
     @Override
 	public StringBuilder ReadTextFile() throws IOException{
@@ -93,25 +93,25 @@ public class SalesM_Suppliers implements viewData, modifyData{
         try (BufferedReader reader = new BufferedReader(new FileReader("Data/Suppliers.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
+            	
                 if (line.trim().isBlank()) continue;
 
                 String[] data = line.split(",");
-                if (data.length < 5) continue; 
-
+                if (data.length < 4) continue; 
+                
                 builder.append(data[0]).append(",")  // Supplier ID
                        .append(data[1]).append(",")  // Supplier Name
                        .append(data[2]).append(",")  // Contact
-                       .append(data[3]).append(",")  // Address
-                       .append(data[4]).append("\n"); // Email or other info
+                       .append(data[3]).append("\n");  // Address
             }
         }
-
+        
         return builder;
 	}
     
-    private boolean containsID(ObservableList<SalesM_Suppliers> List, String id, String itemId) {
+    private boolean containsID(ObservableList<SalesM_Suppliers> List, String id) {
         for (SalesM_Suppliers supplier : List) {
-            if (supplier.getId().equals(id) || supplier.getItem().equals(itemId)) {
+            if (supplier.getId().equals(id)) {
             	
                 return true;
             }
@@ -121,11 +121,11 @@ public class SalesM_Suppliers implements viewData, modifyData{
     
     public void insertCheck(SalesM_Suppliers selectedSupp) {
     	
-	    	if(containsID(cacheList, Id, Item) && selectedSupp != null) {
+	    	if(containsID(cacheList, Id) && selectedSupp != null) {
 	
 		    	EditFunc();
 		    	
-	    	} else if (!(containsID(cacheList, Id, Item)) && selectedSupp == null){	
+	    	} else if (!(containsID(cacheList, Id)) && selectedSupp == null){	
 	    	
 			    AddFunc();
 			    
@@ -151,6 +151,28 @@ public class SalesM_Suppliers implements viewData, modifyData{
 				
 				));
 		
+		TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Input Required");
+        dialog.setHeaderText("Enter the Item ID supplied by New Supplier");
+        dialog.setContentText("Item ID:");
+
+        // Show the message box let user key in the ItemID
+        Optional<String> result = dialog.showAndWait();
+
+        result.ifPresent(itemId -> {
+
+            if (!itemId.trim().isEmpty()) {
+            	itemSuppList.add(String.format("%s-%s", Id,itemId));
+
+            } else {
+            	Alert alert = new Alert(AlertType.INFORMATION);
+	    		alert.setTitle("Information");
+	    		alert.setHeaderText(null);
+	    		alert.setContentText("Please Key In The Item ID");
+	    		alert.showAndWait();
+            }
+        });
+		
 	}
 	
 	@Override
@@ -171,22 +193,34 @@ public class SalesM_Suppliers implements viewData, modifyData{
 	public void DeleteFunc() {
 		
 		cacheList.remove(selectedIndex);
+		
+		itemSuppList.removeIf(entry -> entry.split("-")[0].equals(Id));
+
 	}
 	
 	@Override
 	public void SaveFunc() {
-		
-		String[] parts = resultString.split("\n");
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter("Data/Suppliers.txt", false))) {
-			for (String part : parts) {
-				
-            writer.write(part);
-            writer.newLine(); 
-            
-			}
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+	    // Save Suppliers
+	    String[] parts = resultString.split("\n");
+	    try (BufferedWriter writer = new BufferedWriter(new FileWriter("Data/Suppliers.txt", false))) {
+	        for (String part : parts) {
+	            writer.write(part);
+	            writer.newLine();
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+
+	    // save Item suppliers soft entity
+	    try (BufferedWriter writer = new BufferedWriter(new FileWriter("Data/itemSupp.txt", false))) {
+	        for (String itemSupp : resultItemSuppList) {
+	            writer.write(itemSupp);
+	            writer.newLine();
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
 	}
 	
 	public ObservableList<SalesM_Suppliers>  getCacheList() {
@@ -194,5 +228,8 @@ public class SalesM_Suppliers implements viewData, modifyData{
 		return cacheList;
 	}
 	
-	
+	public ArrayList<String>  getISList() {
+		
+		return itemSuppList;
+	}
 }
