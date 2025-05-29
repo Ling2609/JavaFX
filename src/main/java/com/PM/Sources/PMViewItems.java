@@ -44,8 +44,8 @@ public class PMViewItems extends ViewItemList
 			String[] data=line.split(",");
 			builder.append(data[0]).append(","); //ID
 			builder.append(data[1]).append(","); //Name
-			builder.append(data[3]).append(","); //Stock
-			builder.append(data[4]).append("\n"); //UnitPrice
+			builder.append(data[2]).append(","); //Stock
+			builder.append(data[3]).append("\n"); //UnitPrice
 			
 		}
 		reader.close();

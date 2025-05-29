@@ -104,7 +104,7 @@ public class GenPOCtrl {
     	POprice.setCellValueFactory(new PropertyValueFactory<>("price"));
     	POso.setCellValueFactory(new PropertyValueFactory<>("pm"));
     	ViewPO.setSortPolicy(null); //disable sort
-    	
+    
     	SetText();
     	load();
     	
@@ -122,6 +122,7 @@ public class GenPOCtrl {
     	                    break;
     	                case "Rejected":
     	                    setStyle("-fx-background-color: #FF0000;");
+    	                    
     	                    break;
     	                default:
     	                    setStyle("");
@@ -280,8 +281,7 @@ public class GenPOCtrl {
     		ItemsNameTxt.setText(selectedItems.getName());
     		Pricetxt.setText(Double.toString(selectedItems.getPrice()));
     		QtyTxt.setText(Integer.toString(selectedItems.getQuantity()));
-    		PMtxt.setText(SetText());
-    		
+    		PMtxt.setText(SetText());    		
     	}
     }
     
@@ -430,7 +430,8 @@ public class GenPOCtrl {
 
                     // Generate Report PDF can put on background, not involve in UI Threads
                     PDDocument doc = generator.GeneratePurchaseOrder(List.of(data),"S001",data.getPm());
-
+                    if(doc!=null) 
+                    {
                     // Need Run on the UI Thread FileChooser Save + Alert + open
                     Platform.runLater(() -> {
                         try {
@@ -441,9 +442,10 @@ public class GenPOCtrl {
                         }
                     });
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Platform.runLater(() -> showError("Failed to generate PDF: " + e.getMessage()));
+                    }
+                    }
+                catch (Exception e) {
+                   System.out.println(e.getMessage());
                 }
                 return null;
             }

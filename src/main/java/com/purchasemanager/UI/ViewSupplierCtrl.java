@@ -32,17 +32,13 @@ public class ViewSupplierCtrl {
     @FXML
     private TableView<ListSupplier> SupplierView;
     
-    @FXML
-    private TableColumn<ListSupplier, String> ItemID;
 
     public void initialize() throws IOException
     {
     	SuppID.setCellValueFactory(new PropertyValueFactory<>("ID"));
     	SuppName.setCellValueFactory(new PropertyValueFactory<>("name")); //variable take from getter getxxx and the xxx must be lowercase
     	SuppPhNo.setCellValueFactory(new PropertyValueFactory<>("phNo"));
-    	SuppAdd.setCellValueFactory(new PropertyValueFactory<>("address"));
-    	ItemID.setCellValueFactory(new PropertyValueFactory<>("itemsId"));
-    	
+    	SuppAdd.setCellValueFactory(new PropertyValueFactory<>("address"));    	
     	load();
     	
     }
@@ -54,14 +50,13 @@ public class ViewSupplierCtrl {
     	String[] Items= supplier.ReadTextFile().toString().split("\n");
     	for(String rows: Items) 
     	{	String[] split= rows.split(",");
-    		if(split.length==5) 
+    		if(split.length==4) 
     		{
     			itemList.add(new ListSupplier(
     						split[0],
     						split[1],
     						split[2],
-    						split[3],
-    						split[4]
+    						split[3]
     					
     					));
     		}
