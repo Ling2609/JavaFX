@@ -272,46 +272,60 @@ public class smDailySCtrl {
     	
 		SalesM_DailyS selectedDS = viewSalesTable.getSelectionModel().getSelectedItem();	
 		int selectedSuppIndex = viewSalesTable.getSelectionModel().getSelectedIndex();
-	
-    	try {
-    		
-			SalesM_DailyS dataEntry = new SalesM_DailyS(
-					
-				txtDSID.getText().trim(),
-				txtitemID.getText().trim(),
-				txtDate.getText().trim(),
-				Integer.parseInt(txttotalSales.getText().trim()),
-				"temp", //Use the UserID in the superclass (author), so  the system will record who edit this record
-				cacheList, 
-				selectedSuppIndex,
-				oriSales
-				);
 		
-			boolean result = dataEntry.insertCheck(selectedDS);
-			
-			if (result) {
-				
-				ObservableList<SalesM_DailyS>  tempList = dataEntry.getCacheList();
-			    cacheList = tempList;
-			    viewSalesTable.setItems(cacheList);
-			    clearTextField();
-			} else {
-				
-				Alert alert = new Alert(AlertType.ERROR);
-	    		alert.setTitle("Error");
-	    		alert.setHeaderText(null);
-	    		alert.setContentText("Please do something correct");
-	    		alert.showAndWait();
-			}
+		String ID = txtDSID.getText().trim();
+		String ItemId = txtitemID.getText().trim();
+		String Date = txtDate.getText().trim();
+		String TotalSales = txttotalSales.getText().trim();
 		
-    	} catch (Exception e) {
-    		
-    		Alert alert = new Alert(AlertType.ERROR);
-    		alert.setTitle("Error");
-    		alert.setHeaderText(null);
-    		alert.setContentText(String.format("Error: %s", e.toString()));
-    		alert.showAndWait();
-    	}	
+	    try {
+	    	
+	    	if (ID.isEmpty() || ItemId.isEmpty() || TotalSales.isEmpty()) {
+	    		
+	    		Alert alert = new Alert(AlertType.INFORMATION);
+		    	alert.setTitle("Error");
+		    	alert.setHeaderText("Something went wrong");
+		    	alert.setContentText("Please Fill in All the TextField");
+		    	alert.showAndWait();
+	    	} else {
+	    		SalesM_DailyS dataEntry = new SalesM_DailyS(
+						
+		    		ID,
+		    		ItemId,
+		    		Date,
+		    		Integer.parseInt(TotalSales),
+		    		"temp", //Use the UserID in the superclass (author), so  the system will record who edit this record
+		    		cacheList, 
+		    		selectedSuppIndex,
+		    		oriSales
+	    		);
+	    			
+	    		boolean result = dataEntry.insertCheck(selectedDS);
+	    				
+	    		if (result) {
+	    					
+	    			ObservableList<SalesM_DailyS>  tempList = dataEntry.getCacheList();
+	    			cacheList = tempList;
+	    			viewSalesTable.setItems(cacheList);
+	    			clearTextField();
+	    		} else {
+	    			
+	    			Alert alert = new Alert(AlertType.INFORMATION);
+	    		    alert.setTitle("Error");
+	    		    alert.setHeaderText("Something went wrong");
+	    		    alert.setContentText("Please Key in The Data In A Proper Way");
+	    		    alert.showAndWait();
+	    		}
+	    	}
+	    } catch (Exception e) {
+	    		
+	    	Alert alert = new Alert(AlertType.INFORMATION);
+	    	alert.setTitle("Error");
+	    	alert.setHeaderText("Something went wrong");
+	    	alert.setContentText("Please Key in The Data In A Proper Way");
+	    	alert.showAndWait();
+	    }	
+		clearTextField();
     }
     
     @FXML
@@ -381,7 +395,7 @@ public class smDailySCtrl {
     @FXML
     public void reloadClick() throws IOException {
     	
-    	
+    	clearTextField();
     	cacheList.clear();
     	load();
     }

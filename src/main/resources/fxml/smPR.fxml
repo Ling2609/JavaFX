@@ -58,23 +58,32 @@
                            </font></Label>
                         <TextField fx:id="txtQuantity" />
                         <Separator opacity="0.0" prefHeight="35.0" prefWidth="200.0" />
-                        <Label text="DATE" textFill="#5e6572">
+                        <Label text="REQUIRED DATE" textFill="#5e6572">
                            <font>
                               <Font name="DejaVu Serif Bold" size="14.0" />
                            </font></Label>
-                        <TextField fx:id="txtDate" editable="false" />
+                        <TextField fx:id="txtDate" promptText="{yyyy-MM--dd}">
+                           <font>
+                              <Font name="Arial Italic" size="13.0" />
+                           </font></TextField>
                         <Separator opacity="0.0" prefHeight="35.0" prefWidth="200.0" />
                         <Label text="SALES MANAGER" textFill="#5e6572">
                            <font>
                               <Font name="DejaVu Serif Bold" size="14.0" />
                            </font></Label>
-                        <TextField fx:id="txtSalesM" editable="false" />
+                        <TextField fx:id="txtSalesM" editable="false" promptText="{AUTO}">
+                           <font>
+                              <Font name="Arial Italic" size="13.0" />
+                           </font></TextField>
                         <Separator opacity="0.0" prefHeight="35.0" prefWidth="200.0" />
                         <Label text="STATUS" textFill="#5e6572">
                            <font>
                               <Font name="DejaVu Serif Bold" size="14.0" />
                            </font></Label>
-                        <TextField fx:id="txtStatus" editable="false" />
+                        <TextField fx:id="txtStatus" editable="false" promptText="{AUTO}">
+                           <font>
+                              <Font name="Arial Italic" size="13.0" />
+                           </font></TextField>
                         <Separator prefHeight="40.0" prefWidth="200.0" />
                         <HBox alignment="TOP_RIGHT" prefHeight="36.0" prefWidth="190.0">
                            <children>

@@ -145,63 +145,48 @@ public class smSuppsCtrl {
     	
     	SalesM_Suppliers selectedSupp = viewSuppsTable.getSelectionModel().getSelectedItem();	
     	int selectedSuppIndex = viewSuppsTable.getSelectionModel().getSelectedIndex();
+    	String ID = txtID.getText().trim();
+    	String SuppName = txtName.getText().trim();
+		String SuppContactNum = txtContactN.getText().trim();
+		String SuppAddress = txtAddress.getText().trim();
+		
+    	try {
     	
-    	SalesM_Suppliers dataModify = new SalesM_Suppliers(
-    			
-    			txtID.getText().trim(),
-    			txtName.getText().trim(),
-    			txtContactN.getText().trim(),
-    			txtAddress.getText().trim(),
-    			itemSuppList,
-    			cacheList,
-    			selectedSuppIndex
-    			);
+    	if(ID.isEmpty() || SuppName.isEmpty() || SuppContactNum.isEmpty() || SuppAddress.isEmpty()) {
+    		
+    		Alert alert = new Alert(AlertType.INFORMATION);
+    		alert.setContentText("Please Fill in all the textField.");
+    		alert.showAndWait();
+    	} else {
+    		
+    		SalesM_Suppliers dataModify = new SalesM_Suppliers(
+        			
+        			ID,
+        			SuppName,
+        			SuppContactNum,
+        			SuppAddress,
+        			itemSuppList,
+        			cacheList,
+        			selectedSuppIndex
+        			);
+        	
+        	dataModify.insertCheck(selectedSupp);
+        	
+        	ObservableList<SalesM_Suppliers>  tempList = dataModify.getCacheList();
+        	cacheList = tempList;
+        	ArrayList<String> tempISList = dataModify.getISList();
+        	itemSuppList = tempISList;
+        	viewSuppsTable.setItems(cacheList);
+    	}
+    	} catch (Exception e) {
+    		
+    		Alert alert = new Alert(AlertType.INFORMATION);
+    		alert.setContentText("Please Make Sure You Key In the Data in a Proper Way");
+    		alert.showAndWait();
+    	}
     	
-    	dataModify.insertCheck(selectedSupp);
-    	
-    	ObservableList<SalesM_Suppliers>  tempList = dataModify.getCacheList();
-    	cacheList = tempList;
-    	ArrayList<String> tempISList = dataModify.getISList();
-    	itemSuppList = tempISList;
-    	viewSuppsTable.setItems(cacheList);
     	clearTextField();
     	
-//    	try {
-//	    	if(containsID(cacheList, txtID.getText(), txtItemID.getText()) && selectedSupp != null) {
-//	
-//	    		SalesM_Suppliers dataEntry = new SalesM_Suppliers(txtID.getText(), txtName.getText(),txtContactN.getText(),txtAddress.getText(),txtItemID.getText(), cacheList, selectedSuppIndex);
-//		    	dataEntry.EditFunc();
-//		    	ObservableList<SalesM_Suppliers>  tempList = dataEntry.getCacheList();
-//		    	cacheList = tempList;
-//		    	viewSuppsTable.setItems(cacheList);
-//		    	clearTextField();
-//		    	
-//	    	} else if (!(containsID(cacheList, txtID.getText(), txtItemID.getText())) && selectedSupp == null){	
-//	    		
-//	    		SalesM_Suppliers dataEntry = new SalesM_Suppliers(txtID.getText(), txtName.getText(),txtContactN.getText(),txtAddress.getText(),txtItemID.getText(), cacheList, selectedSuppIndex);
-//			    dataEntry.AddFunc();
-//			    ObservableList<SalesM_Suppliers>  tempList = dataEntry.getCacheList();
-//			    cacheList = tempList;
-//			    viewSuppsTable.setItems(cacheList);
-//			    clearTextField();
-//	    	} else {
-//	    		
-//	    		clearTextField();
-//	    		Alert alert = new Alert(AlertType.INFORMATION);
-//	    		alert.setTitle("Information");
-//	    		alert.setHeaderText(null);
-//	    		alert.setContentText("Please select the supplier if you want to edit\n OR \n If you want to add a supplier please dont repeat the ID");
-//	    		alert.showAndWait();
-//	    	}
-//    	} catch (Exception e) {
-//    		
-//    		clearTextField();
-//    		Alert alert = new Alert(AlertType.ERROR);
-//            alert.setTitle("Error");
-//            alert.setHeaderText(null);
-//            alert.setContentText(String.format("Error: %s", e.toString()));
-//            alert.showAndWait();
-//    	}
     }
     
     @FXML

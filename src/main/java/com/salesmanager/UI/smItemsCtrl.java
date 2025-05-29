@@ -213,40 +213,53 @@ public class smItemsCtrl {
     	
     	SalesM_Items selectedSupp = viewItemTable.getSelectionModel().getSelectedItem();	
     	int selectedSuppIndex = viewItemTable.getSelectionModel().getSelectedIndex();
-    	
+    	String ID = txtItemsID.getText().trim();
+		String ItemName = txtItemsName.getText().trim();
+		String Stock = txtItemsStock.getText().trim();
+		String UnitPrice = txtItemsUP.getText().trim();
+		
     	try {
     		
-    	SalesM_Items dataModify = new SalesM_Items(
-    			txtItemsID.getText().trim(),
-				txtItemsName.getText().trim(),
-				Integer.parseInt(txtItemsStock.getText().trim()),
-				Double.parseDouble(txtItemsUP.getText().trim()),
-				itemSuppList,
-				cacheList, 
-				selectedSuppIndex
-				);
-    	
-    	dataModify.insertCheck(
-    		
-				selectedSupp
-				
-				);
-    	
-    	ObservableList<SalesM_Items>  tempList = dataModify.getCacheList();
-    	cacheList = tempList;
-    	
-    	ArrayList<String> tempISList = dataModify.getISList();
-    	itemSuppList = tempISList;
-    	
-    	viewItemTable.setItems(cacheList);
-    	clearTextField();
+    		if (ID.isEmpty() || ItemName.isEmpty() || Stock.isEmpty() || UnitPrice.isEmpty()) {
+    			
+    			Alert alert = new Alert(AlertType.INFORMATION);
+        		alert.setContentText("Please Fill in All the TextField");
+        		alert.showAndWait();
+    		} else {
+    			
+    			SalesM_Items dataModify = new SalesM_Items(
+    	    			ID,
+    					ItemName,
+    					Integer.parseInt(Stock),
+    					Double.parseDouble(UnitPrice),
+    					itemSuppList,
+    					cacheList, 
+    					selectedSuppIndex
+    					);
+    	    	
+    	    	dataModify.insertCheck(
+    	    		
+    					selectedSupp
+    					
+    					);
+    	    	
+    	    	ObservableList<SalesM_Items>  tempList = dataModify.getCacheList();
+    	    	cacheList = tempList;
+    	    	
+    	    	ArrayList<String> tempISList = dataModify.getISList();
+    	    	itemSuppList = tempISList;
+    	    	
+    	    	viewItemTable.setItems(cacheList);
+    		}
     	
     	} catch (Exception e) {
     		
     		Alert alert = new Alert(AlertType.INFORMATION);
-    		alert.setContentText("Okay this guy tried to remove something that doesnt exist");
+    		alert.setContentText("Please Make Sure You Key In the Data in a Proper Way");
     		alert.showAndWait();
     	}
+    	
+    	clearTextField();
     	
     }
     
@@ -304,6 +317,8 @@ public class smItemsCtrl {
     
     @FXML
     public void reloadClick() throws IOException {
+    	
+    	clearTextField();
     	cacheList.clear();
     	load();
     }
