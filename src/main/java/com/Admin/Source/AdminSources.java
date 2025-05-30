@@ -51,7 +51,8 @@ public class AdminSources implements viewData,AD_Data {
 		BufferedReader reader= new BufferedReader(new FileReader("Data/Log.txt"));
 		
 		while((line=reader.readLine())!=null) 
-		{
+		{	
+			if(line.trim().isBlank()) continue;
 			String[] data= line.split(",");
 			name=data[0];
 			

@@ -59,7 +59,10 @@
                   <Font name="DejaVu Serif Bold" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="txtDate" editable="false" />
+            <TextField fx:id="txtDate" editable="false" promptText="{AUTO}">
+               <font>
+                  <Font name="System Bold Italic" size="13.0" />
+               </font></TextField>
             <Label text="TOTAL SALES">
                <font>
                   <Font name="DejaVu Serif Bold" size="14.0" />
@@ -71,7 +74,10 @@
                   <Font name="DejaVu Serif Bold" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="txtAuthor" editable="false" />
+            <TextField fx:id="txtAuthor" editable="false" promptText="{AUTO}">
+               <font>
+                  <Font name="System Bold Italic" size="13.0" />
+               </font></TextField>
             <Separator prefWidth="200.0" />
             <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
                <children>

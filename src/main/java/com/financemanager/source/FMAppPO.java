@@ -134,19 +134,14 @@ public class FMAppPO implements viewData{
 	{
 		String line;
 		ArrayList<String> RSupplier=new ArrayList<>();
-		BufferedReader reader= new BufferedReader(new FileReader("Data/Suppliers.txt"));
+		BufferedReader reader= new BufferedReader(new FileReader("Data/itemSupp.txt"));
 		while((line=reader.readLine())!=null) 
 		{
-			String[] data= line.split(",");
-			String[] ItemsDetails= data[4].split("-");
-			for(int index=0; index<ItemsDetails.length; index++) 
+			String[] data= line.split("-");
+			if(ItemsId.equals(data[1])) 
 			{
-				if(ItemsId.equals(ItemsDetails[index])&& data[4].contains(ItemsId)) 
-				{
-					RSupplier.add(data[0]);
-				}
+				RSupplier.add(data[0]);
 			}
-			
 			
 		}
 		reader.close();

@@ -132,8 +132,9 @@ public class PdfGenerator {
 	        			//Header
 	                    drawLine(cs, margin, y, 500);
 	                    drawText(cs, "Item ID", margin, y - 15, true);
-	                    drawText(cs, "Item", margin + 150, y - 15, true);
-	                    drawText(cs, "Stock", margin + 300, y - 15, true);
+	                    drawText(cs, "Supplier ID", margin + 150, y - 15, true);
+	                    drawText(cs, "Item", margin + 300, y - 15, true);
+	                    drawText(cs, "Stock", margin + 450, y - 15, true);
 	                    y -= lineHeight;
 	                    drawLine(cs, margin, y, 500);
 	                    
@@ -143,8 +144,9 @@ public class PdfGenerator {
 	        		InventoryM_Stocks report = (InventoryM_Stocks) item;
 	        		
 	        		drawText(cs, report.getItemStockID(), margin, y - 15, false);
-	    	        drawText(cs, report.getItemStockName(), margin + 150, y - 15, false);
-	    	        drawText(cs, String.valueOf(report.getItemStock()), margin + 300, y - 15, false);
+	        		drawText(cs, report.getSupplier(), margin + 150, y - 15, false);
+	    	        drawText(cs, report.getItemStockName(), margin + 300, y - 15, false);
+	    	        drawText(cs, String.valueOf(report.getItemStock()), margin + 450, y - 15, false);
 	    	        y -= lineHeight;
 	    	        
 	    	        if(i == reportData.size() - 1) {
@@ -152,8 +154,8 @@ public class PdfGenerator {
 	    	        	drawLine(cs, margin, y, 500);
 	    		        y -= lineHeight;
 
-	    		        drawText(cs, "Report Writter:", margin + 250, y - 15, true);
-	    		        drawText(cs, report.getInventoryM_ID(), margin + 400, y - 15, true);
+	    		        drawText(cs, "Report Writter:", margin + 400, y - 15, true);
+	    		        drawText(cs, report.getInventoryM_ID(), margin + 480, y - 15, true);
 
 	    	        }
 	        	}
@@ -182,9 +184,64 @@ public class PdfGenerator {
 	    float lineHeight = 20;
 	    String itemName="Undefined";
 	    String PId="Undefined";
-	   
+	    String SuppId= "Undefined";
+	    Standard_PO source= new Standard_PO();
+        String[] SuppData;
+        boolean Procced=true;
+		try 
+		{
 
-	    try (PDPageContentStream cs = new PDPageContentStream(doc, page)) {
+	        for(Standard_PO items: reportData) 
+	        { 	
+	        	
+	     	    itemName=items.getName(); // Items Id
+	     	  
+	     	 
+	     	    PId= items.getId(); // PO id
+	        }
+			
+			
+			SuppData = source.ReadSupplierAdd(itemName,PId);
+			if(SuppData.length<=0) 
+		    {
+			  
+		      Procced=false;
+		      throw new Exception("Supplier not found ! Please");
+		      
+				  
+		    }
+			
+			    
+		}
+		catch (Exception e) {
+			
+	    	if(!Procced) {
+	    		
+			Platform.runLater(()->
+	    	{
+	    		try 
+	    		{	
+	    			showAlert("ERROR","Supplier Not Found or the Purchase Order haven't been Approved !");
+	    			doc.close();
+	    			
+	    			
+	    		}catch(Exception later){
+	    			later.printStackTrace();
+	    		}
+	    		
+	    	});
+			}
+	    	
+	    	
+	    }
+		
+		if(!Procced) 
+		{	
+			return null;
+		}
+		
+	    
+	    try(PDPageContentStream cs = new PDPageContentStream(doc, page)) {
 
 	    	InputStream img= getClass().getResourceAsStream("/img/OMEGA.png");
 	    	if(img==null) 
@@ -220,15 +277,19 @@ public class PdfGenerator {
 	        for(Standard_PO items: reportData) 
 	        { 	
 	        	
-	     	    itemName=items.getName();
-	     	    PId= items.getId();
+	     	    itemName=items.getName(); // Items Id
+	     	  
+	     	 
+	     	    PId= items.getId(); // PO id
 	        }
 	        //  Supplier Info 
-	        Standard_PO source= new Standard_PO();
-	        String[] SuppData= source.ReadSupplierAdd(itemName);
-        	drawText(cs, "To:", margin, y, true);
-        	drawText(cs, SuppData[0], margin, y - 15, true);
-        	drawText(cs, SuppData[1], margin, y - 30, false);
+	      
+	        	SuppData = source.ReadSupplierAdd(itemName,PId);
+	        	drawText(cs, "To:", margin, y, true);
+	         	drawText(cs, SuppData[0], margin, y - 15, true);
+	         	drawText(cs, SuppData[1], margin, y - 30, false);
+        	
+	       
         	
         	drawText(cs, "Purchase Order ID: " + PId, 400, y-15, true);
 	        
@@ -287,8 +348,11 @@ public class PdfGenerator {
 	     
 
 	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
+	        System.out.println(e.getMessage());
+	    } 
+	    
+			
+		
 
 	    return doc;
 	}

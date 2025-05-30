@@ -421,7 +421,7 @@ public class FMPayment implements viewData{
 			while((line=reader.readLine())!=null) 
 			{
 				String[] data= line.split(",");
-				ItemsList.put(data[0], data[4]);
+				ItemsList.put(data[0], data[3]);
 				
 			}
 		}

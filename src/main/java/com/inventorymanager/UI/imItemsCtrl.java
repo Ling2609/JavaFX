@@ -54,7 +54,8 @@ public class imItemsCtrl {
                 String name = spl[1].trim();
                 int stock = Integer.parseInt(spl[2].trim());
                 double price = Double.parseDouble(spl[3].trim());
-
+                price = Math.round(price * 100.0) / 100.0;
+                
                 itemList.add(new PMViewItems(id, name, stock, price));
             }
         }

@@ -165,13 +165,13 @@ public class imStockCtrl {
     	for(String rows: stockRow) {
     		
     		String[] spl= rows.split(",");
-    		if(spl.length==5) 
+    		if(spl.length==4) 
     		{
     			stockList.add(new InventoryM_Stocks(
     					
     					spl[0],
     					spl[1],
-    					Integer.parseInt(spl[3])
+    					Integer.parseInt(spl[2])
     					));
     		}	
     	}

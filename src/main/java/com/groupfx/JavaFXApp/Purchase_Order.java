@@ -28,6 +28,7 @@ public abstract class Purchase_Order implements viewData {
 	protected int lineCount; 
 	protected int ClickCount; //--//
 	private String Status;
+	private String Supplier;
 	
 	public Purchase_Order() {}
 	
@@ -87,6 +88,7 @@ public abstract class Purchase_Order implements viewData {
 	}
 	
 	
+	
 			
 	public StringBuilder PieCData() throws IOException
 	{	String line;
@@ -111,7 +113,7 @@ public abstract class Purchase_Order implements viewData {
 		try (BufferedReader reader= new BufferedReader(new FileReader("Data/PurchaseOrder.txt")))
 		{
 			while((line=reader.readLine())!=null) 
-			{
+			{	if(line.trim().isEmpty()) continue;
 				String[] PoStatus= line.split(",");
 				buffer.append(PoStatus[5]).append("\n"); //POStatus
 			}

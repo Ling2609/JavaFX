@@ -1,10 +1,12 @@
 package com.salesmanager.UI;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.salesmanager.source.ItemSuppEntity;
 import com.salesmanager.source.SalesM_Items;
 import com.salesmanager.source.SalesM_Suppliers;
 
@@ -56,7 +58,7 @@ public class smSuppsCtrl {
     
     private ObservableList<SalesM_Suppliers> cacheList = FXCollections.observableArrayList();
     
-    private HashMap<String, String[]> suppItemList = new HashMap<>();
+    private ArrayList<String> itemSuppList = new ArrayList<String>();
     
     public ObservableList<SalesM_Suppliers> getSuppItemList() {return cacheList;}
   
@@ -69,43 +71,42 @@ public class smSuppsCtrl {
 //        Item_ID.setCellValueFactory(new PropertyValueFactory<>("item"));
         
         load();
-    	viewSuppsTable.setItems(cacheList);
     }
     
     public smSuppsCtrl() {
     	
     }
     
-    public void load() throws IOException 
-    {
+    public void load() throws IOException {
+    	
     	SalesM_Suppliers listed= new SalesM_Suppliers();
     	ObservableList<SalesM_Suppliers> itemList= FXCollections.observableArrayList();
     	
     	//Use String Builder to form a string that contain data we need
-    	String[] row= listed.ReadTextFile().toString().split("\n");
+    	String[] rows= listed.ReadTextFile().toString().split("\n");
     	
-    	for(String rows: row) {
-    		
-    		String[] spl= rows.split(",");
-    		if(spl.length==5) 
-    		{
+    	for(String row: rows) {
+    		String[] spl= row.split(",");
+    		if(spl.length==4) {
     			itemList.add(new SalesM_Suppliers(
-    					
     					spl[0],
     					spl[1],
     					spl[2],
-    					spl[3],
-    					spl[4]
+    					spl[3]
     					));
     		}
-    		
-    		String[] itemArr = spl[4].split("-");
-    		
-    		suppItemList.put(spl[0], itemArr);
-    		
     	}
     	
-    	cacheList = itemList;
+    	cacheList = itemList;	
+    	viewSuppsTable.setItems(cacheList);
+    	
+//    		String[] itemArr = spl[4].split("-");
+//    		
+//    		suppItemList.put(spl[0], itemArr);
+    	
+    	ItemSuppEntity objItemSupp = new ItemSuppEntity();
+    	itemSuppList = objItemSupp.ReadTextFile();
+
     }
     
     @FXML
@@ -127,9 +128,11 @@ public class smSuppsCtrl {
             txtContactN.setText(ContactN);
             txtAddress.setText(Address);
             
-            for(Map.Entry<String, String[]> entry : suppItemList.entrySet()) {
-            	if(id.equals(entry.getKey())) {
-            		itemBox.getItems().addAll(entry.getValue());
+            
+            for(String itemSupp : itemSuppList) {
+            	String[] row= itemSupp.split("-");
+            	if(id.equals(row[0])) {
+            		itemBox.getItems().addAll(row[1]);
             	}
             }
             
@@ -137,87 +140,68 @@ public class smSuppsCtrl {
         }
     }
     
-    private boolean containsID(ObservableList<SalesM_Suppliers> List, String id, String itemId) {
-        for (SalesM_Suppliers supplier : List) {
-            if (supplier.getId().equals(id) || supplier.getItem().equals(itemId)) {
-            	
-                return true;
-            }
-        }
-        return false;
-    }
-    
     @FXML
     public void addeditClick() {
     	
     	SalesM_Suppliers selectedSupp = viewSuppsTable.getSelectionModel().getSelectedItem();	
     	int selectedSuppIndex = viewSuppsTable.getSelectionModel().getSelectedIndex();
+    	String ID = txtID.getText().trim();
+    	String SuppName = txtName.getText().trim();
+		String SuppContactNum = txtContactN.getText().trim();
+		String SuppAddress = txtAddress.getText().trim();
+		
+    	try {
     	
-    	SalesM_Suppliers dataModify = new SalesM_Suppliers(
-    			
-    			txtID.getText().trim(),
-    			txtName.getText().trim(),
-    			txtContactN.getText().trim(),
-    			txtAddress.getText().trim(),
-    			cacheList, selectedSuppIndex
-    			);
+    	if(ID.isEmpty() || SuppName.isEmpty() || SuppContactNum.isEmpty() || SuppAddress.isEmpty()) {
+    		
+    		Alert alert = new Alert(AlertType.INFORMATION);
+    		alert.setContentText("Please Fill in all the textField.");
+    		alert.showAndWait();
+    	} else {
+    		
+    		SalesM_Suppliers dataModify = new SalesM_Suppliers(
+        			
+        			ID,
+        			SuppName,
+        			SuppContactNum,
+        			SuppAddress,
+        			itemSuppList,
+        			cacheList,
+        			selectedSuppIndex
+        			);
+        	
+        	dataModify.insertCheck(selectedSupp);
+        	
+        	ObservableList<SalesM_Suppliers>  tempList = dataModify.getCacheList();
+        	cacheList = tempList;
+        	ArrayList<String> tempISList = dataModify.getISList();
+        	itemSuppList = tempISList;
+        	viewSuppsTable.setItems(cacheList);
+    	}
+    	} catch (Exception e) {
+    		
+    		Alert alert = new Alert(AlertType.INFORMATION);
+    		alert.setContentText("Please Make Sure You Key In the Data in a Proper Way");
+    		alert.showAndWait();
+    	}
     	
-    	dataModify.insertCheck(selectedSupp);
-    	
-    	ObservableList<SalesM_Suppliers>  tempList = dataModify.getCacheList();
-    	cacheList = tempList;
-    	viewSuppsTable.setItems(cacheList);
     	clearTextField();
     	
-//    	try {
-//	    	if(containsID(cacheList, txtID.getText(), txtItemID.getText()) && selectedSupp != null) {
-//	
-//	    		SalesM_Suppliers dataEntry = new SalesM_Suppliers(txtID.getText(), txtName.getText(),txtContactN.getText(),txtAddress.getText(),txtItemID.getText(), cacheList, selectedSuppIndex);
-//		    	dataEntry.EditFunc();
-//		    	ObservableList<SalesM_Suppliers>  tempList = dataEntry.getCacheList();
-//		    	cacheList = tempList;
-//		    	viewSuppsTable.setItems(cacheList);
-//		    	clearTextField();
-//		    	
-//	    	} else if (!(containsID(cacheList, txtID.getText(), txtItemID.getText())) && selectedSupp == null){	
-//	    		
-//	    		SalesM_Suppliers dataEntry = new SalesM_Suppliers(txtID.getText(), txtName.getText(),txtContactN.getText(),txtAddress.getText(),txtItemID.getText(), cacheList, selectedSuppIndex);
-//			    dataEntry.AddFunc();
-//			    ObservableList<SalesM_Suppliers>  tempList = dataEntry.getCacheList();
-//			    cacheList = tempList;
-//			    viewSuppsTable.setItems(cacheList);
-//			    clearTextField();
-//	    	} else {
-//	    		
-//	    		clearTextField();
-//	    		Alert alert = new Alert(AlertType.INFORMATION);
-//	    		alert.setTitle("Information");
-//	    		alert.setHeaderText(null);
-//	    		alert.setContentText("Please select the supplier if you want to edit\n OR \n If you want to add a supplier please dont repeat the ID");
-//	    		alert.showAndWait();
-//	    	}
-//    	} catch (Exception e) {
-//    		
-//    		clearTextField();
-//    		Alert alert = new Alert(AlertType.ERROR);
-//            alert.setTitle("Error");
-//            alert.setHeaderText(null);
-//            alert.setContentText(String.format("Error: %s", e.toString()));
-//            alert.showAndWait();
-//    	}
     }
     
     @FXML
     public void deleteClick() {
     	
     	int selectedSuppIndex = viewSuppsTable.getSelectionModel().getSelectedIndex();
-    	SalesM_Suppliers delIndex = new SalesM_Suppliers(selectedSuppIndex, cacheList);
+    	SalesM_Suppliers delIndex = new SalesM_Suppliers(selectedSuppIndex, itemSuppList, txtID.getText().trim(), cacheList);
     	
     	try {
     		
     		delIndex.DeleteFunc();
     		ObservableList<SalesM_Suppliers>  tempList = delIndex.getCacheList();
     		cacheList = tempList;
+    		ArrayList<String> tempISList = delIndex.getISList();
+        	itemSuppList = tempISList;
     		viewSuppsTable.setItems(cacheList);
     		clearTextField();
     		
@@ -226,6 +210,8 @@ public class smSuppsCtrl {
     		Alert alert = new Alert(AlertType.INFORMATION);
     		alert.setContentText("Okay this guy tried to remove something that doesnt exist");
     		alert.showAndWait();
+    		
+    		System.out.println(e);
     	}
     }
     
@@ -238,12 +224,11 @@ public class smSuppsCtrl {
             result.append(supplier.getId()).append(",")
                   .append(supplier.getName()).append(",")
                   .append(supplier.getContactNum()).append(",")
-                  .append(supplier.getAddress()).append(",")
-                  .append(supplier.getItem()).append("\n");  
+                  .append(supplier.getAddress()).append("\n");
         }
     	
     	String netString = result.toString();
-    	SalesM_Suppliers note = new SalesM_Suppliers(netString);
+    	SalesM_Suppliers note = new SalesM_Suppliers(netString, itemSuppList);
     	note.SaveFunc();
     	
     	clearTextField();

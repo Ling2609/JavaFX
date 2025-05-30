@@ -1,7 +1,8 @@
-	package com.salesmanager.UI;
+package com.salesmanager.UI;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import com.groupfx.JavaFXApp.ViewItemList;
 import com.salesmanager.source.*;
@@ -105,35 +106,39 @@ public class smPRsCtrl {
 
         SalesM_PRs selectedItem = viewPRsTable.getSelectionModel().getSelectedItem();
         
-        if (selectedItem.getStatus().equals("Approved")) {
-        	
-        	viewPRsTable.getSelectionModel().clearSelection();
-        	Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("PR Approved");
-            alert.setHeaderText(null);
-            alert.setContentText("PR have been approved, you cannot do any edition");
-            alert.showAndWait();
-                
-        } else {
-            	if (selectedItem != null) {
-                    String id = selectedItem.getId();
-                    String itemId = selectedItem.getItem_ID();
-                    int quantity = selectedItem.getQuantity();
-                    String date = selectedItem.getDate();
-                    String salesM = selectedItem.getSalesM();
-                    String status = selectedItem.getStatus();
-                    
-                    txtPRsID.setText(id);
-                    txtItem_ID.setText(itemId);
-                    txtQuantity.setText(String.valueOf(quantity));
-                    txtDate.setText(String.valueOf(date));
-                    txtSalesM.setText(salesM);
-                    txtStatus.setText(status);
-                }
+        clearTextField();
+        
+        if (selectedItem != null) {
+	        if (selectedItem.getStatus().equals("Approved")) {
+	        	
+	        	viewPRsTable.getSelectionModel().clearSelection();
+	        	Alert alert = new Alert(AlertType.INFORMATION);
+	            alert.setTitle("PR Approved");
+	            alert.setHeaderText(null);
+	            alert.setContentText("PR have been approved, you cannot do any edition");
+	            alert.showAndWait();
+	                
+	        } else {
+	
+	            String id = selectedItem.getId();
+	            String itemId = selectedItem.getItem_ID();
+	            int quantity = selectedItem.getQuantity();
+	            String date = selectedItem.getDate();
+	            String salesM = selectedItem.getSalesM();
+	            String status = selectedItem.getStatus();
+	                    
+	            txtPRsID.setText(id);
+	            txtItem_ID.setText(itemId);
+	            txtQuantity.setText(String.valueOf(quantity));
+	            txtDate.setText(String.valueOf(date));
+	            txtSalesM.setText(salesM);
+	            txtStatus.setText(status);
+	            
+	            txtPRsID.setEditable(false);
+	        	txtItem_ID.setEditable(false);	
+	        }
         }
         
-        txtPRsID.setEditable(false);
-    	txtItem_ID.setEditable(false);
     }
     
     
@@ -152,69 +157,54 @@ public class smPRsCtrl {
     	
     	SalesM_PRs selectedSupp = viewPRsTable.getSelectionModel().getSelectedItem();	
     	int selectedSuppIndex = viewPRsTable.getSelectionModel().getSelectedIndex();
-    	
+    	String Id = txtPRsID.getText().trim();
+		String itemId = txtItem_ID.getText().trim();
+		String quantity = txtQuantity.getText().trim();
+		String date = txtDate.getText().trim();
+		
     	try {
     		
-    	SalesM_PRs dataEntry = new SalesM_PRs(
+    		if (Id.isEmpty() || itemId.isEmpty() || quantity.isEmpty() || date.isEmpty()) {
     			
-    			txtPRsID.getText().trim(),
-    			txtItem_ID.getText().trim(),
-    			Integer.parseInt(txtQuantity.getText().trim()),
-    			String.valueOf(today),
-    			"temp",
-    			"Pending",
-    			cacheList, selectedSuppIndex
+    			Alert alert = new Alert(AlertType.INFORMATION);
+        		alert.setContentText("Please Fill In All The TextField");
+        		alert.showAndWait();
+    		} else {
     			
-    			);
-    	
-    	dataEntry.insertCheck(selectedSupp);
-    	
-    	ObservableList<SalesM_PRs>  tempList = dataEntry.getCacheList();
-    	cacheList = tempList;
-    	viewPRsTable.setItems(cacheList);
-    	clearTextField();
+    			if(!isValidDate(date)) {
+    				
+    				Alert alert = new Alert(AlertType.INFORMATION);
+    	    		alert.setContentText("Please Key In the Required Date in the correct format");
+    	    		alert.showAndWait();
+    			} else {
+	    			SalesM_PRs dataEntry = new SalesM_PRs(
+	    	    			
+	    	    		Id,
+	    	    		itemId,
+	    	    		Integer.parseInt(quantity),
+	    	    		date,
+	    	    		"temp",
+	    	    		"Pending",
+	    	    		cacheList, selectedSuppIndex
+	    	    			
+	    	    	);
+	    	    	
+	    	    	dataEntry.insertCheck(selectedSupp);
+	    	    	
+	    	    	ObservableList<SalesM_PRs>  tempList = dataEntry.getCacheList();
+	    	    	cacheList = tempList;
+	    	    	viewPRsTable.setItems(cacheList);
+	    	    	clearTextField();
+    			} 
+    		}
     	
     	} catch (Exception e) {
     		
-    		Alert alert = new Alert(AlertType.ERROR);
-    		alert.setTitle("Error");
-    		alert.setHeaderText(null);
-    		alert.setContentText(String.format("Error: %s", e.toString()));
+    		Alert alert = new Alert(AlertType.INFORMATION);
+    		alert.setContentText("Please Make Sure You Key In the Data in a Proper Way");
     		alert.showAndWait();
     	}
-//    	try {
-//	    	if(containsID(cacheList, txtPRsID.getText()) && selectedSupp != null) {
-//	
-//	    		SalesM_PRs dataEntry = new SalesM_PRs(txtPRsID.getText(), txtItem_ID.getText(),Integer.parseInt(txtQuantity.getText()),txtDate.getText(),txtSalesM.getText(),txtStatus.getText(), cacheList, selectedSuppIndex);
-//		    	dataEntry.EditFunc();
-//		    	ObservableList<SalesM_PRs>  tempList = dataEntry.getCacheList();
-//		    	cacheList = tempList;
-//		    	viewPRsTable.setItems(cacheList);
-//		    	clearTextField();
-//		    	
-//	    	} else if (!(containsID(cacheList, txtPRsID.getText())) && selectedSupp == null){	
-//	    		
-//	    		SalesM_PRs dataEntry = new SalesM_PRs(txtPRsID.getText(), txtItem_ID.getText(),Integer.parseInt(txtQuantity.getText()),txtDate.getText(),txtSalesM.getText(),txtStatus.getText(), cacheList, selectedSuppIndex);
-//			    dataEntry.AddFunc();
-//			    ObservableList<SalesM_PRs>  tempList = dataEntry.getCacheList();
-//			    cacheList = tempList;
-//			    viewPRsTable.setItems(cacheList);
-//			    clearTextField();
-//	    	} else {
-//	    		
-//	    		Alert alert = new Alert(AlertType.INFORMATION);
-//	    		alert.setTitle("Information");
-//	    		alert.setHeaderText(null);
-//	    		alert.setContentText("Please select the supplier if you want to edit\n OR \n If you want to add a supplier please dont repeat the ID");
-//	    		alert.showAndWait();
-//	    	}
-//    	} catch (Exception e) {
-//    		Alert alert = new Alert(AlertType.ERROR);
-//            alert.setTitle("Error");
-//            alert.setHeaderText(null);
-//            alert.setContentText(String.format("Error: %s", e.toString()));
-//            alert.showAndWait();
-//    	}
+
     }
     
     public void deleteClick() {
@@ -261,6 +251,7 @@ public class smPRsCtrl {
     
     @FXML
     public void reloadClick() throws IOException {
+    	clearTextField();
     	cacheList.clear();
     	load();
     }
@@ -276,4 +267,16 @@ public class smPRsCtrl {
     	txtItem_ID.setEditable(true);
     	
     }
+    
+    public boolean isValidDate(String dateStr) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        try {
+
+            LocalDate date = LocalDate.parse(dateStr, formatter);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
 }

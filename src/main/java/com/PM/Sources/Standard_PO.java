@@ -84,34 +84,54 @@ public class Standard_PO extends Purchase_Order implements modifyData{
 		
 	}
 	
-	public String[] ReadSupplierAdd(String ItemsId) throws IOException
+	
+	
+	
+		
+	public String[] ReadSupplierAdd(String ItemsId, String PId) throws IOException //search ID+ Supplier
 	{
-		BufferedReader reader= new BufferedReader(new FileReader("Data/Suppliers.txt"));
+		BufferedReader reader= new BufferedReader(new FileReader("Data/PurchaseOrder.txt"));
 		String line;
+		String line2;
 		String[] d= {};
 		while((line=reader.readLine())!=null) 
 		{
 			String[] data= line.split(",");
-			String[] ItemsData= data[4].split("-");
-			for(String id:ItemsData) 
+			if(data[0].equals(PId)) // Supp Id and Po id
 			{
-				if(ItemsId.equals(id)) 
+				String SupplierId= data[6];
+				BufferedReader readItems= new BufferedReader(new FileReader("Data/Suppliers.txt"));
+				//1-3
+				while((line2=readItems.readLine())!=null) 
 				{
-					String Address= data[3].replace("-", ",");
-					String[] retData= {data[1],Address};
-					reader.close();
-					return retData;
+					String[] SuppData= line2.split(",");
+					//String[] ItemsData= SuppData[3].split("-");
+					
+						if(SupplierId.equals(SuppData[0])) 
+						{
+							String Address= SuppData[3].replace("-", ",");
+							String[] retData= {SuppData[1],Address};
+							readItems.close();
+							return retData;
+						}
+					
 				}
+				readItems.close();
+		
+			
+			
+			
 			}
 				
 			
 		}
+		
 		reader.close();
 		return d;
 		
 	}
 	
-	public double UnitPriceR(String ItemsId) throws IOException
+	public double UnitPriceR(String ItemsId) throws IOException 
 	{
 		BufferedReader reader= new BufferedReader(new FileReader("Data/ItemsList.txt"));
 		String line;
@@ -123,7 +143,7 @@ public class Standard_PO extends Purchase_Order implements modifyData{
 			{
 				if(ItemsId.equals(id)) 
 				{
-					price=Double.parseDouble(data[4]);
+					price=Double.parseDouble(data[3]);
 					reader.close();
 					return price;
 				}
