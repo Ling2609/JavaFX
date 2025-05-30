@@ -214,7 +214,7 @@ public class smItemsCtrl {
     	SalesM_Items selectedSupp = viewItemTable.getSelectionModel().getSelectedItem();	
     	int selectedSuppIndex = viewItemTable.getSelectionModel().getSelectedIndex();
     	String ID = txtItemsID.getText().trim();
-		String ItemName = txtItemsName.getText().trim();
+		String ItemName = txtItemsName.getText().trim().toLowerCase();
 		String Stock = txtItemsStock.getText().trim();
 		String UnitPrice = txtItemsUP.getText().trim();
 		
@@ -292,6 +292,8 @@ public class smItemsCtrl {
     		alert.setContentText("Okay this guy tried to remove something that doesnt exist");
     		alert.showAndWait();
     	}
+    	
+    	viewItemTable.getSelectionModel().clearSelection();
     }
     
     @FXML

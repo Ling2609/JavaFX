@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import com.groupfx.JavaFXApp.ViewItemList;
 import com.salesmanager.source.*;
 
 import javafx.collections.FXCollections;
@@ -15,6 +14,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class smPRsCtrl {
@@ -44,9 +44,6 @@ public class smPRsCtrl {
     private TextField txtPRsID;
     
     @FXML
-    private TextField txtItem_ID;
-    
-    @FXML
     private TextField txtQuantity;
     
     @FXML
@@ -57,6 +54,9 @@ public class smPRsCtrl {
     
     @FXML
     private TextField txtStatus;
+    
+    @FXML
+    private ComboBox<String> comboItem_ID;
     
     private ObservableList<SalesM_PRs> cacheList;
     
@@ -75,9 +75,9 @@ public class smPRsCtrl {
     }
     
     public void load() throws IOException 
-    {
+    {	
     	SalesM_PRs listed= new SalesM_PRs();
-    	ObservableList<SalesM_PRs> itemList= FXCollections.observableArrayList(); 
+    	ObservableList<SalesM_PRs> prList = FXCollections.observableArrayList(); 
     	String[] row= listed.ReadTextFile().toString().split("\n");
     	
     	for(String rows: row) 
@@ -85,7 +85,7 @@ public class smPRsCtrl {
     		String[] spl= rows.split(",");
     		if(spl.length==6) 
     		{
-    			itemList.add(new SalesM_PRs(
+    			prList.add(new SalesM_PRs(
     					
     					spl[0],
     					spl[1],
@@ -98,8 +98,20 @@ public class smPRsCtrl {
     		}
     	}
     	
-    	cacheList = itemList;
+    	cacheList = prList;
     	viewPRsTable.setItems(cacheList);
+    	
+    	SalesM_Items itemObj = new SalesM_Items();
+    	String[] itemRows= itemObj.ReadTextFile().toString().split("\n");
+    	
+    	for(String itemRow : itemRows) {
+    		
+    		String[] item = itemRow.split(",");
+    		if(item.length==4) {
+    			
+    			comboItem_ID.getItems().add(item[0]);
+    		}
+    	}
     }
     
     public void rowClick() {
@@ -128,14 +140,14 @@ public class smPRsCtrl {
 	            String status = selectedItem.getStatus();
 	                    
 	            txtPRsID.setText(id);
-	            txtItem_ID.setText(itemId);
+	            comboItem_ID.setValue(itemId);
 	            txtQuantity.setText(String.valueOf(quantity));
 	            txtDate.setText(String.valueOf(date));
 	            txtSalesM.setText(salesM);
 	            txtStatus.setText(status);
 	            
 	            txtPRsID.setEditable(false);
-	        	txtItem_ID.setEditable(false);	
+	        	comboItem_ID.setDisable(true);
 	        }
         }
         
@@ -158,7 +170,7 @@ public class smPRsCtrl {
     	SalesM_PRs selectedSupp = viewPRsTable.getSelectionModel().getSelectedItem();	
     	int selectedSuppIndex = viewPRsTable.getSelectionModel().getSelectedIndex();
     	String Id = txtPRsID.getText().trim();
-		String itemId = txtItem_ID.getText().trim();
+		String itemId = comboItem_ID.getValue().trim();
 		String quantity = txtQuantity.getText().trim();
 		String date = txtDate.getText().trim();
 		
@@ -225,6 +237,7 @@ public class smPRsCtrl {
     		alert.setContentText("Okay this guy tried to remove something that doesnt exist");
     		alert.showAndWait();
     	}
+    	viewPRsTable.getSelectionModel().clearSelection();
     }
     
     @FXML
@@ -251,6 +264,8 @@ public class smPRsCtrl {
     
     @FXML
     public void reloadClick() throws IOException {
+    	
+    	comboItem_ID.getItems().clear();
     	clearTextField();
     	cacheList.clear();
     	load();
@@ -258,13 +273,15 @@ public class smPRsCtrl {
     
     public void clearTextField() {
     	
-    	TextField[] textFields = {txtPRsID, txtItem_ID, txtQuantity, txtDate, txtSalesM, txtStatus};
+    	TextField[] textFields = {txtPRsID, txtQuantity, txtDate, txtSalesM, txtStatus};
     	for (TextField field : textFields) {
     	    field.clear();      	
     	}
     	
+    	comboItem_ID.setValue(null);
+    	
     	txtPRsID.setEditable(true);
-    	txtItem_ID.setEditable(true);
+    	comboItem_ID.setDisable(false);
     	
     }
     

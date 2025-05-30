@@ -92,6 +92,9 @@ public class SalesM_PRs extends SalesM implements viewData, modifyData {
 	                   .append(data[4]).append(",")  // Unit Price
 	                   .append(data[5]).append("\n");// Sales Manager
 	        }
+	    } catch (Exception e) {
+	    	
+	    	System.out.println(e);
 	    }
 
 	    return builder;

@@ -213,6 +213,7 @@ public class smSuppsCtrl {
     		
     		System.out.println(e);
     	}
+    	viewSuppsTable.getSelectionModel().clearSelection();
     }
     
     @FXML
@@ -242,7 +243,6 @@ public class smSuppsCtrl {
     	cacheList.clear();
     	clearTextField();
     	load();
-    	viewSuppsTable.setItems(cacheList);
     	
     }
     
