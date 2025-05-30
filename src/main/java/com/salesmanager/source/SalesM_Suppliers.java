@@ -142,14 +142,21 @@ public class SalesM_Suppliers implements viewData, modifyData{
 	@Override
 	public void AddFunc() {
 		
-		cacheList.add(new SalesM_Suppliers(		
+		int newestNum = 0;
+		
+		for (SalesM_Suppliers item : cacheList) { 
+			
+			String[] spl = item.getId().toString().split("S");
+			int itemNum = Integer.parseInt(spl[1]);
+			if(itemNum > newestNum ) {
 				
-				Id,
-				Name,
-				ContactNum,
-				Address
-				
-				));
+				newestNum = itemNum;
+			}
+		}
+		
+		int currentNum = newestNum + 1;
+		
+		String currentNumStr = String.valueOf("S00" + currentNum);
 		
 		TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Input Required");
@@ -162,7 +169,12 @@ public class SalesM_Suppliers implements viewData, modifyData{
         result.ifPresent(itemId -> {
 
             if (!itemId.trim().isEmpty()) {
-            	itemSuppList.add(String.format("%s-%s", Id,itemId));
+            	
+            	if(currentNumStr.startsWith("I00")) {
+            		
+            		cacheList.add(new SalesM_Suppliers(currentNumStr, Name, ContactNum, Address));
+                	itemSuppList.add(String.format("%s-%s", Id,itemId));
+            	}
 
             } else {
             	Alert alert = new Alert(AlertType.INFORMATION);

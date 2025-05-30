@@ -176,7 +176,7 @@ public class smPRsCtrl {
 		
     	try {
     		
-    		if (Id.isEmpty() || itemId.isEmpty() || quantity.isEmpty() || date.isEmpty()) {
+    		if (itemId.isEmpty() || quantity.isEmpty() || date.isEmpty()) {
     			
     			Alert alert = new Alert(AlertType.INFORMATION);
         		alert.setContentText("Please Fill In All The TextField");

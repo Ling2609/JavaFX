@@ -152,7 +152,7 @@ public class smSuppsCtrl {
 		
     	try {
     	
-    	if(ID.isEmpty() || SuppName.isEmpty() || SuppContactNum.isEmpty() || SuppAddress.isEmpty()) {
+    	if(SuppName.isEmpty() || SuppContactNum.isEmpty() || SuppAddress.isEmpty()) {
     		
     		Alert alert = new Alert(AlertType.INFORMATION);
     		alert.setContentText("Please Fill in all the textField.");

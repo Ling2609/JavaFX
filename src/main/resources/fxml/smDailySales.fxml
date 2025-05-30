@@ -48,7 +48,10 @@
                   <Font name="DejaVu Serif Bold" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="txtDSID" />
+            <TextField fx:id="txtDSID" editable="false" promptText="{AUTO}">
+               <font>
+                  <Font name="System Bold Italic" size="13.0" />
+               </font></TextField>
             <Label text="ITEM ID">
                <font>
                   <Font name="DejaVu Serif Bold" size="14.0" />

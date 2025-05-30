@@ -45,7 +45,10 @@
                            <font>
                               <Font name="DejaVu Serif Bold" size="14.0" />
                            </font></Label>
-                        <TextField fx:id="txtPRsID" />
+                        <TextField fx:id="txtPRsID" editable="false" promptText="{AUTO}">
+                           <font>
+                              <Font name="System Italic" size="13.0" />
+                           </font></TextField>
                         <Separator opacity="0.0" prefHeight="35.0" prefWidth="190.0" />
                         <Label text="ITEM ID" textFill="#5e6572">
                            <font>

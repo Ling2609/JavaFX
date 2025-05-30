@@ -213,9 +213,28 @@ public class SalesM_DailyS extends SalesM implements viewData, modifyData {
 		switch(type) {
 		
 		case "add":
-
+			
 		    try (BufferedReader reader = new BufferedReader(new FileReader("Data/ItemsList.txt"))) {
+
+				int newestNum = 0;
+				
+				for (SalesM_DailyS item : cachelist) { 
+					
+					String[] spl = item.getId().toString().split("D");
+					int itemNum = Integer.parseInt(spl[1]);
+					if(itemNum > newestNum ) {
+						
+						newestNum = itemNum;
+					}
+				}
+				
+				int currentNum = newestNum + 1;
+				
+				String currentNumStr = String.valueOf("D00" + currentNum);
+				
+				
 		        String line;
+		        
 		        while ((line = reader.readLine()) != null) {
 		            String[] spl = line.split(",");
 
@@ -228,7 +247,7 @@ public class SalesM_DailyS extends SalesM implements viewData, modifyData {
 		                        spl[2] = String.valueOf(totalSales);
 
 		                        cachelist.add(new SalesM_DailyS(
-		                            Id, itemId, String.valueOf(today), obj.getTotalSales(), author));
+		                            currentNumStr, itemId, String.valueOf(today), obj.getTotalSales(), author));
 		                    } else {
 
 		                        Alert alert = new Alert(AlertType.INFORMATION);

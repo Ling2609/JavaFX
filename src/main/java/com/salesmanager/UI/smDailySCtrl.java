@@ -259,12 +259,14 @@ public class smDailySCtrl {
 		
 	    try {
 	    	
-	    	if (ID.isEmpty() || ItemId.isEmpty() || TotalSales.isEmpty()) {
+	    	int totalSalesValue = Integer.parseInt(TotalSales);
+	    	
+	    	if (ItemId.isEmpty() || TotalSales.isEmpty() || totalSalesValue <= 0) {
 	    		
 	    		Alert alert = new Alert(AlertType.INFORMATION);
 		    	alert.setTitle("Error");
 		    	alert.setHeaderText("Something went wrong");
-		    	alert.setContentText("Please Fill in All the TextField");
+		    	alert.setContentText("Please Fill in All the TextField and Key in The Data Properly");
 		    	alert.showAndWait();
 	    	} else {
 	    		
@@ -273,7 +275,7 @@ public class smDailySCtrl {
 		    		ID,
 		    		ItemId,
 		    		Date,
-		    		Integer.parseInt(TotalSales),
+		    		totalSalesValue,
 		    		"temp", //Use the UserID in the superclass (author), so  the system will record who edit this record
 		    		cacheList, 
 		    		selectedSuppIndex,
@@ -306,7 +308,9 @@ public class smDailySCtrl {
 	    	alert.setContentText("Please Key in The Data In A Proper Way");
 	    	alert.showAndWait();
 	    }	
+	    
 		clearTextField();
+		viewSalesTable.getSelectionModel().clearSelection();
     }
     
     @FXML
