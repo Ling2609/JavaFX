@@ -133,7 +133,7 @@ public class GenPOCtrl {
     	});
     	
     	
-    	Restriction_Text filter= new Restriction_Text("\\d*(\\.\\d*)?");
+    	Restriction_Text filter= new Restriction_Text("\\d*(\\.\\d*)?");   // d* is refer to every integer, .\\d* is refer to have dot and integer ? is optional 
     	TextFormatter<String> format= new TextFormatter<>(filter);
     	Pricetxt.setTextFormatter(format);
     	
@@ -242,9 +242,9 @@ public class GenPOCtrl {
 		    	if(data.checkingFunc()) 
 		    	{
 		    		Alert alert= new Alert(AlertType.INFORMATION);
-		    		alert.setTitle("Adding Sucess");
+		    		alert.setTitle("Adding Success");
 		    		alert.setHeaderText(null);
-		    		alert.setContentText("Adding Sucessfull, Please Save Before Leaving !");
+		    		alert.setContentText("Adding Successful, Please Save Before Leaving !");
 		    		alert.showAndWait();
 		    		ViewPO.getSelectionModel().clearSelection(); //clear selection
 		    		CleanTextbox(ItemsNameTxt,Pricetxt,QtyTxt);
