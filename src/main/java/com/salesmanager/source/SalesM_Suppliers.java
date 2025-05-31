@@ -168,9 +168,9 @@ public class SalesM_Suppliers implements viewData, modifyData{
 
         result.ifPresent(itemId -> {
 
-            if (!itemId.trim().isEmpty()) {
+            if (!(itemId.trim().isEmpty())) {
             	
-            	if(currentNumStr.startsWith("I00")) {
+            	if(itemId.startsWith("I00")) {
             		
             		cacheList.add(new SalesM_Suppliers(currentNumStr, Name, ContactNum, Address));
                 	itemSuppList.add(String.format("%s-%s", Id,itemId));
