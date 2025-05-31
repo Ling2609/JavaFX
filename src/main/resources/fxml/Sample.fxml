@@ -21,7 +21,7 @@
             </ImageView>
             <AnchorPane layoutX="140.0" layoutY="75.0" prefHeight="550.0" prefWidth="320.0" style="-fx-background-color: white;" styleClass="loginbounded" stylesheets="@/css/styles.css">
                <children>
-                  <Button fx:id="LoginBtn" layoutX="112.0" layoutY="472.0" mnemonicParsing="false" onAction="#loginAct" prefHeight="27.0" prefWidth="101.0" text="Login" defaultButton="true">
+                  <Button fx:id="LoginBtn" defaultButton="true" layoutX="112.0" layoutY="472.0" mnemonicParsing="false" onAction="#loginAct" prefHeight="27.0" prefWidth="101.0" text="Login">
                      <graphic>
                         <FontIcon />
                      </graphic>
@@ -44,11 +44,6 @@
                   <Label layoutX="61.0" layoutY="378.0" text="Password:">
                      <font>
                         <Font name="DejaVu Sans Mono Bold" size="13.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="Forgotlbl" layoutX="163.0" layoutY="429.0" onMouseClicked="#forgotClick" text="Forgot Password?" underline="true">
-                     <font>
-                        <Font name="Comic Sans MS" size="11.0" />
                      </font>
                   </Label>
                   <PasswordField fx:id="passwordbox" layoutX="61.0" layoutY="396.0" prefHeight="26.0" prefWidth="194.0" />
