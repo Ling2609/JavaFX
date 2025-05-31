@@ -149,7 +149,7 @@ public class purchaseCtrl implements Initializable{
 	{
 		Alert alert= new Alert(AlertType.CONFIRMATION);
     	alert.setTitle("Switch Pages?");
-    	alert.setContentText("All data haven't save will lost");
+    	alert.setContentText("All Unsaved Data will be lost !");
     	alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO); //add button yes and no
     	Optional<ButtonType> result= alert.showAndWait(); // wait until user select
     	alert.setHeaderText("Do You Want To Switch Pages?");

@@ -163,7 +163,7 @@ public class FMPaymentCtrl {
 	    		
 	    		Alert alert= new Alert(AlertType.INFORMATION);
 	    		alert.setTitle("Edit");
-	    		alert.setContentText("Edit Sucess, Please Save Before Leaving!");
+	    		alert.setContentText("Edit Success, Please Save Before Leaving!");
 	    		alert.showAndWait();
 	    		ViewPO.getItems().remove(ViewPO.getSelectionModel().getSelectedIndex());
 	    		ViewPO.getSelectionModel().clearSelection();

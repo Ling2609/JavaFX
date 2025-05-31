@@ -169,7 +169,7 @@ public class ApprovePOCtrl {
 		    		Alert alert= new Alert(AlertType.INFORMATION);
 		    		alert.setTitle("Adding Sucess");
 		    		alert.setHeaderText(null);
-		    		alert.setContentText("Edit Sucessfull, Please Save Before Leaving !");
+		    		alert.setContentText("Edit Successful, Please Save Before Leaving !");
 		    		alert.showAndWait();
 		    		ViewPO.getSelectionModel().clearSelection(); //clear selection
 		    		
@@ -179,7 +179,7 @@ public class ApprovePOCtrl {
 		    		Alert alert= new Alert(AlertType.ERROR);
 		    		alert.setTitle("Adding Unsucess");
 		    		alert.setHeaderText(null);
-		    		alert.setContentText("Edit Unsucessfull, Please Check Your Details");
+		    		alert.setContentText("Edit Unsuccessful, Please Check Your Details");
 		    		alert.showAndWait();
 		    		ViewPO.getSelectionModel().clearSelection(); //clear selection
 		    	}
@@ -187,9 +187,9 @@ public class ApprovePOCtrl {
     	else 
     	{
     		Alert alert= new Alert(AlertType.ERROR);
-    		alert.setTitle("Adding Sucess");
+    		alert.setTitle("Adding Success");
     		alert.setHeaderText(null);
-    		alert.setContentText("Edit Unsucessfull, Please Check Your Details");
+    		alert.setContentText("Edit Unsuccessful, Please Check Your Details");
     		alert.showAndWait();
     		ViewPO.getSelectionModel().clearSelection(); //clear selection
     	}
@@ -212,9 +212,9 @@ public class ApprovePOCtrl {
     	if(approve.checkingFunc()) 
     	{
     		Alert alert= new Alert(AlertType.INFORMATION);
-    		alert.setTitle("Save Sucess");
+    		alert.setTitle("Save Success");
     		alert.setHeaderText(null);
-    		alert.setContentText("Save Sucessfull");
+    		alert.setContentText("Save Successful");
     		alert.showAndWait();
     		ViewPO.getSelectionModel().clearSelection(); //clear selection
     	}else 
@@ -222,7 +222,7 @@ public class ApprovePOCtrl {
     		Alert alert= new Alert(AlertType.INFORMATION);
     		alert.setTitle("Save Unsucess");
     		alert.setHeaderText(null);
-    		alert.setContentText("Save Unsucessfull");
+    		alert.setContentText("Save Unsuccessful");
     		alert.showAndWait();
     		ViewPO.getSelectionModel().clearSelection(); //clear selection
     	}
