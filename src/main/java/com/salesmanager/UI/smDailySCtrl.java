@@ -400,7 +400,6 @@ public class smDailySCtrl {
     	
     	comboItem_ID.setValue(null);
     	
-    	txtDSID.setEditable(true);
     	comboItem_ID.setDisable(false);
     }
 }

@@ -51,6 +51,9 @@ public class smSuppsCtrl {
     private TextField txtContactN;
     
     @FXML
+    private TextField txtContactNHead;
+    
+    @FXML
     private TextArea txtAddress;
     
     @FXML
@@ -120,12 +123,13 @@ public class smSuppsCtrl {
         	
             String id = selectedItem.getId();
             String Name = selectedItem.getName();
-            String ContactN = selectedItem.getContactNum();
+            String[] splContactNum = selectedItem.getContactNum().split("-");
             String Address = selectedItem.getAddress();
             
             txtID.setText(id);
             txtName.setText(Name);
-            txtContactN.setText(ContactN);
+            txtContactN.setText(splContactNum[1]);
+            txtContactNHead.setText(splContactNum[0]);
             txtAddress.setText(Address);
             
             
@@ -147,37 +151,41 @@ public class smSuppsCtrl {
     	int selectedSuppIndex = viewSuppsTable.getSelectionModel().getSelectedIndex();
     	String ID = txtID.getText().trim();
     	String SuppName = txtName.getText().trim();
-		String SuppContactNum = txtContactN.getText().trim();
 		String SuppAddress = txtAddress.getText().trim();
 		
     	try {
     	
-    	if(SuppName.isEmpty() || SuppContactNum.isEmpty() || SuppAddress.isEmpty()) {
+    		int SuppContactNumTail = Integer.parseInt(txtContactN.getText().trim());
+    		int SuppContactNumHead = Integer.parseInt(txtContactNHead.getText().trim());
     		
-    		Alert alert = new Alert(AlertType.INFORMATION);
-    		alert.setContentText("Please Fill in all the textField.");
-    		alert.showAndWait();
-    	} else {
+    		String SuppContactNum = String.format("%s-%s", String.valueOf(SuppContactNumHead), String.valueOf(SuppContactNumTail));
     		
-    		SalesM_Suppliers dataModify = new SalesM_Suppliers(
-        			
-        			ID,
-        			SuppName,
-        			SuppContactNum,
-        			SuppAddress,
-        			itemSuppList,
-        			cacheList,
-        			selectedSuppIndex
-        			);
-        	
-        	dataModify.insertCheck(selectedSupp);
-        	
-        	ObservableList<SalesM_Suppliers>  tempList = dataModify.getCacheList();
-        	cacheList = tempList;
-        	ArrayList<String> tempISList = dataModify.getISList();
-        	itemSuppList = tempISList;
-        	viewSuppsTable.setItems(cacheList);
-    	}
+	    	if(SuppName.isEmpty() || SuppContactNum.isEmpty() || SuppAddress.isEmpty()) {
+	    		
+	    		Alert alert = new Alert(AlertType.INFORMATION);
+	    		alert.setContentText("Please Fill in all the textField.");
+	    		alert.showAndWait();
+	    	} else {
+	    		
+	    		SalesM_Suppliers dataModify = new SalesM_Suppliers(
+	        			
+	        			ID,
+	        			SuppName,
+	        			SuppContactNum,
+	        			SuppAddress,
+	        			itemSuppList,
+	        			cacheList,
+	        			selectedSuppIndex
+	        			);
+	        	
+	        	dataModify.insertCheck(selectedSupp);
+	        	
+	        	ObservableList<SalesM_Suppliers>  tempList = dataModify.getCacheList();
+	        	cacheList = tempList;
+	        	ArrayList<String> tempISList = dataModify.getISList();
+	        	itemSuppList = tempISList;
+	        	viewSuppsTable.setItems(cacheList);
+	    	}
     	} catch (Exception e) {
     		
     		Alert alert = new Alert(AlertType.INFORMATION);
@@ -186,7 +194,7 @@ public class smSuppsCtrl {
     	}
     	
     	clearTextField();
-    	
+    	viewSuppsTable.getSelectionModel().clearSelection();
     }
     
     @FXML
@@ -213,6 +221,7 @@ public class smSuppsCtrl {
     		
     		System.out.println(e);
     	}
+    	
     	viewSuppsTable.getSelectionModel().clearSelection();
     }
     
@@ -239,7 +248,6 @@ public class smSuppsCtrl {
     @FXML
     public void reloadClick() throws IOException {
     	
-    	txtID.setEditable(true);
     	cacheList.clear();
     	clearTextField();
     	load();
@@ -248,7 +256,7 @@ public class smSuppsCtrl {
     
     public void clearTextField() {
     	
-    	TextField[] textFields = {txtID, txtName, txtContactN};
+    	TextField[] textFields = {txtID, txtName, txtContactN,txtContactNHead};
     	for (TextField field : textFields) {
     	    field.clear();      	
     	}

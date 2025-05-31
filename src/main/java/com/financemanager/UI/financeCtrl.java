@@ -169,7 +169,7 @@ public class financeCtrl implements Initializable {
     public void LogoutB(MouseEvent event) throws IOException {
     	Alert alert= new Alert(AlertType.CONFIRMATION);
     	alert.setTitle("LogOut?");
-    	alert.setContentText("All data haven't save will lost");
+    	alert.setContentText("All Unsaved Data will be lost !");
     	alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO); //add button yes and no
     	Optional<ButtonType> result= alert.showAndWait(); // wait until user select
     	alert.setHeaderText("Do You Want To Log Out ?");

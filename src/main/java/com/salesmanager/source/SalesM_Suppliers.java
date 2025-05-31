@@ -168,12 +168,19 @@ public class SalesM_Suppliers implements viewData, modifyData{
 
         result.ifPresent(itemId -> {
 
-            if (!itemId.trim().isEmpty()) {
+            if (!(itemId.trim().isEmpty())) {
             	
-            	if(currentNumStr.startsWith("I00")) {
+            	if(itemId.startsWith("I00")) {
             		
             		cacheList.add(new SalesM_Suppliers(currentNumStr, Name, ContactNum, Address));
                 	itemSuppList.add(String.format("%s-%s", Id,itemId));
+            	} else {
+            		
+            		Alert alert = new Alert(AlertType.INFORMATION);
+    	    		alert.setTitle("Information");
+    	    		alert.setHeaderText(null);
+    	    		alert.setContentText("Please Key In The Item ID In A Proper Fomr Start from ex. I001");
+    	    		alert.showAndWait();
             	}
 
             } else {

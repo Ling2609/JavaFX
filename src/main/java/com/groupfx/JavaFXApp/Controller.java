@@ -31,8 +31,6 @@ public class Controller {
 	
     @FXML
     private ImageView flipImage;
-    @FXML
-    private Label Forgotlbl;
 
     @FXML
     private Button LoginBtn;
