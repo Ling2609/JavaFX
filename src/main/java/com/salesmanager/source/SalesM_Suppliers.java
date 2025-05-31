@@ -174,6 +174,13 @@ public class SalesM_Suppliers implements viewData, modifyData{
             		
             		cacheList.add(new SalesM_Suppliers(currentNumStr, Name, ContactNum, Address));
                 	itemSuppList.add(String.format("%s-%s", Id,itemId));
+            	} else {
+            		
+            		Alert alert = new Alert(AlertType.INFORMATION);
+    	    		alert.setTitle("Information");
+    	    		alert.setHeaderText(null);
+    	    		alert.setContentText("Please Key In The Item ID In A Proper Fomr Start from ex. I001");
+    	    		alert.showAndWait();
             	}
 
             } else {

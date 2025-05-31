@@ -335,7 +335,6 @@ public class smItemsCtrl {
     	    field.clear();      	
     	}
     	
-    	txtItemsID.setEditable(true);
     	supplierBox.getItems().clear();
     }
     

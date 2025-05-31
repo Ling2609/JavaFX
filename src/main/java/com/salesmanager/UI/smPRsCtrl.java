@@ -280,7 +280,6 @@ public class smPRsCtrl {
     	
     	comboItem_ID.setValue(null);
     	
-    	txtPRsID.setEditable(true);
     	comboItem_ID.setDisable(false);
     	
     }
