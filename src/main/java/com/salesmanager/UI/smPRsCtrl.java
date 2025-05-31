@@ -234,7 +234,7 @@ public class smPRsCtrl {
     	} catch (Exception e) {
     		
     		Alert alert = new Alert(AlertType.INFORMATION);
-    		alert.setContentText("Okay this guy tried to remove something that doesnt exist");
+    		alert.setContentText("Please select a row for deletion");
     		alert.showAndWait();
     	}
     	viewPRsTable.getSelectionModel().clearSelection();
