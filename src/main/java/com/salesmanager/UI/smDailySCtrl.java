@@ -346,7 +346,7 @@ public class smDailySCtrl {
     		Alert alert = new Alert(AlertType.INFORMATION);
     	    alert.setTitle("Error");
     	    alert.setHeaderText("Something went wrong");
-    	    alert.setContentText("Bro please select a row first lah, why you try to delete empty (^_^') ");
+    	    alert.setContentText("Please select a row for deletion");
     	    alert.showAndWait();
     	}
     	

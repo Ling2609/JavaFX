@@ -1,5 +1,6 @@
-S002,Tropical Market,07-0090101,18-Jalan N3/8-8090WPKL
-S003,Jian Yang,011-3456123,15-jalan apu
-S001,Nixon,012-321321,fsdjfklsajfskljflkasjf
-S004,WeiLing,012-31312321,fsfsafasdfsdfasdfsdf
-S005,fasfdsaf,016-321313,dsfsdafasdfdasf
+S002,Tropical Market,60-7790101,18-Jalan N3/8-8090WPKL
+S003,Jian Yang,60-1234567,15-jalan apu
+S001,Nixon,60-12321321,fsdjfklsajfskljflkasjf
+S004,WeiLing,60-1231312321,fsfsafasdfsdfasdfsdf
+S005,fasfdsaf,60-161234567,dsfsdafasdfdasf
+S006,sir,60-12345111,fasfasdfdsafds

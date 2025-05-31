@@ -205,6 +205,8 @@ public class smSuppsCtrl {
     	
     	try {
     		
+    		if (selectedSuppIndex >= 0) {
+    		
     		delIndex.DeleteFunc();
     		ObservableList<SalesM_Suppliers>  tempList = delIndex.getCacheList();
     		cacheList = tempList;
@@ -213,10 +215,16 @@ public class smSuppsCtrl {
     		viewSuppsTable.setItems(cacheList);
     		clearTextField();
     		
+    		} else {
+    			
+    			Alert alert = new Alert(AlertType.INFORMATION);
+        		alert.setContentText("Please select a row for deletion");
+        		alert.showAndWait();
+    		}
     	} catch (Exception e) {
     		
     		Alert alert = new Alert(AlertType.INFORMATION);
-    		alert.setContentText("Okay this guy tried to remove something that doesnt exist");
+    		alert.setContentText("Something went wrong" + e);
     		alert.showAndWait();
     		
     		System.out.println(e);
