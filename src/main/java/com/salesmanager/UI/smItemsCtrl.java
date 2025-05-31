@@ -214,24 +214,27 @@ public class smItemsCtrl {
     	SalesM_Items selectedSupp = viewItemTable.getSelectionModel().getSelectedItem();	
     	int selectedSuppIndex = viewItemTable.getSelectionModel().getSelectedIndex();
     	String ID = txtItemsID.getText().trim();
-		String ItemName = txtItemsName.getText().trim();
+		String ItemName = txtItemsName.getText().trim().toLowerCase();
 		String Stock = txtItemsStock.getText().trim();
 		String UnitPrice = txtItemsUP.getText().trim();
-		
+
     	try {
     		
-    		if (ID.isEmpty() || ItemName.isEmpty() || Stock.isEmpty() || UnitPrice.isEmpty()) {
+    		int stockValue = Integer.parseInt(Stock);
+    		double unitPriceValue = Double.parseDouble(UnitPrice);
+    		
+    		if (ItemName.isEmpty() || Stock.isEmpty() || UnitPrice.isEmpty() || stockValue < 0 || unitPriceValue < 0.00) {
     			
     			Alert alert = new Alert(AlertType.INFORMATION);
-        		alert.setContentText("Please Fill in All the TextField");
+        		alert.setContentText("Please Fill in All the TextField and Key In the Data in a proper way");
         		alert.showAndWait();
     		} else {
     			
     			SalesM_Items dataModify = new SalesM_Items(
     	    			ID,
     					ItemName,
-    					Integer.parseInt(Stock),
-    					Double.parseDouble(UnitPrice),
+    					stockValue,
+    					unitPriceValue,
     					itemSuppList,
     					cacheList, 
     					selectedSuppIndex
@@ -260,7 +263,7 @@ public class smItemsCtrl {
     	}
     	
     	clearTextField();
-    	
+    	viewItemTable.getSelectionModel().clearSelection();
     }
     
     @FXML
@@ -292,6 +295,8 @@ public class smItemsCtrl {
     		alert.setContentText("Okay this guy tried to remove something that doesnt exist");
     		alert.showAndWait();
     	}
+    	
+    	viewItemTable.getSelectionModel().clearSelection();
     }
     
     @FXML

@@ -152,7 +152,7 @@ public class smSuppsCtrl {
 		
     	try {
     	
-    	if(ID.isEmpty() || SuppName.isEmpty() || SuppContactNum.isEmpty() || SuppAddress.isEmpty()) {
+    	if(SuppName.isEmpty() || SuppContactNum.isEmpty() || SuppAddress.isEmpty()) {
     		
     		Alert alert = new Alert(AlertType.INFORMATION);
     		alert.setContentText("Please Fill in all the textField.");
@@ -213,6 +213,7 @@ public class smSuppsCtrl {
     		
     		System.out.println(e);
     	}
+    	viewSuppsTable.getSelectionModel().clearSelection();
     }
     
     @FXML
@@ -242,7 +243,6 @@ public class smSuppsCtrl {
     	cacheList.clear();
     	clearTextField();
     	load();
-    	viewSuppsTable.setItems(cacheList);
     	
     }
     

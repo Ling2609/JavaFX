@@ -136,7 +136,7 @@ public class SalesM_DailyS extends SalesM implements viewData, modifyData {
     	
     	try {
 	    	if(containsID(cachelist, Id, itemId, date) && selectedDS != null) {
-	
+	    		
 		    	EditFunc();
 		    	return true;
 		    	
@@ -158,16 +158,6 @@ public class SalesM_DailyS extends SalesM implements viewData, modifyData {
 	@Override
 	public void AddFunc() {
 		
-		cachelist.add(new SalesM_DailyS(		
-				
-				Id,
-				itemId,
-				String.valueOf(today),
-				totalSales,
-				author
-				
-				));
-		
 		ModifyDS(new SalesM_DailyS(		
 				
 				itemId,
@@ -178,16 +168,6 @@ public class SalesM_DailyS extends SalesM implements viewData, modifyData {
 	
 	@Override
 	public void EditFunc() {
-		
-		cachelist.set(selectedIndex, new SalesM_DailyS(		
-				
-				Id,
-				itemId,
-				date,
-				totalSales,
-				author
-				
-				));
 		
 		ModifyDS(new SalesM_DailyS(		
 				
@@ -228,77 +208,119 @@ public class SalesM_DailyS extends SalesM implements viewData, modifyData {
 		
 		List<String> updatedLines = new ArrayList<>();
 		
+	    boolean stockEnough = true;
+	    
 		switch(type) {
 		
-			case "add":
-				try (BufferedReader reader = new BufferedReader(new FileReader("Data/ItemsList.txt"))) {
+		case "add":
+			
+		    try (BufferedReader reader = new BufferedReader(new FileReader("Data/ItemsList.txt"))) {
+
+				int newestNum = 0;
+				
+				for (SalesM_DailyS item : cachelist) { 
 					
-		            String line;
+					String[] spl = item.getId().toString().split("D");
+					int itemNum = Integer.parseInt(spl[1]);
+					if(itemNum > newestNum ) {
+						
+						newestNum = itemNum;
+					}
+				}
+				
+				int currentNum = newestNum + 1;
+				
+				String currentNumStr = String.valueOf("D00" + currentNum);
+				
+				
+		        String line;
+		        
+		        while ((line = reader.readLine()) != null) {
+		            String[] spl = line.split(",");
 
-		            while ((line = reader.readLine()) != null) {
-		                String[] spl = line.split(",");
-		                if (spl.length == 4) {
+		            if (spl.length == 4) {
+		                int totalSales = Integer.parseInt(spl[2]);
 
-		                    if (spl[0].equals(obj.getItemId())) {
-
-		                        int totalSales = Integer.parseInt(spl[2]);
+		                if (spl[0].equals(obj.getItemId())) {
+		                    if (totalSales >= obj.getTotalSales()) {
 		                        totalSales -= obj.getTotalSales();
 		                        spl[2] = String.valueOf(totalSales);
+
+		                        cachelist.add(new SalesM_DailyS(
+		                            currentNumStr, itemId, String.valueOf(today), obj.getTotalSales(), author));
+		                    } else {
+
+		                        Alert alert = new Alert(AlertType.INFORMATION);
+		                        alert.setContentText("No Enough Stock, Please Generate Purchase Requisition.");
+		                        alert.showAndWait();
+
+		                        stockEnough = false;
+		                        break;  // 不再处理其他行
 		                    }
-
-		                    updatedLines.add(String.join(",", spl));
 		                }
-		            }
 
-		            try (BufferedWriter writer = new BufferedWriter(new FileWriter("Data/ItemsList.txt"))) {
-		                for (String updatedLine : updatedLines) {
-		                    writer.write(updatedLine);
-		                    writer.newLine();
-		                }
+		                updatedLines.add(String.join(",", spl)); // ✅ 总是在外层写入
 		            }
+		        }
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		    }
 
+		    // ✅ 确保库存足够才写入文件
+		    if (stockEnough) {
+		        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Data/ItemsList.txt"))) {
+		            for (String updatedLine : updatedLines) {
+		                writer.write(updatedLine);
+		                writer.newLine();
+		            }
 		        } catch (IOException e) {
 		            e.printStackTrace();
 		        }
+		    }
 		        break;
 		    
 			case "edit":
-				try (BufferedReader reader = new BufferedReader(new FileReader("Data/ItemsList.txt"))) {
-					
-		            String line;
 
-		            while ((line = reader.readLine()) != null) {
-		                String[] spl = line.split(",");
-		                if (spl.length == 4) {
+			    try (BufferedReader reader = new BufferedReader(new FileReader("Data/ItemsList.txt"))) {
+			        String line;
+			        while ((line = reader.readLine()) != null) {
+			            String[] spl = line.split(",");
+			            if (spl.length == 4) {
+			                int totalSales = Integer.parseInt(spl[2]);
 
-		                    if (spl[0].equals(obj.getItemId())) {
+			                if (spl[0].equals(obj.getItemId())) {
+			                    if (totalSales >= obj.getTotalSales()) {
+			                        int change = obj.getTotalSales() - oriSales;
+			                        totalSales -= change;
+			                        spl[2] = String.valueOf(totalSales);
+			                    } else {
+			                        Alert alert = new Alert(AlertType.INFORMATION);
+			                        alert.setContentText("Not enough stock. Please generate purchase requisition.");
+			                        alert.showAndWait();
+			                        stockEnough = false;
+			                        break;
+			                    }
+			                }
 
-		                        int totalSales = Integer.parseInt(spl[2]);
-		                        if(oriSales <= obj.getTotalSales()) {
-		                        	int change = obj.getTotalSales() - oriSales;
-		                        	totalSales -= change;
-		                        	spl[2] = String.valueOf(totalSales);
-		                        } else {
-		                        	int change = oriSales - obj.getTotalSales();
-		                        	totalSales -= change;
-		                        	spl[2] = String.valueOf(totalSales);
-		                        }   
-		                    }
+			                updatedLines.add(String.join(",", spl));
+			            }
+			        }
+			    } catch (IOException e) {
+			        e.printStackTrace(); // 你可以改成弹窗提示
+			    }
 
-		                    updatedLines.add(String.join(",", spl));
-		                }
-		            }
-
-		            try (BufferedWriter writer = new BufferedWriter(new FileWriter("Data/ItemsList.txt"))) {
-		                for (String updatedLine : updatedLines) {
-		                    writer.write(updatedLine);
-		                    writer.newLine();
-		                }
-		            }
-		            System.out.println("Updated");
-		        } catch (IOException e) {
-		            e.printStackTrace();
-		        }
+			    if (stockEnough) {
+			        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Data/ItemsList.txt"))) {
+			            for (String updatedLine : updatedLines) {
+			                writer.write(updatedLine);
+			                writer.newLine();
+			            }
+			            
+			            cachelist.set(selectedIndex, new SalesM_DailyS(Id, itemId, date, totalSales, author));
+			        } catch (IOException e) {
+			            e.printStackTrace();
+			        }
+			    }
 		        break;
 		}
 	}

@@ -120,7 +120,21 @@ public class SalesM_Items implements viewData, modifyData{
 	@Override
 	public void AddFunc() {
 	    
-	    cacheList.add(new SalesM_Items(ID, Name, Stock, UnitPrice));
+		int newestNum = 0;
+		
+		for (SalesM_Items item : cacheList) { 
+			
+			String[] spl = item.getId().toString().split("I");
+			int itemNum = Integer.parseInt(spl[1]);
+			if(itemNum > newestNum ) {
+				
+				newestNum = itemNum;
+			}
+		}
+		
+		int currentNum = newestNum + 1;
+		
+		String currentNumStr = String.valueOf("I00" + currentNum);
 	    
 	    TextInputDialog dialog = new TextInputDialog();
 	    dialog.setTitle("Input Required");
@@ -149,7 +163,8 @@ public class SalesM_Items implements viewData, modifyData{
 	        if (!supplierExists) {
 	        	showAlert("Supplier does not exist. Please add the supplier first.");
 	        } else {
-	        	itemSuppList.add(String.format("%s-%s", suppId, ID));
+	        	cacheList.add(new SalesM_Items(currentNumStr, Name, Stock, UnitPrice));
+	        	itemSuppList.add(String.format("%s-%s", suppId, currentNumStr));
 	        }
 	    }
 	    
