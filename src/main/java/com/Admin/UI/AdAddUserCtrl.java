@@ -108,7 +108,7 @@ public class AdAddUserCtrl {
 	    		source.DeleteFunc();
 	    		if(source.Checking()) 
 	    		{
-	    			AlertInfo("Delete Sucessful","Delete User",AlertType.INFORMATION);
+	    			AlertInfo("Delete Successful","Delete User",AlertType.INFORMATION);
 	    			UserView.getItems().remove(SelectedRow);
 	    		}
 	    		else 
@@ -151,13 +151,13 @@ public class AdAddUserCtrl {
 	    		source.AddFunc();
 		    	if(source.Checking()) 
 		    	{
-		    		AlertInfo("Add User Sucessful","Add User",AlertType.INFORMATION);
+		    		AlertInfo("Add User Successful","Add User",AlertType.INFORMATION);
 		    		ClearTextAndRb(username,password);
 		    	
 		    	}
 		    	else 
 		    	{
-		    		AlertInfo("Add User Unsucessful","Add User",AlertType.ERROR);
+		    		AlertInfo("Add User Unsuccessful","Add User",AlertType.ERROR);
 		    		ClearTextAndRb(username,password);
 		    	}
 		    }else 
