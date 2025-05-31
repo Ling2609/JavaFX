@@ -92,6 +92,9 @@ public class SalesM_PRs extends SalesM implements viewData, modifyData {
 	                   .append(data[4]).append(",")  // Unit Price
 	                   .append(data[5]).append("\n");// Sales Manager
 	        }
+	    } catch (Exception e) {
+	    	
+	    	System.out.println(e);
 	    }
 
 	    return builder;
@@ -139,9 +142,26 @@ public class SalesM_PRs extends SalesM implements viewData, modifyData {
 	@Override
 	public void AddFunc() {
 		
+
+		int newestNum = 0;
+		
+		for (SalesM_PRs item : cacheList) { 
+			
+			String[] spl = item.getId().toString().split("R");
+			int itemNum = Integer.parseInt(spl[1]);
+			if(itemNum > newestNum ) {
+				
+				newestNum = itemNum;
+			}
+		}
+		
+		int currentNum = newestNum + 1;
+		
+		String currentNumStr = String.valueOf("PR000" + currentNum);
+		
 		cacheList.add(new SalesM_PRs(		
 				
-				Id,
+				currentNumStr,
 				Item_ID,
 				Quantity,
 				Date,

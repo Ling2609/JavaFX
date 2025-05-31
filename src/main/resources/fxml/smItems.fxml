@@ -52,7 +52,7 @@
                         <Font name="DejaVu Serif Bold" size="14.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtItemsID" />
+                  <TextField fx:id="txtItemsID" editable="false" promptText="{AUTO}" />
                   <Separator prefHeight="64.0" prefWidth="191.0" />
                   <Label text="NAME">
                      <font>

@@ -65,7 +65,7 @@
                   <Insets top="10.0" />
                </opaqueInsets>
             </VBox>
-            <Button fx:id="refreshButton" layoutX="748.0" layoutY="556.0" mnemonicParsing="false" onMouseClicked="#refclick" prefHeight="43.0" prefWidth="158.0" text="Refresh">
+            <Button fx:id="refreshButton" layoutX="748.0" layoutY="556.0" mnemonicParsing="false" onMouseClicked="#refclick" prefHeight="43.0" prefWidth="158.0" text="Show Plot">
                <graphic>
                   <FontIcon iconColor="WHITE" iconLiteral="anto-reload" />
                </graphic>

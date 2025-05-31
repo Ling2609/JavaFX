@@ -11,6 +11,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.BufferedReader;
@@ -52,7 +53,7 @@ public class smDailySCtrl {
     private TextField txtDSID;
     
     @FXML
-    private TextField txtitemID;
+    private ComboBox<String> comboItem_ID;
     
     @FXML
     private TextField txtDate;
@@ -67,7 +68,7 @@ public class smDailySCtrl {
     private LineChart<String,Integer> viewSalesChart;
     
     ObservableList<SalesM_DailyS> cacheList = FXCollections.observableArrayList(); 
-    
+    	
     private LocalDate today = LocalDate.now();
     
     private int oriSales;
@@ -86,36 +87,7 @@ public class smDailySCtrl {
         load();
     }
     
-    public void load() throws IOException 
-    {
-//    	SalesM_DailyS listed= new SalesM_DailyS();
-//    	ObservableList<SalesM_DailyS> itemList= FXCollections.observableArrayList(); 
-//    	String[] row= listed.ReadTextFile().toString().split("\n");
-//    	DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//    	LocalDate date = null;
-//    	
-//    	try {
-//	    	for(String rows: row) 
-//	    	{
-//	    		String[] spl= rows.split(",");
-//	    		if(spl.length==5) 
-//	    		{
-//	    			itemList.add(new SalesM_DailyS(
-//	    					spl[0],
-//	    					spl[1],
-//	    					spl[2],
-//	    					Integer.parseInt(spl[3]),
-//	    					spl[4]
-//	    					));
-//	    			
-//	    			date = LocalDate.parse(spl[2], format);
-//	    		}
-//	    	}
-//	    	
-//	    	resetWeek(date, format);
-//	    	cacheList = itemList;
-//	    	viewSalesTable.setItems(cacheList);
-//	    	clearTextField();
+    public void load() throws IOException {	
     	
     	SalesM_DailyS listed= new SalesM_DailyS();
     	ObservableList<SalesM_DailyS> itemList= FXCollections.observableArrayList(); 
@@ -143,6 +115,18 @@ public class smDailySCtrl {
 	    	cacheList = itemList;
 	    	viewSalesTable.setItems(cacheList);
 	    	clearTextField();
+	    	
+	    	SalesM_Items itemObj = new SalesM_Items();
+	    	String[] itemRows= itemObj.ReadTextFile().toString().split("\n");
+	    	
+	    	for(String itemRow : itemRows) {
+	    		
+	    		String[] item = itemRow.split(",");
+	    		if(item.length==4) {
+	    			
+	    			comboItem_ID.getItems().add(item[0]);
+	    		}
+	    	}
 	    	
     	} catch (Exception e) {
     		
@@ -232,13 +216,13 @@ public class smDailySCtrl {
 //	            System.out.println("Unit Price: " + unitPrice);
 	            
 	            txtDSID.setText(id);
-	            txtitemID.setText(itemId);
+	            comboItem_ID.setValue(itemId);
 	            txtDate.setText(date);
 	            txttotalSales.setText(String.valueOf(totalSales));
 	            txtAuthor.setText(String.valueOf(author));
 	            
 	            txtDSID.setEditable(false);
-	            txtitemID.setEditable(false);
+	            comboItem_ID.setDisable(true);
 
 	            chartload(itemId);
 	        }
@@ -253,65 +237,80 @@ public class smDailySCtrl {
     	
     }
     
-	private boolean containsID(ObservableList<SalesM_DailyS> List, String id, String itemId, String date) {
-		
-	    for (SalesM_DailyS item : List) {
-	        if (item.getId().equals(id)) {
-	        	
-	            return true;
-	        } else if (item.getDate().equals(date) && item.getItemId().equals(itemId)) {
-	        	
-	        	return true;
-	        }
-	    }
-	    return false;
-	}
-    
 	@FXML
     public void addeditClick() {
     	
 		SalesM_DailyS selectedDS = viewSalesTable.getSelectionModel().getSelectedItem();	
 		int selectedSuppIndex = viewSalesTable.getSelectionModel().getSelectedIndex();
-	
-    	try {
-    		
-			SalesM_DailyS dataEntry = new SalesM_DailyS(
-					
-				txtDSID.getText().trim(),
-				txtitemID.getText().trim(),
-				String.valueOf(today),
-				Integer.parseInt(txttotalSales.getText().trim()),
-				"temp", //Use the UserID in the superclass (author), so  the system will record who edit this record
-				cacheList, 
-				selectedSuppIndex,
-				oriSales
-				);
 		
-			boolean result = dataEntry.insertCheck(selectedDS);
+		String ID = txtDSID.getText().trim();
+		String ItemId = comboItem_ID.getValue().trim();
+		String TotalSales = txttotalSales.getText().trim();
+		
+		String Date;
 			
-			if (result) {
-				
-				ObservableList<SalesM_DailyS>  tempList = dataEntry.getCacheList();
-			    cacheList = tempList;
-			    viewSalesTable.setItems(cacheList);
-			    clearTextField();
-			} else {
-				
-				Alert alert = new Alert(AlertType.ERROR);
-	    		alert.setTitle("Error");
-	    		alert.setHeaderText(null);
-	    		alert.setContentText("Please do something correct");
-	    		alert.showAndWait();
-			}
+	    if (selectedDS == null) {
+	    	
+	        Date = String.valueOf(today);
+	    } else {
+	    	
+	        Date = txtDate.getText().trim();
+	    }
 		
-    	} catch (Exception e) {
-    		
-    		Alert alert = new Alert(AlertType.ERROR);
-    		alert.setTitle("Error");
-    		alert.setHeaderText(null);
-    		alert.setContentText(String.format("Error: %s", e.toString()));
-    		alert.showAndWait();
-    	}	
+	    try {
+	    	
+	    	int totalSalesValue = Integer.parseInt(TotalSales);
+	    	
+	    	if (ItemId.isEmpty() || TotalSales.isEmpty() || totalSalesValue <= 0) {
+	    		
+	    		Alert alert = new Alert(AlertType.INFORMATION);
+		    	alert.setTitle("Error");
+		    	alert.setHeaderText("Something went wrong");
+		    	alert.setContentText("Please Fill in All the TextField and Key in The Data Properly");
+		    	alert.showAndWait();
+	    	} else {
+	    		
+	    		SalesM_DailyS dataEntry = new SalesM_DailyS(
+						
+		    		ID,
+		    		ItemId,
+		    		Date,
+		    		totalSalesValue,
+		    		"temp", //Use the UserID in the superclass (author), so  the system will record who edit this record
+		    		cacheList, 
+		    		selectedSuppIndex,
+		    		oriSales
+	    		);
+	    			
+	    		boolean result = dataEntry.insertCheck(selectedDS);
+	    				
+	    		if (result) {
+	    					
+	    			ObservableList<SalesM_DailyS>  tempList = dataEntry.getCacheList();
+	    			cacheList = tempList;
+	    			viewSalesTable.setItems(cacheList);
+	    			clearTextField();
+	    			
+	    		} else {
+	    			
+	    			Alert alert = new Alert(AlertType.INFORMATION);
+	    		    alert.setTitle("Error");
+	    		    alert.setHeaderText("Something went wrong");
+	    		    alert.setContentText("Please Key in The Data In A Proper Way");
+	    		    alert.showAndWait();
+	    		}
+	    	}
+	    } catch (Exception e) {
+	    		
+	    	Alert alert = new Alert(AlertType.INFORMATION);
+	    	alert.setTitle("Error");
+	    	alert.setHeaderText("Something went wrong");
+	    	alert.setContentText("Please Key in The Data In A Proper Way");
+	    	alert.showAndWait();
+	    }	
+	    
+		clearTextField();
+		viewSalesTable.getSelectionModel().clearSelection();
     }
     
     @FXML
@@ -326,6 +325,10 @@ public class smDailySCtrl {
 	    		
 	    		delIndex.DeleteFunc();
 	    		ObservableList<SalesM_DailyS>  tempList = delIndex.getCacheList();
+	    		for (SalesM_DailyS item : tempList) {
+	    			System.out.println(item.getId());
+	    		    System.out.println(item.getItemId());
+	    		}
 	    		cacheList = tempList;
 	    		viewSalesTable.setItems(cacheList);
 	    		clearTextField();
@@ -346,6 +349,8 @@ public class smDailySCtrl {
     	    alert.setContentText("Bro please select a row first lah, why you try to delete empty (^_^') ");
     	    alert.showAndWait();
     	}
+    	
+    	viewSalesTable.getSelectionModel().clearSelection();
     }
     
     @FXML
@@ -366,7 +371,6 @@ public class smDailySCtrl {
 	    	SalesM_DailyS note = new SalesM_DailyS(netString);
 	    	note.SaveFunc();
 	    	
-	    	clearTextField();
 	    	reloadClick();
     	} catch (Exception e) {
     		
@@ -381,19 +385,22 @@ public class smDailySCtrl {
     @FXML
     public void reloadClick() throws IOException {
     	
-    	
+    	comboItem_ID.getItems().clear();
+    	clearTextField();
     	cacheList.clear();
     	load();
     }
     
     public void clearTextField() {
     	
-    	TextField[] textFields = {txtDSID, txtitemID, txtDate, txttotalSales, txtAuthor};
+    	TextField[] textFields = {txtDSID, txtDate, txttotalSales, txtAuthor};
     	for (TextField field : textFields) {
     	    field.clear();      	
     	}
     	
+    	comboItem_ID.setValue(null);
+    	
     	txtDSID.setEditable(true);
-        txtitemID.setEditable(true);
+    	comboItem_ID.setDisable(false);
     }
 }

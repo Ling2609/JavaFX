@@ -207,6 +207,7 @@ public class FMGenReportCtrl {
 
     @FXML
    public void refclick(MouseEvent event) throws IOException {
+    	
     	String dim= Yearbox.getSelectionModel().getSelectedItem();
     	if(dim!=null) {
 	    	int index=0;

@@ -4,3 +4,7 @@ Gin,gin1,financeManager
 weiL,wei2,inventoryManager
 hi,hi111,admin
 hello,123,purchaseManager
+waiki,1234,salesManager
+jiany,4321,purchaseManager
+gingx,5678,financeManager
+weil,8765,inventoryManager

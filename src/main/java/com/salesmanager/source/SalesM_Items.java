@@ -96,35 +96,45 @@ public class SalesM_Items implements viewData, modifyData{
 	@Override
 	public StringBuilder ReadTextFile() throws IOException {
 		
-		//InputStream stream= getClass().getClassLoader().getResourceAsStream("Data/ItemsList.txt");
-		BufferedReader reader= new BufferedReader(new FileReader("Data/ItemsList.txt"));
-		builder= new StringBuilder();
-		String line;
 		
-		while ((line=reader.readLine())!=null) {
-			if (line.trim().isBlank()) continue;
-			
-			String[] data = line.split(",");
-
-	        if (data.length < 4) {
-	            System.out.println("Pass the wrong format line: " + line);
-	            continue;
-	        }
-
-	        builder.append(data[0]).append(","); // ID
-	        builder.append(data[1]).append(","); // Name
-	        builder.append(data[2]).append(","); // Stock
-	        builder.append(data[3]).append("\n"); // UnitPrice
-		}
+		StringBuilder builder = new StringBuilder();
 		
-		reader.close();
+		try (BufferedReader reader = new BufferedReader(new FileReader("Data/ItemsList.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.trim().isBlank()) continue;
+
+                String[] data = line.split(",");
+                if (data.length < 4) continue; 
+
+                builder.append(data[0]).append(","); // ID
+    	        builder.append(data[1]).append(","); // Name
+    	        builder.append(data[2]).append(","); // Stock
+    	        builder.append(data[3]).append("\n"); // UnitPrice
+            }
+		
 		return builder;
+		}
 	}
 	
 	@Override
 	public void AddFunc() {
 	    
-	    cacheList.add(new SalesM_Items(ID, Name, Stock, UnitPrice));
+		int newestNum = 0;
+		
+		for (SalesM_Items item : cacheList) { 
+			
+			String[] spl = item.getId().toString().split("I");
+			int itemNum = Integer.parseInt(spl[1]);
+			if(itemNum > newestNum ) {
+				
+				newestNum = itemNum;
+			}
+		}
+		
+		int currentNum = newestNum + 1;
+		
+		String currentNumStr = String.valueOf("I00" + currentNum);
 	    
 	    TextInputDialog dialog = new TextInputDialog();
 	    dialog.setTitle("Input Required");
@@ -153,7 +163,8 @@ public class SalesM_Items implements viewData, modifyData{
 	        if (!supplierExists) {
 	        	showAlert("Supplier does not exist. Please add the supplier first.");
 	        } else {
-	        	itemSuppList.add(String.format("%s-%s", suppId, ID));
+	        	cacheList.add(new SalesM_Items(currentNumStr, Name, Stock, UnitPrice));
+	        	itemSuppList.add(String.format("%s-%s", suppId, currentNumStr));
 	        }
 	    }
 	    
