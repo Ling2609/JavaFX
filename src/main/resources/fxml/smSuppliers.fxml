@@ -70,7 +70,13 @@
                         <Font name="DejaVu Serif Bold" size="14.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtContactN" />
+                  <HBox prefHeight="35.0" prefWidth="181.0">
+                     <children>
+                        <TextField fx:id="txtContactNHead" prefHeight="26.0" prefWidth="38.0" promptText="{H}" />
+                        <Separator orientation="VERTICAL" prefHeight="26.0" prefWidth="10.0" visible="false" />
+                        <TextField fx:id="txtContactN" prefHeight="26.0" prefWidth="128.0" promptText="{Tail}" />
+                     </children>
+                  </HBox>
                   <Separator opacity="0.0" prefHeight="60.0" prefWidth="200.0" />
                   <Label text="ADDRESS" textFill="#5e6572">
                      <font>
