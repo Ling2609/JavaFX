@@ -153,48 +153,73 @@ public class smSuppsCtrl {
     	String SuppName = txtName.getText().trim();
 		String SuppAddress = txtAddress.getText().trim();
 		
-    	try {
-    	
-    		int SuppContactNumTail = Integer.parseInt(txtContactN.getText().trim());
-    		int SuppContactNumHead = Integer.parseInt(txtContactNHead.getText().trim());
-    		
-    		String SuppContactNum = String.format("%s-%s", String.valueOf(SuppContactNumHead), String.valueOf(SuppContactNumTail));
-    		
-	    	if(SuppName.isEmpty() || SuppContactNum.isEmpty() || SuppAddress.isEmpty()) {
-	    		
-	    		Alert alert = new Alert(AlertType.INFORMATION);
-	    		alert.setContentText("Please Fill in all the textField.");
-	    		alert.showAndWait();
-	    	} else {
-	    		
-	    		SalesM_Suppliers dataModify = new SalesM_Suppliers(
-	        			
-	        			ID,
-	        			SuppName,
-	        			SuppContactNum,
-	        			SuppAddress,
-	        			itemSuppList,
-	        			cacheList,
-	        			selectedSuppIndex
-	        			);
-	        	
-	        	dataModify.insertCheck(selectedSupp);
-	        	
-	        	ObservableList<SalesM_Suppliers>  tempList = dataModify.getCacheList();
-	        	cacheList = tempList;
-	        	ArrayList<String> tempISList = dataModify.getISList();
-	        	itemSuppList = tempISList;
-	        	viewSuppsTable.setItems(cacheList);
-	    	}
-    	} catch (Exception e) {
-    		
-    		Alert alert = new Alert(AlertType.INFORMATION);
-    		alert.setContentText("Please Make Sure You Key In the Data in a Proper Way");
-    		alert.showAndWait();
-    	}
-    	
-    	clearTextField();
-    	viewSuppsTable.getSelectionModel().clearSelection();
+		try {
+		    String contactNText = txtContactN.getText().trim();
+		    String contactNHeadText = txtContactNHead.getText().trim();
+
+		    // Check for emptiness for all required fields
+		    if (SuppName.isEmpty() || SuppAddress.isEmpty() || contactNText.isEmpty() || contactNHeadText.isEmpty()) {
+		        Alert alert = new Alert(AlertType.INFORMATION);
+		        alert.setContentText("Please fill in all the text fields.");
+		        alert.showAndWait();
+		        return; // Stop execution here if fields are empty
+		    }
+
+		    // Attempt to parse numerical values, handling NumberFormatException
+		    int suppContactNumTail;
+		    int suppContactNumHead;
+		    try {
+		        suppContactNumHead = Integer.parseInt(contactNHeadText);
+		        suppContactNumTail = Integer.parseInt(contactNText); // Note: Assuming this is the "tail" part
+		    } catch (NumberFormatException e) {
+		        Alert alert = new Alert(AlertType.INFORMATION);
+		        alert.setContentText("Please enter valid numbers for contact number parts.");
+		        alert.showAndWait();
+		        return; // Stop execution if parsing fails
+		    }
+
+		    // Optional: Add further validation for contact number parts (e.g., length, specific formats)
+		    // Example: Check if head/tail have expected digit counts if that's a requirement
+		    if (String.valueOf(suppContactNumHead).length() >2 || String.valueOf(suppContactNumTail).length() > 8) {
+		        Alert alert = new Alert(AlertType.INFORMATION);
+		        alert.setContentText("Please enter a valid 2-digit head and 7-digit to 8-digit tail for the contact number.");
+		        alert.showAndWait();
+		        return;
+		    }
+
+
+		    // Format the contact number string now that we have valid numbers
+		    String suppContactNum = String.format("%s-%s", String.valueOf(suppContactNumHead), String.valueOf(suppContactNumTail));
+
+		    // If all validations pass, proceed with your logic
+		    SalesM_Suppliers dataModify = new SalesM_Suppliers(
+		        ID,
+		        SuppName,
+		        suppContactNum,
+		        SuppAddress,
+		        itemSuppList,
+		        cacheList,
+		        selectedSuppIndex
+		    );
+
+		    dataModify.insertCheck(selectedSupp);
+
+		    ObservableList<SalesM_Suppliers> tempList = dataModify.getCacheList();
+		    cacheList = tempList;
+		    ArrayList<String> tempISList = dataModify.getISList();
+		    itemSuppList = tempISList;
+		    viewSuppsTable.setItems(cacheList);
+
+		} catch (Exception e) {
+		    // This catch block should now only catch genuinely unexpected errors.
+		    e.printStackTrace(); // Always print stack trace for unexpected errors
+		    Alert alert = new Alert(AlertType.ERROR); // Use ERROR type for unexpected issues
+		    alert.setContentText("An unexpected error occurred: " + e.getMessage());
+		    alert.showAndWait();
+		} finally { // The finally block ensures these always run
+		    clearTextField();
+		    viewSuppsTable.getSelectionModel().clearSelection();
+		}
     }
     
     @FXML
