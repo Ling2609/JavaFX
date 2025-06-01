@@ -218,52 +218,81 @@ public class smItemsCtrl {
 		String Stock = txtItemsStock.getText().trim();
 		String UnitPrice = txtItemsUP.getText().trim();
 
-    	try {
-    		
-    		int stockValue = Integer.parseInt(Stock);
-    		double unitPriceValue = Double.parseDouble(UnitPrice);
-    		
-    		if (ItemName.isEmpty() || Stock.isEmpty() || UnitPrice.isEmpty() || stockValue < 0 || unitPriceValue < 0.00) {
-    			
-    			Alert alert = new Alert(AlertType.INFORMATION);
-        		alert.setContentText("Please Fill in All the TextField and Key In the Data in a proper way");
-        		alert.showAndWait();
-    		} else {
-    			
-    			SalesM_Items dataModify = new SalesM_Items(
-    	    			ID,
-    					ItemName,
-    					stockValue,
-    					unitPriceValue,
-    					itemSuppList,
-    					cacheList, 
-    					selectedSuppIndex
-    					);
-    	    	
-    	    	dataModify.insertCheck(
-    	    		
-    					selectedSupp
-    					
-    					);
-    	    	
-    	    	ObservableList<SalesM_Items>  tempList = dataModify.getCacheList();
-    	    	cacheList = tempList;
-    	    	
-    	    	ArrayList<String> tempISList = dataModify.getISList();
-    	    	itemSuppList = tempISList;
-    	    	
-    	    	viewItemTable.setItems(cacheList);
-    		}
-    	
-    	} catch (Exception e) {
-    		
-    		Alert alert = new Alert(AlertType.INFORMATION);
-    		alert.setContentText("Please Make Sure You Key In the Data in a Proper Way");
-    		alert.showAndWait();
-    	}
-    	
-    	clearTextField();
-    	viewItemTable.getSelectionModel().clearSelection();
+		try {
+		    // Check for emptiness first for all fields
+		    if (ItemName.isEmpty() || Stock.isEmpty() || UnitPrice.isEmpty()) {
+		        Alert alert = new Alert(AlertType.INFORMATION);
+		        alert.setContentText("Please fill in all the required fields."); // More specific message
+		        alert.showAndWait();
+		        return; // Important: Stop execution here if fields are empty
+		    }
+
+		    // Validate ItemName (alphabets only)
+		    // The regex `[a-zA-Z\\s]*` allows empty string and spaces.
+		    // Since we already checked for `isEmpty()` above,
+		    // this check now only focuses on characters being alphabets or spaces.
+		    if (!ItemName.matches("^[a-zA-Z\\s]+$")) { // Added ^ and $ to match entire string
+		        Alert alert = new Alert(AlertType.INFORMATION);
+		        alert.setContentText("Item Name can only contain alphabets and spaces.");
+		        alert.showAndWait();
+		        return; // Stop execution
+		    }
+
+		    // Parse numerical values (now we know strings are not empty)
+		    int stockValue;
+		    double unitPriceValue;
+		    try {
+		        stockValue = Integer.parseInt(Stock);
+		        unitPriceValue = Double.parseDouble(UnitPrice);
+		    } catch (NumberFormatException e) {
+		        Alert alert = new Alert(AlertType.INFORMATION);
+		        // This specific alert is shown if Stock or UnitPrice are not valid numbers
+		        alert.setContentText("Please enter valid numbers for Stock and Unit Price.");
+		        alert.showAndWait();
+		        return; // Stop execution
+		    }
+
+		    // Validate numerical ranges (now we know they are valid numbers)
+		    if (stockValue < 0 || unitPriceValue < 0.00) {
+		        Alert alert = new Alert(AlertType.INFORMATION);
+		        alert.setContentText("Stock and Unit Price cannot be negative.");
+		        alert.showAndWait();
+		        return; // Stop execution
+		    }
+
+		    // If all validations pass, proceed with your logic
+		    SalesM_Items dataModify = new SalesM_Items(
+		        ID,
+		        ItemName,
+		        stockValue,
+		        unitPriceValue,
+		        itemSuppList,
+		        cacheList,
+		        selectedSuppIndex
+		    );
+
+		    dataModify.insertCheck(selectedSupp);
+
+		    ObservableList<SalesM_Items> tempList = dataModify.getCacheList();
+		    cacheList = tempList;
+
+		    ArrayList<String> tempISList = dataModify.getISList();
+		    itemSuppList = tempISList;
+
+		    viewItemTable.setItems(cacheList);
+
+		} catch (Exception e) {
+		    // This catch block should ideally only catch unexpected errors now,
+		    // as most common validation issues are handled by specific `return` statements.
+		    // Log the exception for debugging.
+		    e.printStackTrace();
+		    Alert alert = new Alert(AlertType.ERROR); // Use ERROR type for unexpected issues
+		    alert.setContentText("An unexpected error occurred: " + e.getMessage());
+		    alert.showAndWait();
+		} finally { // The finally block ensures these always run
+		    clearTextField();
+		    viewItemTable.getSelectionModel().clearSelection();
+		}
     }
     
     @FXML
