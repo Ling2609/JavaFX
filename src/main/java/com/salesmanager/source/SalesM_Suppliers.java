@@ -173,7 +173,7 @@ public class SalesM_Suppliers implements viewData, modifyData{
             	if(itemId.startsWith("I00")) {
             		
             		cacheList.add(new SalesM_Suppliers(currentNumStr, Name, ContactNum, Address));
-                	itemSuppList.add(String.format("%s-%s", Id,itemId));
+                	itemSuppList.add(String.format("%s-%s", currentNumStr,itemId));
             	} else {
             		
             		Alert alert = new Alert(AlertType.INFORMATION);
