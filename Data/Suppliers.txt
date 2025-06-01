@@ -3,4 +3,4 @@ S003,Jian Yang,60-1234567,15-jalan apu
 S001,Nixon,60-12321321,fsdjfklsajfskljflkasjf
 S004,WeiLing,60-1231312321,fsfsafasdfsdfasdfsdf
 S005,fasfdsaf,60-161234567,dsfsdafasdfdasf
-S006,sir,60-12345111,fasfasdfdsafds
+S006,GingXuan,60-11234567,fasdfasdfsff

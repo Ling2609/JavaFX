@@ -78,6 +78,7 @@ public class SalesM_PRs extends SalesM implements viewData, modifyData {
 	    StringBuilder builder = new StringBuilder();
 
 	    try (BufferedReader reader = new BufferedReader(new FileReader("Data/prList.txt"))) {
+	    	
 	        String line;
 	        while ((line = reader.readLine()) != null) {
 	            if (line.trim().isBlank()) continue;
