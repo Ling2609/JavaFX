@@ -4,3 +4,4 @@ S001,Nixon,60-12321321,fsdjfklsajfskljflkasjf
 S004,WeiLing,60-1231312321,fsfsafasdfsdfasdfsdf
 S005,fasfdsaf,60-161234567,dsfsdafasdfdasf
 S006,GingXuan,60-11234567,fasdfasdfsff
+S007,JV,60-1231441,20, jalan1123, klcc

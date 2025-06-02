@@ -164,6 +164,13 @@ public class smSuppsCtrl {
 		        alert.showAndWait();
 		        return; // Stop execution here if fields are empty
 		    }
+		    
+		    if (!SuppName.matches("^[a-zA-Z\\s]+$")) { // Added ^ and $ to match entire string
+		        Alert alert = new Alert(AlertType.INFORMATION);
+		        alert.setContentText("Supplier Name can only contain alphabets and spaces.");
+		        alert.showAndWait();
+		        return; // Stop execution
+		    }
 
 		    // Attempt to parse numerical values, handling NumberFormatException
 		    int suppContactNumTail;
