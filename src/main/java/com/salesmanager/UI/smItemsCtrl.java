@@ -11,12 +11,14 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import com.inventorymanager.source.InventoryM_Stocks;
 import com.salesmanager.source.*;
@@ -245,18 +247,17 @@ public class smItemsCtrl {
 		        stockValue = Integer.parseInt(Stock);
 		        unitPriceValue = Double.parseDouble(UnitPrice);
 		    } catch (NumberFormatException e) {
-		        Alert alert = new Alert(AlertType.INFORMATION);
-		        // This specific alert is shown if Stock or UnitPrice are not valid numbers
-		        alert.setContentText("Please enter valid numbers for Stock and Unit Price.");
-		        alert.showAndWait();
+		    	
+		    	showAlert("Please enter valid numbers for Stock and Unit Price.");
+		    	
 		        return; // Stop execution
 		    }
 
 		    // Validate numerical ranges (now we know they are valid numbers)
 		    if (stockValue < 0 || unitPriceValue < 0.00) {
-		        Alert alert = new Alert(AlertType.INFORMATION);
-		        alert.setContentText("Stock and Unit Price cannot be negative.");
-		        alert.showAndWait();
+		    	
+		    	showAlert("Stock and Unit Price cannot be negative.");
+		        
 		        return; // Stop execution
 		    }
 
@@ -272,7 +273,10 @@ public class smItemsCtrl {
 		    );
 
 		    dataModify.insertCheck(selectedSupp);
-
+		    
+		    String alertText = dataModify.getAlertText();
+    		showAlert(alertText);
+    		
 		    ObservableList<SalesM_Items> tempList = dataModify.getCacheList();
 		    cacheList = tempList;
 
@@ -286,10 +290,11 @@ public class smItemsCtrl {
 		    // as most common validation issues are handled by specific `return` statements.
 		    // Log the exception for debugging.
 		    e.printStackTrace();
-		    Alert alert = new Alert(AlertType.ERROR); // Use ERROR type for unexpected issues
-		    alert.setContentText("An unexpected error occurred: " + e.getMessage());
-		    alert.showAndWait();
+		    
+		    showAlert("An unexpected error occurred: " + e.getMessage());
+		    
 		} finally { // The finally block ensures these always run
+			
 		    clearTextField();
 		    viewItemTable.getSelectionModel().clearSelection();
 		}
@@ -299,6 +304,7 @@ public class smItemsCtrl {
     public void deleteClick() {
     	
     	int selectedSuppIndex = viewItemTable.getSelectionModel().getSelectedIndex();
+    	
     	SalesM_Items dataModify = new SalesM_Items(
     			txtItemsID.getText().trim(),
     			itemSuppList,
@@ -320,9 +326,8 @@ public class smItemsCtrl {
     		
     	} catch (Exception e) {
     		
-    		Alert alert = new Alert(AlertType.INFORMATION);
-    		alert.setContentText("Please select a row for deletion");
-    		alert.showAndWait();
+    		showAlert("Please select a row for deletion");
+    		
     	}
     	
     	viewItemTable.getSelectionModel().clearSelection();
@@ -345,6 +350,9 @@ public class smItemsCtrl {
     	SalesM_Items note = new SalesM_Items(netString, itemSuppList);
     	note.SaveFunc();
     	
+    	String alertText = note.getAlertText();
+		showAlert(alertText);
+		
     	clearTextField();
     	reloadClick();
     }
@@ -390,6 +398,8 @@ public class smItemsCtrl {
         }
 
         if (lowStockFound) {
+        	
+        	showAlert("Some items are low in stock!");
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Low Stock Alert");
             alert.setHeaderText("Some items are low in stock!");
@@ -405,4 +415,31 @@ public class smItemsCtrl {
             alert.showAndWait();
         }
     }
+    
+    private void showAlert(String msg) {
+    	
+    	if (msg != null) {
+		    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		    alert.setTitle("Information");
+		    alert.setHeaderText(null);
+		    alert.setContentText(msg);
+		    alert.showAndWait();
+    	} else {
+    		
+    		return;
+    	}
+	}
+    
+    public Optional<String> getSuppId(){
+
+    	TextInputDialog dialog = new TextInputDialog();
+    	dialog.setTitle("Input Required");
+    	dialog.setHeaderText("Enter the Supplier ID supplied by New Supplier");
+    	dialog.setContentText("Supplier ID:");
+
+    	Optional<String> result = dialog.showAndWait();
+    	    
+    	return result;    
+    }
+    
 }

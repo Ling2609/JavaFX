@@ -11,12 +11,11 @@ import java.util.List;
 import java.util.Optional;
 
 import com.groupfx.JavaFXApp.*;
+import com.salesmanager.UI.smItemsCtrl;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.Alert.AlertType;
 
 public class SalesM_Items implements viewData, modifyData{
 	
@@ -29,7 +28,10 @@ public class SalesM_Items implements viewData, modifyData{
 	private ObservableList<SalesM_Items> cacheList = FXCollections.observableArrayList();
 	private int index;
 	private String resultString;
-	private String suppItemString;
+	
+	Optional<String> suppIdResult;
+	
+	private String alertText = null;
 	
 	private ArrayList<String> itemSuppList = new ArrayList<String>();
 	
@@ -38,6 +40,11 @@ public class SalesM_Items implements viewData, modifyData{
 	public SalesM_Items() 
 	{
 		
+	}
+	
+	public SalesM_Items(Optional<String> suppIdResult) {
+		
+		this.suppIdResult = suppIdResult;
 	}
 	
 	public SalesM_Items(String resultString, ArrayList<String> resultItemSuppList) 
@@ -93,6 +100,8 @@ public class SalesM_Items implements viewData, modifyData{
     
     public double getUnitPrice() { return UnitPrice; }
     
+    public String getAlertText() { return alertText; }
+    
 	@Override
 	public StringBuilder ReadTextFile() throws IOException {
 		
@@ -136,18 +145,15 @@ public class SalesM_Items implements viewData, modifyData{
 		
 		String currentNumStr = String.valueOf("I00" + currentNum);
 	    
-	    TextInputDialog dialog = new TextInputDialog();
-	    dialog.setTitle("Input Required");
-	    dialog.setHeaderText("Enter the Supplier ID supplied by New Supplier");
-	    dialog.setContentText("Supplier ID:");
-
-	    Optional<String> result = dialog.showAndWait();
+		smItemsCtrl suppIdR = new smItemsCtrl();
+		Optional<String> result = suppIdR.getSuppId();
 
 	    if (result.isPresent()) {
 	        String suppId = result.get().trim();
 
 	        if (suppId.isEmpty()) {
-	            showAlert("Please key in the Supplier ID.");
+	        	
+	        	alertText =  "Please key in the Supplier ID.";
 	            return;
 	        }
 
@@ -161,44 +167,17 @@ public class SalesM_Items implements viewData, modifyData{
 	        }
 
 	        if (!supplierExists) {
-	        	showAlert("Supplier does not exist. Please add the supplier first.");
+	        	
+	        	alertText = "Supplier does not exist. Please add the supplier first.";
+	        	return;
+	        	
 	        } else {
+	        	
 	        	cacheList.add(new SalesM_Items(currentNumStr, Name, Stock, UnitPrice));
 	        	itemSuppList.add(String.format("%s-%s", suppId, currentNumStr));
 	        }
 	    }
 	    
-// 		Lambda Expression Readability is not that good!!!
-//	    result.ifPresent(suppId -> {
-//	        if (suppId.trim().isEmpty()) {
-//	            showAlert("Please key in the Supplier ID.");
-//	            return;
-//	        }
-//
-//	        boolean supplierExists = false;
-//	        for (String itemSupp : itemSuppList) {
-//	            String[] row = itemSupp.split("-");
-//	            if (row.length > 0 && row[0].equals(suppId)) {
-//	                supplierExists = true;
-//	                break;
-//	            }
-//	        }
-//
-//	        if (supplierExists) {
-//	            itemSuppList.add(String.format("%s-%s", suppId, ID));
-//	        } else {
-//	            showAlert("Supplier does not exist. Please add the supplier first.");
-//	        }
-//	    });
-	    
-	}
-
-	private void showAlert(String msg) {
-	    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-	    alert.setTitle("Information");
-	    alert.setHeaderText(null);
-	    alert.setContentText(msg);
-	    alert.showAndWait();
 	}
 	
 	@Override
@@ -234,7 +213,8 @@ public class SalesM_Items implements viewData, modifyData{
             
 			}
         } catch (IOException e) {
-            e.printStackTrace();
+        	
+        	alertText = String.format("%s", e);
         }
 		
 		// save Item suppliers soft entity
@@ -244,7 +224,8 @@ public class SalesM_Items implements viewData, modifyData{
 	            writer.newLine();
 	        }
 	    } catch (IOException e) {
-	        e.printStackTrace();
+	    	
+	    	alertText = String.format("%s", e);
 	    }
 	}
 	
@@ -260,7 +241,8 @@ public class SalesM_Items implements viewData, modifyData{
 		    
     	} else {
     		
-    		showAlert("The item name has been added");
+    		alertText = "The item name has been added";
+
     	}
 		
 	} 

@@ -31,6 +31,8 @@ public class SalesM_DailyS extends SalesM implements viewData, modifyData {
 	private ObservableList<SalesM_DailyS> cachelist;
 	private int oriSales;
 	
+	private String alertText = null;
+	
 	private LocalDate today = LocalDate.now();
 	
 	public SalesM_DailyS() {
@@ -96,6 +98,7 @@ public class SalesM_DailyS extends SalesM implements viewData, modifyData {
     public int getTotalSales() { return totalSales; }
     public String getAuthor() { return tempAuthor; }
 	
+    public String getAlertText() { return alertText; }
     @Override
 	public StringBuilder ReadTextFile() throws IOException
 	{	
@@ -195,6 +198,7 @@ public class SalesM_DailyS extends SalesM implements viewData, modifyData {
             
 			}
         } catch (IOException e) {
+        	
             e.printStackTrace();
         }
 	}
@@ -249,24 +253,21 @@ public class SalesM_DailyS extends SalesM implements viewData, modifyData {
 		                        cachelist.add(new SalesM_DailyS(
 		                            currentNumStr, itemId, String.valueOf(today), obj.getTotalSales(), author));
 		                    } else {
-
-		                        Alert alert = new Alert(AlertType.INFORMATION);
-		                        alert.setContentText("No Enough Stock, Please Generate Purchase Requisition.");
-		                        alert.showAndWait();
+		                    	
+		                    	alertText = "No Enough Stock, Please Generate Purchase Requisition.";
 
 		                        stockEnough = false;
-		                        break;  // 不再处理其他行
+		                        break;
 		                    }
 		                }
 
-		                updatedLines.add(String.join(",", spl)); // ✅ 总是在外层写入
+		                updatedLines.add(String.join(",", spl));
 		            }
 		        }
 		    } catch (IOException e) {
 		        e.printStackTrace();
 		    }
 
-		    // ✅ 确保库存足够才写入文件
 		    if (stockEnough) {
 		        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Data/ItemsList.txt"))) {
 		            for (String updatedLine : updatedLines) {
@@ -294,9 +295,9 @@ public class SalesM_DailyS extends SalesM implements viewData, modifyData {
 			                        totalSales -= change;
 			                        spl[2] = String.valueOf(totalSales);
 			                    } else {
-			                        Alert alert = new Alert(AlertType.INFORMATION);
-			                        alert.setContentText("Not enough stock. Please generate purchase requisition.");
-			                        alert.showAndWait();
+			                    	
+			                    	alertText = "Not enough stock. Please generate purchase requisition.";
+			                        
 			                        stockEnough = false;
 			                        break;
 			                    }
@@ -306,7 +307,7 @@ public class SalesM_DailyS extends SalesM implements viewData, modifyData {
 			            }
 			        }
 			    } catch (IOException e) {
-			        e.printStackTrace(); // 你可以改成弹窗提示
+			        e.printStackTrace(); 
 			    }
 
 			    if (stockEnough) {

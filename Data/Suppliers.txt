@@ -1,7 +1,7 @@
 S002,Tropical Market,60-7790101,18-Jalan N3/8-8090WPKL
 S003,Jian Yang,60-1234567,15-jalan apu
 S001,Nixon,60-12321321,fsdjfklsajfskljflkasjf
-S004,WeiLing,60-12313123,fsfsafasdfsdfasdfsdf
+S004,weiling,60-12313123,fsfsafasdfsdfasdfsdf
 S005,waiki,60-16123456,dsfsdafasdfdasf
 S006,GingXuan,60-11234567,fasdfasdfsff
 S007,JV,60-1231441,20

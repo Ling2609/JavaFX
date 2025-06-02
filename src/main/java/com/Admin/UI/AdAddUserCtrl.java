@@ -88,6 +88,7 @@ public class AdAddUserCtrl {
     				));
     		
     	}
+    	
     	UserView.setItems(obList);
     	
     }

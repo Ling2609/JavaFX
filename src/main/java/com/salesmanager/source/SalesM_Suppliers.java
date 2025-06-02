@@ -13,6 +13,7 @@ import java.io.FileWriter;
 
 import com.groupfx.JavaFXApp.modifyData;
 import com.groupfx.JavaFXApp.viewData;
+import com.salesmanager.UI.smSuppsCtrl;
 
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -31,6 +32,8 @@ public class SalesM_Suppliers implements viewData, modifyData{
 	private String resultString;
 	private ArrayList<String> resultItemSuppList;
 	private ObservableList<SalesM_Suppliers> cacheList;
+	
+	private String alertText = null;
 	
 	private ArrayList<String> itemSuppList;
 	
@@ -84,6 +87,7 @@ public class SalesM_Suppliers implements viewData, modifyData{
     public String getName() { return Name; }
     public String getContactNum() { return ContactNum; }
     public String getAddress() { return Address; }
+    public String getAlertText() { return alertText; }
     
     @Override
 	public StringBuilder ReadTextFile() throws IOException{
@@ -131,11 +135,8 @@ public class SalesM_Suppliers implements viewData, modifyData{
 			    
 	    	} else {
 	    		
-	    		Alert alert = new Alert(AlertType.INFORMATION);
-	    		alert.setTitle("Information");
-	    		alert.setHeaderText(null);
-	    		alert.setContentText("Please select the supplier if you want to edit\n OR \n If you want to add a supplier please dont repeat the ID");
-	    		alert.showAndWait();
+	    		alertText = "Please select the supplier if you want to edit\n OR \n If you want to add a supplier please dont repeat the ID";
+	    		
 	    	}
     }
 	
@@ -158,13 +159,9 @@ public class SalesM_Suppliers implements viewData, modifyData{
 		
 		String currentNumStr = String.valueOf("S00" + currentNum);
 		
-		TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Input Required");
-        dialog.setHeaderText("Enter the Item ID supplied by New Supplier");
-        dialog.setContentText("Item ID:");
-
+		smSuppsCtrl itemIdR = new smSuppsCtrl();
         // Show the message box let user key in the ItemID
-        Optional<String> result = dialog.showAndWait();
+        Optional<String> result = itemIdR.getItemIdResult();
 
         result.ifPresent(itemId -> {
 
@@ -176,19 +173,14 @@ public class SalesM_Suppliers implements viewData, modifyData{
                 	itemSuppList.add(String.format("%s-%s", currentNumStr,itemId));
             	} else {
             		
-            		Alert alert = new Alert(AlertType.INFORMATION);
-    	    		alert.setTitle("Information");
-    	    		alert.setHeaderText(null);
-    	    		alert.setContentText("Please Key In The Item ID In A Proper Fomr Start from ex. I001");
-    	    		alert.showAndWait();
+            		alertText = "Please Key In The Item ID In A Proper Fomr Start from ex. I001";
+            		
             	}
 
             } else {
-            	Alert alert = new Alert(AlertType.INFORMATION);
-	    		alert.setTitle("Information");
-	    		alert.setHeaderText(null);
-	    		alert.setContentText("Please Key In The Item ID");
-	    		alert.showAndWait();
+            	
+            	alertText = "Please Key In The Item ID";
+            	
             }
         });
 		
@@ -228,7 +220,7 @@ public class SalesM_Suppliers implements viewData, modifyData{
 	            writer.newLine();
 	        }
 	    } catch (IOException e) {
-	        e.printStackTrace();
+	    	alertText = String.format("%s", e);
 	    }
 
 	    // save Item suppliers soft entity
@@ -238,7 +230,7 @@ public class SalesM_Suppliers implements viewData, modifyData{
 	            writer.newLine();
 	        }
 	    } catch (IOException e) {
-	        e.printStackTrace();
+	    	alertText = String.format("%s", e);
 	    }
 	}
 	

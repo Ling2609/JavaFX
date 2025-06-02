@@ -169,12 +169,13 @@ public class smPRsCtrl {
     	
     	SalesM_PRs selectedSupp = viewPRsTable.getSelectionModel().getSelectedItem();	
     	int selectedSuppIndex = viewPRsTable.getSelectionModel().getSelectedIndex();
-    	String Id = txtPRsID.getText().trim();
-		String itemId = comboItem_ID.getValue().trim();
-		String quantity = txtQuantity.getText().trim();
-		String date = txtDate.getText().trim();
 		
     	try {
+    		
+    		String Id = txtPRsID.getText().trim();
+    		String itemId = comboItem_ID.getValue().trim();
+    		String quantity = txtQuantity.getText().trim();
+    		String date = txtDate.getText().trim();
     		
     		if (itemId.isEmpty() || quantity.isEmpty() || date.isEmpty()) {
     			
@@ -185,9 +186,8 @@ public class smPRsCtrl {
     			
     			if(!isValidDate(date)) {
     				
-    				Alert alert = new Alert(AlertType.INFORMATION);
-    	    		alert.setContentText("Please Key In the Required Date in the correct format");
-    	    		alert.showAndWait();
+    				showAlert("Please Key In the Required Date in the correct format");
+    				
     			} else {
 	    			SalesM_PRs dataEntry = new SalesM_PRs(
 	    	    			
@@ -203,6 +203,9 @@ public class smPRsCtrl {
 	    	    	
 	    	    	dataEntry.insertCheck(selectedSupp);
 	    	    	
+	    	    	String alertText = dataEntry.getAlertText();
+	        		showAlert(alertText);
+	        		
 	    	    	ObservableList<SalesM_PRs>  tempList = dataEntry.getCacheList();
 	    	    	cacheList = tempList;
 	    	    	viewPRsTable.setItems(cacheList);
@@ -212,9 +215,8 @@ public class smPRsCtrl {
     	
     	} catch (Exception e) {
     		
-    		Alert alert = new Alert(AlertType.INFORMATION);
-    		alert.setContentText("Please Make Sure You Key In the Data in a Proper Way");
-    		alert.showAndWait();
+    		showAlert("Please Make Sure You Key In the Data in a Proper Way");
+    		
     	}
 
     }
@@ -233,9 +235,8 @@ public class smPRsCtrl {
     		
     	} catch (Exception e) {
     		
-    		Alert alert = new Alert(AlertType.INFORMATION);
-    		alert.setContentText("Please select a row for deletion");
-    		alert.showAndWait();
+    		showAlert("Please select a row for deletion");
+    		
     	}
     	viewPRsTable.getSelectionModel().clearSelection();
     }
@@ -294,5 +295,19 @@ public class smPRsCtrl {
             return false;
         }
     }
+    
+    private void showAlert(String msg) {
+    	
+    	if (msg != null) {
+		    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		    alert.setTitle("Information");
+		    alert.setHeaderText(null);
+		    alert.setContentText(msg);
+		    alert.showAndWait();
+    	} else {
+    		
+    		return;
+    	}
+	}
     
 }

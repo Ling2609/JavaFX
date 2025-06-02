@@ -70,6 +70,8 @@ public class AdminSources implements viewData,AD_Data {
 		
 		while ((line=reader.readLine())!=null) 
 		{
+			if (line.trim().isBlank()) continue;
+
 			String[] data= line.split(",");
 			builder.append(data[0]).append(",");
 			builder.append(data[1]).append(",");

@@ -29,12 +29,15 @@ public class SalesM_PRs extends SalesM implements viewData, modifyData {
 	private String resultString;
 	private ObservableList<SalesM_PRs> cacheList;
 		
+	private String alertText = null;
+	
 	public String getId() { return Id; }
     public String getItem_ID() { return Item_ID; }
     public int getQuantity() { return Quantity; }
     public String getDate() { return Date; }
     public String getSalesM() { return SalesM; }
     public String getStatus() { return Status; }
+    public String getAlertText() {return alertText;}
     
     public SalesM_PRs() {
     	
@@ -124,19 +127,13 @@ public class SalesM_PRs extends SalesM implements viewData, modifyData {
 			    
 	    	} else {
 	    		
-	    		Alert alert = new Alert(AlertType.INFORMATION);
-	    		alert.setTitle("Information");
-	    		alert.setHeaderText(null);
-	    		alert.setContentText("Please select the Purcahse Requisition if you want to edit\n OR \n If you want to add a Purchase Requisition please dont repeat the ID");
-	    		alert.showAndWait();
+	    		alertText = "Please select the Purcahse Requisition if you want to edit\n OR \n If you want to add a Purchase Requisition please dont repeat the ID";
+	    		
 	    	}
     	} catch (Exception e) {
     		
-    		Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText(String.format("Error: %s", e.toString()));
-            alert.showAndWait();
+    		alertText = String.format("Error: %s", e.toString());
+    		
     	}
     }
     
@@ -207,7 +204,8 @@ public class SalesM_PRs extends SalesM implements viewData, modifyData {
             
 			}
         } catch (IOException e) {
-            e.printStackTrace();
+            
+        	alertText = ("Error: " + e.getMessage());
         }
 	}
 	

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import com.salesmanager.source.ItemSuppEntity;
 import com.salesmanager.source.SalesM_Items;
@@ -19,6 +20,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 
@@ -179,18 +181,18 @@ public class smSuppsCtrl {
 		        suppContactNumHead = Integer.parseInt(contactNHeadText);
 		        suppContactNumTail = Integer.parseInt(contactNText); // Note: Assuming this is the "tail" part
 		    } catch (NumberFormatException e) {
-		        Alert alert = new Alert(AlertType.INFORMATION);
-		        alert.setContentText("Please enter valid numbers for contact number parts.");
-		        alert.showAndWait();
+		    	
+		    	showAlert("Please enter valid numbers for contact number parts.");
+		        
 		        return; // Stop execution if parsing fails
 		    }
 
 		    // Optional: Add further validation for contact number parts (e.g., length, specific formats)
 		    // Example: Check if head/tail have expected digit counts if that's a requirement
 		    if (String.valueOf(suppContactNumHead).length() >2 || String.valueOf(suppContactNumTail).length() > 8) {
-		        Alert alert = new Alert(AlertType.INFORMATION);
-		        alert.setContentText("Please enter a valid 2-digit head and 7-digit to 8-digit tail for the contact number.");
-		        alert.showAndWait();
+		    	
+		        showAlert("Please enter a valid 2-digit head and 7-digit to 8-digit tail for the contact number.");
+
 		        return;
 		    }
 
@@ -211,6 +213,9 @@ public class smSuppsCtrl {
 
 		    dataModify.insertCheck(selectedSupp);
 
+		    String alertText = dataModify.getAlertText();
+    		showAlert(alertText);
+    		
 		    ObservableList<SalesM_Suppliers> tempList = dataModify.getCacheList();
 		    cacheList = tempList;
 		    ArrayList<String> tempISList = dataModify.getISList();
@@ -220,9 +225,8 @@ public class smSuppsCtrl {
 		} catch (Exception e) {
 		    // This catch block should now only catch genuinely unexpected errors.
 		    e.printStackTrace(); // Always print stack trace for unexpected errors
-		    Alert alert = new Alert(AlertType.ERROR); // Use ERROR type for unexpected issues
-		    alert.setContentText("An unexpected error occurred: " + e.getMessage());
-		    alert.showAndWait();
+		    showAlert("An unexpected error occurred: " + e.getMessage());
+
 		} finally { // The finally block ensures these always run
 		    clearTextField();
 		    viewSuppsTable.getSelectionModel().clearSelection();
@@ -249,17 +253,13 @@ public class smSuppsCtrl {
     		
     		} else {
     			
-    			Alert alert = new Alert(AlertType.INFORMATION);
-        		alert.setContentText("Please select a row for deletion");
-        		alert.showAndWait();
+        		showAlert("Please select a row for deletion");
+
     		}
     	} catch (Exception e) {
     		
-    		Alert alert = new Alert(AlertType.INFORMATION);
-    		alert.setContentText("Something went wrong" + e);
-    		alert.showAndWait();
-    		
-    		System.out.println(e);
+    		showAlert("Something went wrong" + e);
+
     	}
     	
     	viewSuppsTable.getSelectionModel().clearSelection();
@@ -303,5 +303,33 @@ public class smSuppsCtrl {
     	
     	txtAddress.clear();
     	itemBox.getItems().clear();
+    }
+    
+    private void showAlert(String msg) {
+    	
+    	if (msg != null) {
+		    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		    alert.setTitle("Information");
+		    alert.setHeaderText(null);
+		    alert.setContentText(msg);
+		    alert.showAndWait();
+    	} else {
+    		
+    		return;
+    	}
+	}
+    
+    public Optional<String> getItemIdResult(){
+
+    	TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Input Required");
+        dialog.setHeaderText("Enter the Item ID supplied by New Supplier");
+        dialog.setContentText("Item ID:");
+
+        // Show the message box let user key in the ItemID
+        Optional<String> result = dialog.showAndWait();
+
+    	    
+    	return result;    
     }
 }

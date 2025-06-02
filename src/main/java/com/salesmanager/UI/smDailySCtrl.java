@@ -243,10 +243,6 @@ public class smDailySCtrl {
 		SalesM_DailyS selectedDS = viewSalesTable.getSelectionModel().getSelectedItem();	
 		int selectedSuppIndex = viewSalesTable.getSelectionModel().getSelectedIndex();
 		
-		String ID = txtDSID.getText().trim();
-		String ItemId = comboItem_ID.getValue().trim();
-		String TotalSales = txttotalSales.getText().trim();
-		
 		String Date;
 			
 	    if (selectedDS == null) {
@@ -258,6 +254,10 @@ public class smDailySCtrl {
 	    }
 		
 	    try {
+	    	
+	    	String ID = txtDSID.getText().trim();
+			String TotalSales = txttotalSales.getText().trim();
+	    	String ItemId = comboItem_ID.getValue().trim();
 	    	
 	    	int totalSalesValue = Integer.parseInt(TotalSales);
 	    	
@@ -285,7 +285,10 @@ public class smDailySCtrl {
 	    		boolean result = dataEntry.insertCheck(selectedDS);
 	    				
 	    		if (result) {
-	    					
+	    			
+	    			String alertText = dataEntry.getAlertText();
+	        		showAlert(alertText);
+	        		
 	    			ObservableList<SalesM_DailyS>  tempList = dataEntry.getCacheList();
 	    			cacheList = tempList;
 	    			viewSalesTable.setItems(cacheList);
@@ -295,20 +298,12 @@ public class smDailySCtrl {
 	    			saveClick();	    			
 	    		} else {
 	    			
-	    			Alert alert = new Alert(AlertType.INFORMATION);
-	    		    alert.setTitle("Error");
-	    		    alert.setHeaderText("Something went wrong");
-	    		    alert.setContentText("Please Key in The Data In A Proper Way");
-	    		    alert.showAndWait();
+	    			showAlert("Please Key in The Data In A Proper Way");
 	    		}
 	    	}
 	    } catch (Exception e) {
 	    		
-	    	Alert alert = new Alert(AlertType.INFORMATION);
-	    	alert.setTitle("Error");
-	    	alert.setHeaderText("Something went wrong");
-	    	alert.setContentText("Please Key in The Data In A Proper Way");
-	    	alert.showAndWait();
+	    	showAlert("Please Key in The Data In A Proper Way");
 	    }	
 	    
 		clearTextField();
@@ -337,19 +332,13 @@ public class smDailySCtrl {
 	    		
 	    	} catch (Exception e) {
 	    		
-	    		Alert alert = new Alert(AlertType.INFORMATION);
-	    	    alert.setTitle("Error");
-	    	    alert.setHeaderText("Something went wrong");
-	    	    alert.setContentText("Error: " + e.getMessage());
-	    	    alert.showAndWait();
+	    		showAlert("Error: " + e.getMessage());
+	    		
 	    	}
     	} else {
     		
-    		Alert alert = new Alert(AlertType.INFORMATION);
-    	    alert.setTitle("Error");
-    	    alert.setHeaderText("Something went wrong");
-    	    alert.setContentText("Please select a row for deletion");
-    	    alert.showAndWait();
+    		showAlert("Please select a row for deletion");
+    		
     	}
     	
     	viewSalesTable.getSelectionModel().clearSelection();
@@ -376,11 +365,8 @@ public class smDailySCtrl {
 	    	reloadClick();
     	} catch (Exception e) {
     		
-    		Alert alert = new Alert(AlertType.INFORMATION);
-    	    alert.setTitle("Error");
-    	    alert.setHeaderText("Something went wrong");
-    	    alert.setContentText("Error: " + e.getMessage());
-    	    alert.showAndWait();
+    		showAlert("Error: " + e.getMessage());
+    		
     	}
     }
     
@@ -404,4 +390,18 @@ public class smDailySCtrl {
     	
     	comboItem_ID.setDisable(false);
     }
+    
+    private void showAlert(String msg) {
+    	
+    	if (msg != null) {
+		    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		    alert.setTitle("Information");
+		    alert.setHeaderText(null);
+		    alert.setContentText(msg);
+		    alert.showAndWait();
+    	} else {
+    		
+    		return;
+    	}
+	}
 }
