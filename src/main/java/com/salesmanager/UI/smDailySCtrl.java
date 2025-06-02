@@ -291,6 +291,8 @@ public class smDailySCtrl {
 	    			viewSalesTable.setItems(cacheList);
 	    			clearTextField();
 	    			
+	    			//To ensure the record is inside the txt;
+	    			saveClick();	    			
 	    		} else {
 	    			
 	    			Alert alert = new Alert(AlertType.INFORMATION);
