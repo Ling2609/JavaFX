@@ -77,7 +77,7 @@ public class Controller {
         	{
         		if(event.getCode()==KeyCode.ENTER) 
         		{
-        			LoginBtn.fire();
+        			
         		}
         	});
         });
