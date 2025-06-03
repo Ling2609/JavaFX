@@ -153,7 +153,7 @@ public class Controller {
     public void githubClick() {
     	new Thread(() -> {
             try {
-                Desktop.getDesktop().browse(new URI("https://github.com/OvUvO/OOP-FX"));
+                Desktop.getDesktop().browse(new URI("https://github.com/Ling2609/JavaFX"));
             } catch (Exception e) {
                 e.printStackTrace();
             }
