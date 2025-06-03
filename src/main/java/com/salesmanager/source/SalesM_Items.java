@@ -196,7 +196,45 @@ public class SalesM_Items implements viewData, modifyData{
 	@Override
 	public void DeleteFunc() {
 		
-		cacheList.remove(index);
+		StringBuilder prBuilder = new StringBuilder();
+		try (BufferedReader reader = new BufferedReader(new FileReader("Data/prList.txt"))) {
+		    	
+		        String line;
+		        while ((line = reader.readLine()) != null) {
+		            if (line.trim().isBlank()) continue;
+
+		            String[] data = line.split(",");
+		            if (data.length < 6) continue;
+
+		            prBuilder.append(data[0]).append(",")  // ID
+		                   .append(data[1]).append(",")  // ItemId
+		                   .append(data[2]).append(",")  // Quantity
+		                   .append(data[3]).append(",")  // Date
+		                   .append(data[4]).append(",")  // Author
+		                   .append(data[5]).append("\n");// Status
+		        }
+		} catch (Exception e) {
+		    	
+		    	alertText = String.format("Error: %s", e.toString());
+		}
+		
+		String[] row= prBuilder.toString().split("\n");
+    	
+    	for(String rows: row) 
+    	{
+    		String[] spl= rows.split(",");
+    		if(spl.length==6) 
+    		{
+    			if(spl[1].equals(ID)) {
+    				
+    				alertText = "The Item exist in a Purchase Requisition \n Please remove the PR first";
+    				return;
+    				
+    			}
+    		}
+    	}
+    	
+    	cacheList.remove(index);
 		
 		itemSuppList.removeIf(entry -> entry.split("-")[1].equals(ID));
 	}

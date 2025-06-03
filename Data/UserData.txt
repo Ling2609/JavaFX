@@ -7,4 +7,6 @@ hello,123,purchaseManager
 jiany,4321,purchaseManager
 gingx,5678,financeManager
 
-hgg,1234,inventoryManager
+test,1234,salesManager
+
+try,1234,inventoryManager

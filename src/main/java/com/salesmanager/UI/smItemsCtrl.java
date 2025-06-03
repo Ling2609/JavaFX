@@ -315,6 +315,10 @@ public class smItemsCtrl {
     	try {
     		
     		dataModify.DeleteFunc();
+    		
+    		String alertText = dataModify.getAlertText();
+    		showAlert(alertText);
+    		
     		ObservableList<SalesM_Items>  tempList = dataModify.getCacheList();
     		cacheList = tempList;
     		

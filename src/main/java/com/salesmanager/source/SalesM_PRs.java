@@ -90,15 +90,15 @@ public class SalesM_PRs extends SalesM implements viewData, modifyData {
 	            if (data.length < 6) continue;
 
 	            builder.append(data[0]).append(",")  // ID
-	                   .append(data[1]).append(",")  // Name
-	                   .append(data[2]).append(",")  // Supplier Name
-	                   .append(data[3]).append(",")  // Stock
-	                   .append(data[4]).append(",")  // Unit Price
-	                   .append(data[5]).append("\n");// Sales Manager
+	                   .append(data[1]).append(",")  // ItemId
+	                   .append(data[2]).append(",")  // Quantity
+	                   .append(data[3]).append(",")  // Date
+	                   .append(data[4]).append(",")  // Sales Manager
+	                   .append(data[5]).append("\n");// Status
 	        }
 	    } catch (Exception e) {
 	    	
-	    	System.out.println(e);
+	    	alertText = String.format("Error: %s", e.toString());
 	    }
 
 	    return builder;
