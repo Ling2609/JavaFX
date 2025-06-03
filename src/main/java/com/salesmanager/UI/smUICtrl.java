@@ -42,7 +42,7 @@ public class smUICtrl implements Initializable {
 	@Override
     public void initialize(URL location, ResourceBundle resources) {
 		
-       loadNewContent("/fxml/smPR.fxml");
+       loadNewContent("/fxml/smItems.fxml");
         try {
 			EnableButton();
 		} catch (IOException e) 
