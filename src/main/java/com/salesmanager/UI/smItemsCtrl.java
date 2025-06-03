@@ -70,6 +70,10 @@ public class smItemsCtrl {
         itemsStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
         itemsUP.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
         
+        Platform.runLater(() -> {
+    		checkStockLevels();
+    	});
+        
         load();
     }
     
@@ -133,10 +137,6 @@ public class smItemsCtrl {
     	
     	cacheList = itemList;
     	viewItemTable.setItems(cacheList);
-    	
-    	Platform.runLater(() -> {
-    		checkStockLevels();
-    	});
     	
     	chartload();
     	clearTextField();

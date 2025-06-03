@@ -105,7 +105,7 @@ public class Controller {
 		
 		
 		if(auth.UserAuth(UsernameBx.getText(),Password)) 
-		{
+		{	
 			auth.SwitchScene(event);
 		
 		}

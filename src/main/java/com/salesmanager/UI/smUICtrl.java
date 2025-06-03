@@ -41,7 +41,8 @@ public class smUICtrl implements Initializable {
 	
 	@Override
     public void initialize(URL location, ResourceBundle resources) {
-        loadNewContent("/fxml/smItems.fxml");
+		
+       loadNewContent("/fxml/smPR.fxml");
         try {
 			EnableButton();
 		} catch (IOException e) 
