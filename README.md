@@ -1,6 +1,6 @@
 # 🛒 Automated Purchase Order Management System (OWSB)
 
-The **OWSB** (Order Workflow System for Businesses) is a desktop-based **Automated Purchase Order Management System** designed to simplify and digitalize inventory and procurement workflows. This JavaFX application is ideal for small-to-medium scale businesses managing daily sales, stock tracking, and purchasing.
+The **OWSB** is a desktop-based **Automated Purchase Order Management System** designed to simplify and digitalize inventory and procurement workflows. This JavaFX application is ideal for small-to-medium scale businesses managing daily sales, stock tracking, and purchasing.
 
 ---
 
